@@ -4,7 +4,7 @@
 # Show figure of CWMs ~ EUNIS
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Markus Bauer
-# 2024-08-12
+# 2024-09-05
 
 
 
@@ -37,7 +37,6 @@ graph_a + graph_b + graph_c +
 ### Save ###
 
 ggsave(
-  here("outputs", "figures", "plants_eunis_cwm",
-       "figure_cwm_eunis_1_300dpi_24x10cm.tiff"),
+  here("outputs", "figures", "figure_cwm_eunis_1_300dpi_24x10cm.tiff"),
   dpi = 300, width = 24, height = 10, units = "cm"
 )

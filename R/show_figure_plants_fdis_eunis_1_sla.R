@@ -4,7 +4,7 @@
 # Show figure of FDis SLA ~ EUNIS
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Markus Bauer
-# 2024-08-12
+# 2024-09-05
 
 
 
@@ -47,7 +47,7 @@ theme_mb <- function() {
 # base::load(file = here("outputs", "models", "model_plants_nmds_presence.Rdata"))
 
 sites <- read_csv(
-  here("data", "processed", "sites_processed_environment_nms_20240812.csv"),
+  here("data", "raw", "sites_processed_environment_nms_20240813.csv"),
   col_names = TRUE, na = c("na", "NA", ""), col_types = cols(
     .default = "?",
     eco.id = "f",
@@ -88,9 +88,10 @@ sites <- read_csv(
 
 
 
-graph_a <- ggplot(sites, aes(y = fdis.abu.sla, x = esy16)) +
+graph_a <- ggplot(sites, aes(y = fdis.abu.sla, x = esy16, fill = esy16)) +
   geom_quasirandom(color = "grey") +
-  geom_boxplot(fill = "transparent") +
+  geom_boxplot(alpha = .5) +
+  scale_fill_viridis_d(guide = "none") +
   scale_y_continuous(limits = c(1,3.7)) +
   labs(y = "FDis (abu)", title = "SLA", tag = "A") +
   theme_mb() +
@@ -99,9 +100,6 @@ graph_a <- ggplot(sites, aes(y = fdis.abu.sla, x = esy16)) +
 #### * Save ####
 
 ggsave(
-  here(
-    "outputs", "figures", "plants_eunis_cwm",
-    "figure_fdis_eunis_1_sla_300dpi_10x10cm.tiff"
-  ),
+  here("outputs", "figures", "figure_fdis_eunis_1_sla_300dpi_10x10cm.tiff"),
   dpi = 300, width = 10, height = 10, units = "cm"
 )

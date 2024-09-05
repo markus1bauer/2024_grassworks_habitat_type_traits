@@ -4,7 +4,7 @@
 # Show figure of FDis ~ EUNIS * site.type
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Markus Bauer
-# 2024-08-12
+# 2024-09-05
 
 
 
@@ -38,7 +38,8 @@ graph_a / graph_b / graph_c +
 ### Save ###
 
 ggsave(
-  here("outputs", "figures", "plants_eunis_cwm",
-       "figure_fdis_eunis_2_site.type_300dpi_24x15cm.tiff"),
+  here(
+    "outputs", "figures", "figure_fdis_eunis_2_site.type_300dpi_24x15cm.tiff"
+    ),
   dpi = 300, width = 24, height = 15, units = "cm"
 )

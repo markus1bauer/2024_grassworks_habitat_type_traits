@@ -4,7 +4,7 @@
 # Show figure of FDis seed mass ~ EUNIS x site.type
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Markus Bauer
-# 2024-08-12
+# 2024-09-05
 
 
 
@@ -47,7 +47,7 @@ theme_mb <- function() {
 # base::load(file = here("outputs", "models", "model_plants_nmds_presence.Rdata"))
 
 sites <- read_csv(
-  here("data", "processed", "sites_processed_environment_nms_20240812.csv"),
+  here("data", "raw", "sites_processed_environment_nms_20240813.csv"),
   col_names = TRUE, na = c("na", "NA", ""), col_types = cols(
     .default = "?",
     eco.id = "f",
@@ -98,11 +98,14 @@ medians <- sites %>%
 
 
 
-p1 <- ggplot(sites, aes(y = fdis.abu.seedmass, x = reference)) +
-  geom_hline(aes(yintercept = median), data = medians, linetype = "dashed") +
+p1 <- ggplot(
+  sites, aes(y = fdis.abu.seedmass, x = reference, fill = reference)
+  ) +
   geom_quasirandom(color = "grey") +
-  geom_boxplot(fill = "transparent") +
+  geom_boxplot(alpha = .5) +
+  geom_hline(aes(yintercept = median), data = medians, linetype = "dashed") +
   facet_grid(~ esy16) +
+  scale_fill_viridis_d(option = "inferno", guide = "none") +
   labs(y = "FDis Seed mass (abu)", tag = "C") +
   theme_mb() +
   theme(axis.title.x = element_blank()); graph_c
@@ -111,7 +114,7 @@ p1 <- ggplot(sites, aes(y = fdis.abu.seedmass, x = reference)) +
 
 ggsave(
   here(
-    "outputs", "figures", "plants_eunis_cwm",
+    "outputs", "figures",
     "figure_fdis_eunis_2_site.type_seedmass_300dpi_17x8cm.tiff"
   ),
   dpi = 300, width = 17, height = 8, units = "cm"
