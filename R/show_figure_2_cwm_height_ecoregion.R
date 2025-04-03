@@ -1,6 +1,6 @@
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # GRASSWORKS Project
-# CWMs of EUNIS habitat types 
+# CWMs of EUNIS habitat types ####
 # Show figure of CWM Canopy height ~ EUNIS
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Markus Bauer
@@ -91,6 +91,16 @@ sites <- read_csv(
 graph_b <- ggplot(sites, aes(y = cwm.abu.height, x = esy16, fill = esy16)) +
   geom_quasirandom(color = "grey") +
   geom_boxplot(alpha = .5) +
+  facet_grid(~ eco.id) +
+  scale_fill_viridis_d(guide = "none") +
+  labs(y = "CWM Height (abu) [m]", title = "Canopy height", tag = "B") +
+  theme_mb() +
+  theme(axis.title.x = element_blank()); graph_b
+
+graph_b <- ggplot(sites, aes(y = cwm.abu.height, x = eco.id, fill = eco.id)) +
+  geom_quasirandom(color = "grey") +
+  geom_boxplot(alpha = .5) +
+  facet_grid(~ esy16) +
   scale_fill_viridis_d(guide = "none") +
   labs(y = "CWM Height (abu) [m]", title = "Canopy height", tag = "B") +
   theme_mb() +
