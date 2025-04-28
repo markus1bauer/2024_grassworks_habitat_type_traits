@@ -1,11 +1,10 @@
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # GRASSWORKS Project
 # CWMs of EUNIS habitat types ####
-# Community weighted mean of specific leaf area (SLA), canopy height
-# and seed mass
+# Specific leaf area (SLA) ~ Ecoregion
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Markus Bauer
-# 2024-07-16
+# 2025-04-28
 
 
 
@@ -30,7 +29,7 @@ rm(list = ls())
 #### * Load data sites ####
 
 sites <- read_csv(
-  here("data", "raw", "sites_processed_environment_nms_20250306.csv"),
+  here("data", "raw", "data_processed_environment_nms_20250306.csv"),
   col_names = TRUE, na = c("na", "NA", ""), col_types = cols(
     .default = "?",
     eco.id = "f",
@@ -71,13 +70,19 @@ sites <- read_csv(
 
 ggplot(sites, aes(y = y, x = esy16)) +
   geom_quasirandom(color = "grey") + geom_boxplot(fill = "transparent") +
-  labs(y = "CWM SLA (abu) [cm²/g]")
+  labs(y = "CWM SLA (abu) [cm²/g]", x = "Habitat type calculated from 16 qm")
 
 ggplot(sites, aes(y = y, x = eco.id)) +
   geom_quasirandom(color = "grey") +
   geom_boxplot(fill = "transparent") +
   facet_grid(~ esy16) +
-  labs(y = "CWM SLA (abu) [cm²/g]")
+  labs(y = "CWM SLA (abu) [cm²/g]", x = "Ecoregion")
+
+ggplot(sites, aes(y = y, x = factor(obs.year))) +
+  geom_quasirandom(color = "grey") +
+  geom_boxplot(fill = "transparent") +
+  facet_grid(~ esy16) +
+  labs(y = "CWM SLA (abu) [cm²/g]", x = "Survey year")
 
 ggplot(sites, aes(y = y, x = factor(obs.year))) +
   geom_quasirandom(color = "grey") +
