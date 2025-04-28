@@ -42,7 +42,7 @@ species <- read_csv(
 )
 
 sites <- read_csv(
-  here("data", "raw", "sites_processed_environment_nms_20240813.csv"),
+  here("data", "raw", "data_processed_environment_nms_20250306.csv"),
   col_names = TRUE, na = c("na", "NA", ""), col_types = cols(
     .default = "?",
     eco.id = "f",
@@ -90,7 +90,11 @@ rm(list = setdiff(ls(), c(
 
 
 
-## 1 Surveys from sPlotOpen ####################################################
+## 1 Calculate variables #######################################################
+
+
+
+## 2 Surveys from sPlotOpen ####################################################
 
 
 ### Sabatini et al. (2021) Global Ecol Biogeogr
@@ -156,7 +160,6 @@ rm(list = setdiff(ls(), c(
   "traits"
 )))
 
-## 2 Ecoregions ###############################################################
 
 
 ## 3 Traits ###################################################################
