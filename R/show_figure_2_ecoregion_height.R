@@ -47,38 +47,27 @@ theme_mb <- function() {
 # base::load(file = here("outputs", "models", "model_plants_nmds_presence.Rdata"))
 
 sites <- read_csv(
-  here("data", "raw", "sites_processed_environment_nms_20240813.csv"),
+  here("data", "processed", "data_processed_sites_esy16.csv"),
   col_names = TRUE, na = c("na", "NA", ""), col_types = cols(
     .default = "?",
     eco.id = "f",
     region = col_factor(levels = c("north", "centre", "south"), ordered = TRUE),
     site.type = col_factor(
       levels = c("positive", "restored", "negative"), ordered = TRUE
-    ),
-    freq.mow = "f",
-    fertilized = "f"
+    )
   )
 ) %>%
-  select(
-    id.plot, longitude, latitude, region, eco.id, eco.name, obs.year,
-    esy4, esy16,
-    site.type, history, hydrology, land.use.hist, fertilized, freq.mow,
-    cwm.abu.sla, cwm.abu.height, cwm.abu.seedmass,
-    cwm.pres.sla, cwm.pres.height, cwm.pres.seedmass,
-    fdis.abu.sla, fdis.abu.height, fdis.abu.seedmass,
-    fric.abu.sla, fric.abu.height, fric.abu.seedmass
-  ) %>%
-  group_by(esy16) %>%
-  mutate(n = n()) %>%
-  ungroup() %>%
-  filter(n > 20) %>%
+  filter(esy16 %in% c("R", "R22", "R1A") & !(eco.id == 647)) %>%
   mutate(
     esy16 = fct_relevel(esy16, "R", "R22", "R1A"),
     esy16 = fct_recode(
       esy16, "Dry grassland\nR1A" = "R1A", "Hay meadow\nR22" = "R22",
       "Undefined\nR" = "R"
     )
-  )
+  ) %>%
+  mutate(y = cwm.abu.height.mean) %>%
+  filter(y < 1) # see section Outliers: Exclude site N_DAM (more or less only the tall grass Arrhenatherum elatius germinated at this young restoration site)
+
 
 
 
@@ -88,7 +77,7 @@ sites <- read_csv(
 
 
 
-graph_b <- ggplot(sites, aes(y = cwm.abu.height, x = esy16, fill = esy16)) +
+graph_b <- ggplot(sites, aes(y = y, x = esy16, fill = esy16)) +
   geom_quasirandom(color = "grey") +
   geom_boxplot(alpha = .5) +
   facet_grid(~ eco.id) +
@@ -97,7 +86,7 @@ graph_b <- ggplot(sites, aes(y = cwm.abu.height, x = esy16, fill = esy16)) +
   theme_mb() +
   theme(axis.title.x = element_blank()); graph_b
 
-graph_b <- ggplot(sites, aes(y = cwm.abu.height, x = eco.id, fill = eco.id)) +
+graph_b <- ggplot(sites, aes(y = y, x = eco.id, fill = eco.id)) +
   geom_quasirandom(color = "grey") +
   geom_boxplot(alpha = .5) +
   facet_grid(~ esy16) +
@@ -109,6 +98,6 @@ graph_b <- ggplot(sites, aes(y = cwm.abu.height, x = eco.id, fill = eco.id)) +
 #### * Save ####
 
 ggsave(
-  here("outputs", "figures", "figure_cwm_eunis_1_height_300dpi_10x10cm.tiff"),
+  here("outputs", "figures", "figure_2_height_300dpi_10x10cm.tiff"),
   dpi = 300, width = 10, height = 10, units = "cm"
 )

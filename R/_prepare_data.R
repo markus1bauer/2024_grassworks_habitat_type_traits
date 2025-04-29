@@ -51,7 +51,9 @@ sites <- read_csv(
       levels = c("positive", "restored", "negative"), ordered = TRUE
     ),
     freq.mow = "f",
-    fertilized = "f"
+    fertilized = "f",
+    obs.year = "f",
+    land.use.hist = "f"
   )
 )
 
@@ -91,7 +93,13 @@ rm(list = setdiff(ls(), c(
 ## 1 Calculate variables #######################################################
 
 
-sites_esy16 <- sites %>%
+data <- sites %>%
+  mutate(
+    history = if_else(str_detect(history, "ie Fläche"), NA, history),
+    history = as.numeric(history)
+    )
+
+sites_esy16 <- data %>%
   select(
     id.plot, id.site, longitude, latitude, region, eco.id, eco.name, obs.year,
     esy16,
@@ -112,7 +120,7 @@ sites_esy16 <- sites %>%
     cwm.pres.seedmass.mean = mean(cwm.pres.seedmass),
   )
   
-sites_esy4 <- sites %>%
+sites_esy4 <- data %>%
   select(
     id.plot, id.site, longitude, latitude, region, eco.id, eco.name, obs.year,
     esy4, esy16,

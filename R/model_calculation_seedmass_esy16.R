@@ -34,7 +34,10 @@ sites <- read_csv(
     region = col_factor(levels = c("north", "centre", "south"), ordered = TRUE),
     site.type = col_factor(
       levels = c("positive", "restored", "negative"), ordered = TRUE
-    )
+    ),
+    fertilized = "f",
+    freq.mow = "f",
+    obs.year = "f"
   )
 ) %>%
   filter(esy16 %in% c("R", "R22", "R1A") & !(eco.id == 647)) %>%
@@ -73,14 +76,14 @@ ggplot(sites, aes(y = y, x = site.type)) +
   facet_grid(~ esy16) +
   labs(y = "CWM seed mass (abu) [g]", x = "Survey year")
 
-ggplot(sites, aes(y = y, x = factor(obs.year))) +
+ggplot(sites, aes(y = y, x = obs.year)) +
   geom_quasirandom(color = "grey") +
   geom_boxplot(fill = "transparent") +
   facet_grid(~ esy16) +
   labs(y = "CWM seed mass (abu) [g]", x = "Survey year")
 
 sites %>%
-  filter(site.type == "restored" & !(str_detect(history, "ie Fläche"))) %>%
+  filter(site.type == "restored") %>%
   mutate(history = as.numeric(history)) %>%
   ggplot(aes(y = y, x = history)) +
   geom_quasirandom(color = "grey") +
@@ -95,6 +98,7 @@ sites %>% count(eco.id)
 sites %>% count(site.type)
 sites %>% count(esy16)
 sites %>% count(esy16, eco.id)
+sites %>% count(esy16, site.type)
 plot1 <- ggplot(sites, aes(x = region, y = y)) + geom_quasirandom()
 plot2 <- ggplot(sites, aes(x = y)) + geom_histogram(binwidth = 0.01)
 plot3 <- ggplot(sites, aes(x = y)) + geom_density()
@@ -104,8 +108,6 @@ plot4 <- ggplot(sites, aes(x = log(y))) + geom_density()
 
 ### c Check collinearity ------------------------------------------------------
 
-# -> No continous explanatory variables
-
 # sites %>%
 #   select() %>%
 #   GGally::ggpairs(lower = list(continuous = "smooth_loess")) +
@@ -114,6 +116,8 @@ plot4 <- ggplot(sites, aes(x = log(y))) + geom_density()
 # Dormann et al. 2013 Ecography
 # https://doi.org/10.1111/j.1600-0587.2012.07348.x
 
+# -> No continuous explanatory variables
+
 
 
 ## 2 Model building ###########################################################
@@ -121,20 +125,10 @@ plot4 <- ggplot(sites, aes(x = log(y))) + geom_density()
 
 ### a Candidate models ---------------------------------------------------------
 
-m1 <- lm(y ~ esy16 * (eco.id + site.type), data = sites)
+m1 <- lm(y ~ esy16 * (site.type + eco.id) + obs.year, data = sites)
 simulateResiduals(m1, plot = TRUE)
-m2 <- lm(y ~ esy16 + eco.id + site.type, data = sites)
+m2 <- lm(y ~ esy16 * site.type + eco.id + obs.year, data = sites)
 simulateResiduals(m2, plot = TRUE)
-m3 <- lm(y ~ esy16 + eco.id + site.type + fertilized, data = sites)
-simulateResiduals(m3, plot = TRUE)
-m4 <- lm(y ~ esy16 + eco.id + site.type + freq.mow, data = sites)
-simulateResiduals(m4, plot = TRUE)
-m5 <- lm(y ~ esy16 + eco.id + site.type + hydrology, data = sites)
-simulateResiduals(m5, plot = TRUE)
-m6 <- lm(y ~ esy16 * eco.id, data = sites)
-simulateResiduals(m6, plot = TRUE)
-m7 <- lm(y ~ esy16 * site.type, data = sites)
-simulateResiduals(m7, plot = TRUE)
 
 
 ### b Save ---------------------------------------------------------------------

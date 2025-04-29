@@ -3,10 +3,10 @@ M_ALT_A1,M_ALT,11.748070349715409,51.82958951602433,centre,654,Central European 
 M_ALT_A2,M_ALT,11.748070349715409,51.82958951602433,centre,654,Central European mixed forests,2022,R22,R,negative,1993,moist,NA,0,1.5,228.46,0.69,0.00176,245.32,0.4,7.8e-4
 M_ALT_A3,M_ALT,11.748070349715409,51.82958951602433,centre,654,Central European mixed forests,2022,R22,R,negative,1993,moist,NA,0,1.5,219.48,0.73,0.0018,256.79,0.37,0.00125
 M_ALT_A4,M_ALT,11.748070349715409,51.82958951602433,centre,654,Central European mixed forests,2022,R,R,negative,1993,moist,NA,0,1.5,210.66,0.6,0.00193,234.57,0.4,0.00143
-M_ASE_A1,M_ASE,11.667070808062702,51.47886224342518,centre,654,Central European mixed forests,2023,V,V,restored,"Die Fläche befindet sich noch in der Etablierungspflege, deshalb ist der Fragebogen zur Pflege nicht sinnvoll",fresh,arable land,NA,NA,213.28,0.52,0.00273,228.41,0.48,0.00109
-M_ASE_A2,M_ASE,11.667070808062702,51.47886224342518,centre,654,Central European mixed forests,2023,V,V,restored,"Die Fläche befindet sich noch in der Etablierungspflege, deshalb ist der Fragebogen zur Pflege nicht sinnvoll",fresh,arable land,NA,NA,226.69,0.54,0.00228,230.35,0.42,0.00147
-M_ASE_A3,M_ASE,11.667070808062702,51.47886224342518,centre,654,Central European mixed forests,2023,V,V,restored,"Die Fläche befindet sich noch in der Etablierungspflege, deshalb ist der Fragebogen zur Pflege nicht sinnvoll",fresh,arable land,NA,NA,242.1,0.57,0.00173,242.21,0.4,0.00111
-M_ASE_A4,M_ASE,11.667070808062702,51.47886224342518,centre,654,Central European mixed forests,2023,V,V,restored,"Die Fläche befindet sich noch in der Etablierungspflege, deshalb ist der Fragebogen zur Pflege nicht sinnvoll",fresh,arable land,NA,NA,250.17,0.42,0.00256,238.93,0.43,0.00125
+M_ASE_A1,M_ASE,11.667070808062702,51.47886224342518,centre,654,Central European mixed forests,2023,V,V,restored,NA,fresh,arable land,NA,NA,213.28,0.52,0.00273,228.41,0.48,0.00109
+M_ASE_A2,M_ASE,11.667070808062702,51.47886224342518,centre,654,Central European mixed forests,2023,V,V,restored,NA,fresh,arable land,NA,NA,226.69,0.54,0.00228,230.35,0.42,0.00147
+M_ASE_A3,M_ASE,11.667070808062702,51.47886224342518,centre,654,Central European mixed forests,2023,V,V,restored,NA,fresh,arable land,NA,NA,242.1,0.57,0.00173,242.21,0.4,0.00111
+M_ASE_A4,M_ASE,11.667070808062702,51.47886224342518,centre,654,Central European mixed forests,2023,V,V,restored,NA,fresh,arable land,NA,NA,250.17,0.42,0.00256,238.93,0.43,0.00125
 M_BAD_A1,M_BAD,11.592279025724435,51.32216742744491,centre,654,Central European mixed forests,2022,R1A,R1A,restored,2018,dry,grassland,NA,NA,190.38,0.2,0.00197,215.26,0.3,0.0018
 M_BAD_A2,M_BAD,11.592279025724435,51.32216742744491,centre,654,Central European mixed forests,2022,R1A,R1A,restored,2018,dry,grassland,NA,NA,164.19,0.16,0.0026,191.76,0.19,0.00118
 M_BAD_A3,M_BAD,11.592279025724435,51.32216742744491,centre,654,Central European mixed forests,2022,R1A,R1A,restored,2018,dry,grassland,NA,NA,180.52,0.15,0.00143,202.29,0.22,0.00114
@@ -19,10 +19,10 @@ M_BEE_A1,M_BEE,11.700976921390373,51.72492771625586,centre,654,Central European 
 M_BEE_A2,M_BEE,11.700976921390373,51.72492771625586,centre,654,Central European mixed forests,2023,V37,V37,restored,2008,fresh,arable land,0,1,245.72,0.44,0.00165,262.37,0.37,0.00111
 M_BEE_A3,M_BEE,11.700976921390373,51.72492771625586,centre,654,Central European mixed forests,2023,V,V37,restored,2008,fresh,arable land,0,1,227.57,0.57,0.0015,235.93,0.45,6.6e-4
 M_BEE_A4,M_BEE,11.700976921390373,51.72492771625586,centre,654,Central European mixed forests,2023,R,V37,restored,2008,fresh,arable land,0,1,229.31,0.35,0.00145,218.69,0.37,9.1e-4
-M_BEN_A1,M_BEN,11.86002023846271,51.48599594404243,centre,654,Central European mixed forests,2022,V38,R,restored,Die Fläche ist in Entwicklungspflege,fresh,arable land,0,1,223.72,0.52,0.00133,214.37,0.46,0.00146
-M_BEN_A2,M_BEN,11.86002023846271,51.48599594404243,centre,654,Central European mixed forests,2022,V38,R,restored,Die Fläche ist in Entwicklungspflege,fresh,arable land,0,1,227.2,0.56,0.0014,216.07,0.45,0.00159
-M_BEN_A3,M_BEN,11.86002023846271,51.48599594404243,centre,654,Central European mixed forests,2022,V38,R,restored,Die Fläche ist in Entwicklungspflege,fresh,arable land,0,1,212.45,0.5,0.00169,223.3,0.53,0.00182
-M_BEN_A4,M_BEN,11.86002023846271,51.48599594404243,centre,654,Central European mixed forests,2022,R,R,restored,Die Fläche ist in Entwicklungspflege,fresh,arable land,0,1,225.81,0.56,0.00148,202.57,0.5,0.00164
+M_BEN_A1,M_BEN,11.86002023846271,51.48599594404243,centre,654,Central European mixed forests,2022,V38,R,restored,NA,fresh,arable land,0,1,223.72,0.52,0.00133,214.37,0.46,0.00146
+M_BEN_A2,M_BEN,11.86002023846271,51.48599594404243,centre,654,Central European mixed forests,2022,V38,R,restored,NA,fresh,arable land,0,1,227.2,0.56,0.0014,216.07,0.45,0.00159
+M_BEN_A3,M_BEN,11.86002023846271,51.48599594404243,centre,654,Central European mixed forests,2022,V38,R,restored,NA,fresh,arable land,0,1,212.45,0.5,0.00169,223.3,0.53,0.00182
+M_BEN_A4,M_BEN,11.86002023846271,51.48599594404243,centre,654,Central European mixed forests,2022,R,R,restored,NA,fresh,arable land,0,1,225.81,0.56,0.00148,202.57,0.5,0.00164
 M_BIR_A1,M_BIR,12.371655945722765,51.82300850955761,centre,654,Central European mixed forests,2023,R22,R,positive,2013,fresh,NA,0,2,216.77,0.57,0.00169,235.05,0.42,0.00127
 M_BIR_A2,M_BIR,12.371655945722765,51.82300850955761,centre,654,Central European mixed forests,2023,R1A,R,positive,2013,fresh,NA,0,2,196.77,0.28,0.00127,218.44,0.4,0.00139
 M_BIR_A3,M_BIR,12.371655945722765,51.82300850955761,centre,654,Central European mixed forests,2023,R,R,positive,2013,fresh,NA,0,2,247.35,0.54,0.00163,231.63,0.45,0.00191
@@ -127,10 +127,10 @@ M_KOL_A1,M_KOL,11.824476317993094,51.506470810216655,centre,654,Central European
 M_KOL_A2,M_KOL,11.824476317993094,51.506470810216655,centre,654,Central European mixed forests,2023,R,R,restored,2020,dry,arable land,0,1,217.73,0.5,0.00104,223.7,0.39,0.00102
 M_KOL_A3,M_KOL,11.824476317993094,51.506470810216655,centre,654,Central European mixed forests,2023,R,R,restored,2020,dry,arable land,0,1,212.42,0.46,9.1e-4,225.04,0.45,0.00124
 M_KOL_A4,M_KOL,11.824476317993094,51.506470810216655,centre,654,Central European mixed forests,2023,V38,R,restored,2020,dry,arable land,0,1,196.49,0.46,0.00144,214.46,0.41,0.00109
-M_KOT_A1,M_KOT,11.977434950640914,51.761127117577765,centre,654,Central European mixed forests,2022,R22,R22,restored,"die Fläche ist noch in der Etablierungspflege, deshalb kann der Pflegefragebogen nicht beantwortet werden",fresh,arable land,NA,NA,235.57,0.51,0.0016,238.39,0.55,0.0014
-M_KOT_A2,M_KOT,11.977434950640914,51.761127117577765,centre,654,Central European mixed forests,2022,R22,R22,restored,"die Fläche ist noch in der Etablierungspflege, deshalb kann der Pflegefragebogen nicht beantwortet werden",fresh,arable land,NA,NA,225.96,0.51,0.00247,230.5,0.54,0.00134
-M_KOT_A3,M_KOT,11.977434950640914,51.761127117577765,centre,654,Central European mixed forests,2022,R22,R22,restored,"die Fläche ist noch in der Etablierungspflege, deshalb kann der Pflegefragebogen nicht beantwortet werden",fresh,arable land,NA,NA,232.24,0.49,0.00212,233.48,0.55,0.00204
-M_KOT_A4,M_KOT,11.977434950640914,51.761127117577765,centre,654,Central European mixed forests,2022,R22,R22,restored,"die Fläche ist noch in der Etablierungspflege, deshalb kann der Pflegefragebogen nicht beantwortet werden",fresh,arable land,NA,NA,231.29,0.51,0.00276,241.4,0.59,0.00176
+M_KOT_A1,M_KOT,11.977434950640914,51.761127117577765,centre,654,Central European mixed forests,2022,R22,R22,restored,NA,fresh,arable land,NA,NA,235.57,0.51,0.0016,238.39,0.55,0.0014
+M_KOT_A2,M_KOT,11.977434950640914,51.761127117577765,centre,654,Central European mixed forests,2022,R22,R22,restored,NA,fresh,arable land,NA,NA,225.96,0.51,0.00247,230.5,0.54,0.00134
+M_KOT_A3,M_KOT,11.977434950640914,51.761127117577765,centre,654,Central European mixed forests,2022,R22,R22,restored,NA,fresh,arable land,NA,NA,232.24,0.49,0.00212,233.48,0.55,0.00204
+M_KOT_A4,M_KOT,11.977434950640914,51.761127117577765,centre,654,Central European mixed forests,2022,R22,R22,restored,NA,fresh,arable land,NA,NA,231.29,0.51,0.00276,241.4,0.59,0.00176
 M_KUH_A1,M_KUH,11.832309356308173,51.25517652013326,centre,654,Central European mixed forests,2022,R1A,R1A,restored,2019,dry,grassland,NA,NA,177.09,0.45,0.00328,193.79,0.26,0.00234
 M_KUH_A2,M_KUH,11.832309356308173,51.25517652013326,centre,654,Central European mixed forests,2022,R1A,R1A,restored,2019,dry,grassland,NA,NA,176.25,0.46,0.00325,213.5,0.33,0.00118
 M_KUH_A3,M_KUH,11.832309356308173,51.25517652013326,centre,654,Central European mixed forests,2022,R1A,R1A,restored,2019,dry,grassland,NA,NA,187.3,0.21,0.00125,197.32,0.23,0.00106
