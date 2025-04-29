@@ -1,5 +1,5 @@
 Analysis of Bauer et al. (submitted) Functional traits of grasslands:
-<br> Canopy height (esy16)
+<br> Average community weighted mean of canopy height per block (esy16)
 ================
 <b>Markus Bauer</b> <br>
 <b>2025-04-29</b>

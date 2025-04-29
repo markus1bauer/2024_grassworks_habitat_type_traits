@@ -4,7 +4,7 @@
 # Show figure of CWM Canopy height ~ EUNIS
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Markus Bauer
-# 2024-09-05
+# 2025-04-29
 
 
 
@@ -44,7 +44,7 @@ theme_mb <- function() {
 
 #### Load sites data and model ###
 
-# base::load(file = here("outputs", "models", "model_plants_nmds_presence.Rdata"))
+base::load(file = here("outputs", "models", "model_height_esy16_1.Rdata"))
 
 sites <- read_csv(
   here("data", "processed", "data_processed_sites_esy16.csv"),

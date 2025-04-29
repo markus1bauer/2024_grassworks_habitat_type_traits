@@ -1,5 +1,6 @@
 Analysis of Bauer et al. (submitted) Functional traits of grasslands:
-<br> Specific leaf area per block (esy16)
+<br> Average community weighted mean of specific leaf area (SLA) per
+block (esy16)
 ================
 <b>Markus Bauer</b> <br>
 <b>2025-04-29</b>

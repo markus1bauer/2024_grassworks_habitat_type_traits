@@ -1,5 +1,5 @@
 ---
-title: "Analysis of Bauer et al. (submitted) Functional traits of grasslands: <br> Seed mass per block (esy16)"
+title: "Analysis of Bauer et al. (submitted) Functional traits of grasslands: <br> Average community weighted mean of seed mass per block (esy16)"
 author: "<b>Markus Bauer</b> <br>"
 date: "<b>`r format(Sys.time(), '%Y-%m-%d')`</b>"
 output:

@@ -24,8 +24,7 @@ library(DHARMa)
 ### Start ###
 rm(list = ls())
 
-#### * Load data sites ####
-
+### Load data ###
 sites <- read_csv(
   here("data", "processed", "data_processed_sites_esy16.csv"),
   col_names = TRUE, na = c("na", "NA", ""), col_types = cols(
