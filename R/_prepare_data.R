@@ -78,9 +78,7 @@ species_splot <- read_delim(
 
 
 rm(list = setdiff(ls(), c(
-  "sites", "sites_splot", "species", "species_splot",
-  "traits"
-  )))
+  "sites", "sites_splot", "species", "species_splot", "traits")))
 
 
 
@@ -91,6 +89,37 @@ rm(list = setdiff(ls(), c(
 
 
 ## 1 Calculate variables #######################################################
+
+
+sites_esy16 <- sites %>%
+  select(
+    id.plot, id.site, longitude, latitude, region, eco.id, eco.name, obs.year,
+    esy16,
+    site.type, history, hydrology, land.use.hist, fertilized, freq.mow,
+    cwm.abu.sla, cwm.abu.height, cwm.abu.seedmass,
+    cwm.pres.sla, cwm.pres.height, cwm.pres.seedmass
+  ) %>%
+  group_by(
+    id.site, region, eco.id, eco.name, obs.year, esy16, site.type, history,
+    hydrology, land.use.hist, fertilized, freq.mow
+    ) %>%
+  summarize(
+    cwm.abu.sla.mean = mean(cwm.abu.sla),
+    cwm.abu.height.mean = mean(cwm.abu.height),
+    cwm.abu.seedmass.mean = mean(cwm.abu.seedmass),
+    cwm.pres.sla.mean = mean(cwm.pres.sla),
+    cwm.pres.height.mean = mean(cwm.pres.height),
+    cwm.pres.seedmass.mean = mean(cwm.pres.seedmass),
+  )
+  
+sites_esy4 <- sites %>%
+  select(
+    id.plot, id.site, longitude, latitude, region, eco.id, eco.name, obs.year,
+    esy4, esy16,
+    site.type, history, hydrology, land.use.hist, fertilized, freq.mow,
+    cwm.abu.sla, cwm.abu.height, cwm.abu.seedmass,
+    cwm.pres.sla, cwm.pres.height, cwm.pres.seedmass
+  )
 
 
 
@@ -168,3 +197,13 @@ rm(list = setdiff(ls(), c(
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # C Save processed data #######################################################
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+write_csv(
+  sites_esy4, here("data", "processed", "data_processed_sites_esy4.csv")
+  )
+
+write_csv(
+  sites_esy16, here("data", "processed", "data_processed_sites_esy16.csv")
+)

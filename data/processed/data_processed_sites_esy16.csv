@@ -1,0 +1,188 @@
+id.site,region,eco.id,eco.name,obs.year,esy16,site.type,history,hydrology,land.use.hist,fertilized,freq.mow,cwm.abu.sla.mean,cwm.abu.height.mean,cwm.abu.seedmass.mean,cwm.pres.sla.mean,cwm.pres.height.mean,cwm.pres.seedmass.mean
+M_ALT,centre,654,Central European mixed forests,2022,R,negative,1993,moist,NA,0,1.5,216.18,0.63,0.00182,246.9375,0.3775,0.001125
+M_ASE,centre,654,Central European mixed forests,2023,V,restored,"Die Fläche befindet sich noch in der Etablierungspflege, deshalb ist der Fragebogen zur Pflege nicht sinnvoll",fresh,arable land,NA,NA,233.06,0.5125,0.002325,234.975,0.4325,0.00123
+M_BAD,centre,654,Central European mixed forests,2022,R1A,restored,2018,dry,grassland,NA,NA,181.715,0.165,0.0018375,195.93,0.2375,0.0014125
+M_BAL,centre,654,Central European mixed forests,2023,R22,negative,NA,fresh,NA,NA,NA,270.085,0.635,0.001955,244.185,0.445,0.0016150000000000001
+M_BEE,centre,654,Central European mixed forests,2023,V37,restored,2008,fresh,arable land,0,1,234.935,0.5025,0.0016675,241.3475,0.395,8.95e-4
+M_BEN,centre,654,Central European mixed forests,2022,R,restored,Die Fläche ist in Entwicklungspflege,fresh,arable land,0,1,222.295,0.535,0.001475,214.0775,0.485,0.0016275
+M_BIR,centre,654,Central European mixed forests,2023,R,positive,2013,fresh,NA,0,2,220.3925,0.505,0.0017825,229.115,0.4275,0.0014550000000000001
+M_BOD,centre,654,Central European mixed forests,2023,R22,negative,1993,fresh,NA,0,1,253.3675,0.615,0.00304,242.5325,0.36,0.0011975
+M_BRA,centre,654,Central European mixed forests,2023,R1A,restored,2014,dry,arable land,0,1,256.65,0.385,0.0050375,223.1275,0.375,0.00139
+M_BUH,centre,654,Central European mixed forests,2022,R,restored,2020,fresh,arable land,0,1,222.7075,0.5325,9.075e-4,231.5375,0.4775,0.001215
+M_CAL,centre,654,Central European mixed forests,2022,R22,restored,2017,fresh,arable land,0,2,214.2475,0.6,6.85e-4,221.21,0.5575,0.0010075
+M_CBE,centre,654,Central European mixed forests,2022,R,negative,1996,fresh,NA,0,2,245.29500000000002,0.5775,0.00275,274.155,0.3725,0.001085
+M_DOB,centre,654,Central European mixed forests,2022,R,restored,2017,dry,arable land,0,1,210.125,0.4675,9.025e-4,211.83249999999998,0.4175,0.001345
+M_DOR,centre,654,Central European mixed forests,2022,R22,restored,2011,fresh,arable land,0,1.5,231.3775,0.6625,0.0016125,226.485,0.4975,0.001615
+M_EIC,centre,654,Central European mixed forests,2023,R,negative,2018,fresh,NA,0,1,237.35,0.5,0.004715,242.9325,0.41000000000000003,0.00334
+M_FAL,centre,654,Central European mixed forests,2023,R,restored,2017,fresh,arable land,0,1.5,226.895,0.5275,0.0014525,240.5475,0.4475,9.275e-4
+M_FRB,centre,654,Central European mixed forests,2023,R,restored,2017,dry,grassland,NA,NA,176.735,0.29250000000000004,0.0022275,211.5375,0.3025,0.001185
+M_GRO,centre,654,Central European mixed forests,2022,R22,restored,1996,fresh,arable land,0,1,268.59250000000003,0.8225,0.002165,233.235,0.4525,0.001545
+M_HAH,centre,654,Central European mixed forests,2023,R1A,positive,NA,dry,NA,NA,NA,185.2625,0.17500000000000002,9.775e-4,170.2975,0.2625,0.0017925
+M_HAI,centre,686,Western European broadleaf forests,2022,R22,restored,2003,fresh,grassland,NA,NA,229.17000000000002,0.5,0.00305,230.8,0.41,0.0019525
+M_HAR,centre,654,Central European mixed forests,2023,R,restored,2012,fresh,arable land,0,1,219.375,0.605,0.0031375,222.26749999999998,0.4925,0.00213
+M_HIR,centre,654,Central European mixed forests,2022,R1A,restored,2014,dry,grassland,NA,NA,222.8,0.3975,0.0012000000000000001,209.485,0.3375,0.0013475
+M_HLI,centre,686,Western European broadleaf forests,2022,R22,positive,2003,fresh,NA,0,1,236.4125,0.48,0.0013675,245.64249999999998,0.4425,0.0011925
+M_HNB,centre,654,Central European mixed forests,2023,R1A,restored,2020,dry,grassland,NA,NA,191.31,0.315,0.001865,206.465,0.35,0.0013225
+M_HOH,centre,654,Central European mixed forests,2022,R,restored,2003,moist,arable land,0,1,211.1775,0.475,0.0014550000000000001,214.3125,0.5025,0.0017200000000000002
+M_ILB,centre,654,Central European mixed forests,2023,R22,restored,2016,fresh,arable land,0,2,237.07,0.355,0.00126,230.7475,0.47,0.00112
+M_JEP,centre,654,Central European mixed forests,2023,R,positive,2018,fresh,NA,0,1,174.7075,0.4725,0.002285,229.01999999999998,0.255,0.001055
+M_JER,centre,654,Central European mixed forests,2023,V32,restored,2019,fresh,arable land,0,2,246.575,0.3175,8.2e-4,241.6,0.3425,8.95e-4
+M_KAL,centre,686,Western European broadleaf forests,2022,R1A,positive,2003,fresh,NA,NA,NA,175.8625,0.3525,0.0037974999999999997,203.3175,0.41000000000000003,0.0024850000000000002
+M_KAP,centre,654,Central European mixed forests,2023,R,negative,2018,fresh,NA,0,1,240.035,0.6425,0.00474,240.1475,0.45499999999999996,0.0043325
+M_KIF,centre,654,Central European mixed forests,2022,R1A,negative,2011,dry,NA,0,1,197.82999999999998,0.485,0.0032300000000000002,196.5925,0.3925,0.00273
+M_KOL,centre,654,Central European mixed forests,2023,R,restored,2020,dry,arable land,0,1,213.47,0.455,0.001165,221.8825,0.4175,0.001215
+M_KOT,centre,654,Central European mixed forests,2022,R22,restored,"die Fläche ist noch in der Etablierungspflege, deshalb kann der Pflegefragebogen nicht beantwortet werden",fresh,arable land,NA,NA,231.265,0.505,0.0022375,235.9425,0.5575,0.0016350000000000002
+M_KUH,centre,654,Central European mixed forests,2022,R1A,restored,2019,dry,grassland,NA,NA,178.445,0.3725,0.0025975,202.67,0.275,0.0014725
+M_LOB,centre,654,Central European mixed forests,2023,R,restored,2003,fresh,arable land,0,1,224.06,0.4925,0.0050425,224.595,0.39,0.0017100000000000001
+M_MOZ,centre,686,Western European broadleaf forests,2023,R,positive,2019,moist,NA,1,1,251.9925,0.49,7.125e-4,250.0175,0.3825,8.325e-4
+M_NEL,centre,654,Central European mixed forests,2022,R1B,restored,2009,dry,grassland,NA,NA,163.935,0.385,0.0025624999999999997,176.15,0.2875,0.001505
+M_NIS,centre,654,Central European mixed forests,2022,R1A,negative,NA,dry,NA,NA,NA,239.6825,0.445,7.875e-4,240.515,0.4275,0.001395
+M_PRA,centre,654,Central European mixed forests,2023,V,restored,2004,moist,arable land,1,1,228.16500000000002,0.35250000000000004,0.00215,255.3025,0.295,8.275e-4
+M_SKF,centre,654,Central European mixed forests,2022,R22,restored,2014,fresh,arable land,0,1,198.095,0.4675,0.0010425,219.2625,0.4975,0.0013375000000000001
+M_SMH,centre,654,Central European mixed forests,2023,R1A,negative,NA,dry,NA,NA,NA,172.0675,0.41,0.0029925,191.38,0.2775,0.0013075
+M_SSB,centre,654,Central European mixed forests,2022,R1A,positive,1992,dry,NA,NA,NA,190.685,0.3025,0.0022675,191.55,0.265,0.0020725
+M_SSL,centre,654,Central European mixed forests,2023,R,positive,2020,dry,NA,NA,NA,230.675,0.265,5.725e-4,228.10750000000002,0.2625,6.375e-4
+M_STA,centre,654,Central European mixed forests,2023,R22,restored,2020,fresh,grassland,0,2,248.12,0.6125,0.0016675,238.4775,0.4075,0.001165
+M_STF,centre,654,Central European mixed forests,2023,R22,restored,2020,moist,arable land,0,1,254.98,0.465,9.2e-4,248.5025,0.4425,0.0013275000000000001
+M_STI,centre,654,Central European mixed forests,2023,R22,restored,2003,moist,arable land,0,2,242.69,0.605,0.0025325,247.4025,0.4825,0.0013174999999999999
+M_STN,centre,654,Central European mixed forests,2023,R1A,restored,2022,dry,grassland,NA,NA,215.775,0.3075,0.0023474999999999998,185.9875,0.3,0.0012225
+M_STP,centre,654,Central European mixed forests,2023,R,positive,2015,fresh,NA,0,2,247.7175,0.44,0.0020025,260.3775,0.345,9.649999999999999e-4
+M_SUL,centre,654,Central European mixed forests,2022,R,negative,NA,fresh,NA,0,1,258.0575,0.4975,0.001725,265.5275,0.4,0.00107
+M_TAN,centre,654,Central European mixed forests,2022,R1A,restored,2019,dry,grassland,NA,NA,173.115,0.3175,0.00198,170.2025,0.2625,0.00139
+M_TRE,centre,654,Central European mixed forests,2023,R,restored,2018,fresh,grassland,0,2,210.2175,0.5175,0.0019225000000000002,238.63,0.4625,0.0012675
+M_TRN,centre,654,Central European mixed forests,2023,R,negative,2000,moist,NA,0,2,275.425,0.62,0.00194,275.5525,0.425,0.001545
+M_TTH,centre,654,Central European mixed forests,2023,R1A,restored,2013,dry,grassland,NA,NA,188.7725,0.1975,7.6e-4,203.87,0.2225,8.475e-4
+M_TTO,centre,654,Central European mixed forests,2022,R1A,positive,2008,dry,NA,NA,NA,192.79000000000002,0.22,0.00106,190.8475,0.245,9.875e-4
+M_TTP,centre,654,Central European mixed forests,2022,R1A,restored,2009,dry,grassland,NA,NA,171.5625,0.32,0.0016125,194.015,0.2725,0.00128
+M_VOC,centre,654,Central European mixed forests,2023,R22,restored,2018,fresh,arable land,0,2,241.8175,0.53,0.00199,235.7475,0.3875,0.0012374999999999999
+M_WDG,centre,654,Central European mixed forests,2022,R22,restored,2017,fresh,arable land,0,2,201.4625,0.37,0.0017775,212.485,0.4,0.0012175
+M_WED,centre,654,Central European mixed forests,2023,R22,restored,2018,moist,arable land,0,2,245.85000000000002,0.755,0.0023825,236.2775,0.5700000000000001,0.0014175
+M_WEF,centre,654,Central European mixed forests,2022,R22,restored,2011,moist,grassland,0,2,228.735,0.6125,6.575e-4,196.86,0.51,7.975e-4
+M_WIM,centre,686,Western European broadleaf forests,2022,R22,restored,2017,fresh,arable land,0,1,204.2025,0.44,0.0011324999999999998,221.0925,0.4525,0.0010875
+M_WLE,centre,654,Central European mixed forests,2022,R,negative,2000,moist,NA,1,3,263.65250000000003,0.6475,8.024999999999999e-4,223.3325,0.495,0.0012225
+M_WUG,centre,654,Central European mixed forests,2022,R,restored,NA,fresh,arable land,NA,NA,243.7325,0.4575,0.0015975,231.315,0.49,0.0012174999999999998
+M_WUM,centre,654,Central European mixed forests,2022,R,restored,2008,fresh,grassland,NA,NA,224.8,0.565,0.0010249999999999999,230.845,0.56,0.00148
+M_WUN,centre,654,Central European mixed forests,2022,R,negative,1990,fresh,NA,0,1,203.91000000000003,0.5225000000000001,0.00236,237.1275,0.4175,9.875e-4
+M_WUP,centre,654,Central European mixed forests,2022,R35,positive,2022,fresh,NA,NA,NA,212.02,0.6075,6.25e-4,229.2825,0.485,0.0010075
+M_WUR,centre,654,Central European mixed forests,2022,R,positive,1990,moist,NA,0,1,235.97,0.66,0.0011975,222.2625,0.565,0.00115
+N_AFE,north,664,European Atlantic mixed forests,2023,R22,restored,2000,fresh,arable land,0,1,236.035,0.435,0.0014475,253.425,0.35250000000000004,9.45e-4
+N_ALA,north,664,European Atlantic mixed forests,2022,R22,restored,2018,fresh,grassland,0,2,227.37,0.56,0.0010025000000000001,227.275,0.5125,0.0016250000000000001
+N_ARE,north,664,European Atlantic mixed forests,2022,R22,restored,2020,fresh,arable land,0,1,277.8475,0.4775,6.900000000000001e-4,241.3175,0.3925,0.00132
+N_BEB,north,664,European Atlantic mixed forests,2022,R22,restored,2020,fresh,arable land,0,1,278.92,0.525,0.00106,250.665,0.46,0.001305
+N_BEN,north,664,European Atlantic mixed forests,2023,R22,negative,2004,fresh,NA,0,1,232.62,0.4375,0.0026375,251.31,0.35250000000000004,9.675e-4
+N_BIT,north,664,European Atlantic mixed forests,2022,R22,restored,2019,fresh,grassland,NA,NA,246.5775,0.41000000000000003,6.375e-4,243.7725,0.39749999999999996,9.15e-4
+N_BLE,north,664,European Atlantic mixed forests,2023,R22,positive,2003,fresh,NA,0,2,255.885,0.45,5.1e-4,234.68,0.425,8.9e-4
+N_BLU,north,664,European Atlantic mixed forests,2022,R,restored,2013,fresh,arable land,0,1,232.16000000000003,0.625,0.0010525,240.61249999999998,0.385,8.75e-4
+N_BRD,north,664,European Atlantic mixed forests,2022,R22,restored,2015,fresh,grassland,0,1,284.8625,0.6125,5.225e-4,235.4,0.435,7.175e-4
+N_BRE,north,664,European Atlantic mixed forests,2022,R,restored,2019,dry,arable land,0,1,216.39249999999998,0.33499999999999996,0.00126,218.4675,0.395,7.575e-4
+N_BRO,north,664,European Atlantic mixed forests,2023,R1P,restored,NA,dry,arable land,NA,NA,215.3125,0.155,2.85e-4,234.8775,0.28,5.525e-4
+N_BU1,north,664,European Atlantic mixed forests,2022,R22,negative,2015,fresh,NA,NA,NA,309.3575,0.4225,3.725e-4,257.5575,0.445,7.375e-4
+N_BU2,north,664,European Atlantic mixed forests,2022,R,negative,2015,moist,NA,0,1,285.2725,0.5675,7.525e-4,259.15999999999997,0.49,8.05e-4
+N_CAM,north,664,European Atlantic mixed forests,2023,R,positive,1987,dry,NA,NA,NA,176.8075,0.27749999999999997,0.00342,198.1775,0.2425,6.725e-4
+N_CNI,north,664,European Atlantic mixed forests,2023,R22,restored,2008,moist,grassland,0,1,278.605,0.38,3.8250000000000003e-4,244.785,0.295,6.35e-4
+N_DAM,north,664,European Atlantic mixed forests,2022,R22,restored,2016,fresh,arable land,0,1,278.44,1.1575,0.00253,230.305,0.4975,0.00123
+N_DUM,north,664,European Atlantic mixed forests,2023,R,positive,2002,moist,NA,0,2,249.315,0.4625,0.001005,235.115,0.4475,0.001555
+N_EIC,north,664,European Atlantic mixed forests,2023,R,restored,2023,dry,grassland,0,1,217.66,0.3675,7.025e-4,229.485,0.3125,4.825e-4
+N_ELB,north,664,European Atlantic mixed forests,2023,R22,restored,2019,fresh,arable land,NA,NA,228.7175,0.7050000000000001,0.001165,225.445,0.49,9.975e-4
+N_FLA,north,664,European Atlantic mixed forests,2023,R,negative,NA,moist,NA,0,1,202.52499999999998,0.555,0.0035825,254.0575,0.5525,0.00101
+N_GAM,north,664,European Atlantic mixed forests,2022,R,restored,2008,fresh,arable land,1,1,268.0425,0.48250000000000004,0.001135,261.4575,0.405,0.0012825
+N_GAR,north,664,European Atlantic mixed forests,2022,R,restored,2006,fresh,arable land,0,1,299.8175,0.32,6.45e-4,261.475,0.42,0.001005
+N_GBI,north,664,European Atlantic mixed forests,2022,R,positive,NA,moist,NA,NA,NA,253.6125,0.47250000000000003,9.225e-4,238.79,0.4425,0.0010925000000000002
+N_GUT,north,664,European Atlantic mixed forests,2023,R,restored,2020,fresh,arable land,0,2,256.77750000000003,0.4575,0.0012675,247.245,0.4475,0.001455
+N_HAI,north,664,European Atlantic mixed forests,2022,R,restored,2019,moist,grassland,NA,NA,291.02,0.5900000000000001,5.525e-4,258.6775,0.4225,9.400000000000001e-4
+N_HOH,north,664,European Atlantic mixed forests,2023,R,restored,2017,dry,arable land,0,3,237.11499999999998,0.4675,4.675e-4,251.1675,0.33499999999999996,6.1e-4
+N_HOR,north,664,European Atlantic mixed forests,2022,R,restored,2019,dry,arable land,0,1,255.89,0.6025,0.00109,241.7625,0.3375,4.775e-4
+N_HOY,north,664,European Atlantic mixed forests,2022,R21,restored,2018,moist,arable land,0,1,243.155,0.485,0.0015875,239.425,0.4125,8.225e-4
+N_ISE,north,664,European Atlantic mixed forests,2022,R22,positive,2000,dry,NA,0,1,232.91,0.4425,0.0012425000000000001,247.58249999999998,0.4,7.225e-4
+N_JAS,north,664,European Atlantic mixed forests,2023,R22,restored,2019,fresh,arable land,0,2,225.5025,0.47,0.0022675,240.4875,0.47750000000000004,0.001645
+N_KAP,north,664,European Atlantic mixed forests,2023,R22,restored,2017,fresh,arable land,0,2,244.3575,0.4225,0.0010025,255.3475,0.47,0.0012625000000000002
+N_KIR,north,664,European Atlantic mixed forests,2022,R22,positive,2016,moist,NA,1,2,199.07750000000001,0.47250000000000003,0.0021650000000000003,234.5625,0.4475,0.001515
+N_KRI,north,664,European Atlantic mixed forests,2022,R,restored,2014,fresh,arable land,0,1,242.2225,0.4375,0.0013725,242.2575,0.3275,9.425e-4
+N_LUB,north,664,European Atlantic mixed forests,2023,R,restored,1995,fresh,arable land,0,1,247.29500000000002,0.4625,0.0013575,258.4025,0.355,8.075000000000001e-4
+N_MAU,north,664,European Atlantic mixed forests,2023,R22,restored,NA,dry,arable land,NA,NA,243.625,0.20249999999999999,3.85e-4,243.54500000000002,0.33,0.0010375
+N_MEC,north,664,European Atlantic mixed forests,2023,R,negative,2014,fresh,NA,1,4,264.04,0.53,0.0020150000000000003,268.3175,0.4725,0.001025
+N_MOO,north,664,European Atlantic mixed forests,2023,R22,restored,2019,fresh,arable land,0,2,212.0125,0.395,0.002115,237.9075,0.4475,0.001055
+N_NLG,north,664,European Atlantic mixed forests,2023,R35,restored,2018,moist,arable land,0,2,265.4125,0.6699999999999999,8.9e-4,258.4475,0.5675,0.001005
+N_OCH,north,664,European Atlantic mixed forests,2023,R,restored,2019,dry,grassland,0,1,239.445,0.49250000000000005,5.55e-4,247.8225,0.28250000000000003,3.45e-4
+N_OLE,north,664,European Atlantic mixed forests,2023,R,negative,NA,fresh,NA,0,2,307.15999999999997,0.4875,6.025e-4,275.5125,0.425,0.0012799999999999999
+N_PAN,north,647,Baltic mixed forests,2023,R22,restored,2019,fresh,arable land,NA,NA,234.085,0.415,0.0012625,243.33,0.455,0.00119
+N_PEV,north,664,European Atlantic mixed forests,2022,R22,restored,NA,dry,grassland,NA,NA,267.2175,0.455,5.075e-4,230.1575,0.4275,9.125e-4
+N_PFE,north,664,European Atlantic mixed forests,2023,R,restored,2018,moist,grassland,0,1,245.225,0.505,0.00136,236.10500000000002,0.4475,9.15e-4
+N_RAD,north,664,European Atlantic mixed forests,2022,R,negative,2003,moist,NA,0,2,245.8075,0.495,7.4e-4,245.085,0.46249999999999997,0.001445
+N_RET,north,664,European Atlantic mixed forests,2022,R22,restored,2019,moist,grassland,0,1,245.6625,0.46499999999999997,0.002085,246.19,0.395,0.00131
+N_SCH,north,664,European Atlantic mixed forests,2022,R,positive,1991,moist,NA,0,2,257.7625,0.35250000000000004,3.7e-4,243.79,0.3775,8.25e-4
+N_SMG,north,664,European Atlantic mixed forests,2022,R,negative,2000,fresh,NA,1,2,283.955,0.6825,5.725e-4,279.675,0.5225,0.001075
+N_STA,north,664,European Atlantic mixed forests,2023,R22,restored,2017,fresh,arable land,0,2,196.56,0.46749999999999997,0.0038174999999999997,241.17000000000002,0.365,0.00153
+N_STE,north,664,European Atlantic mixed forests,2022,R,positive,2012,moist,NA,0,1,252.385,0.49250000000000005,5.45e-4,248.19,0.47250000000000003,7.325e-4
+N_TAN,north,664,European Atlantic mixed forests,2023,R,restored,2021,fresh,grassland,NA,NA,244.235,0.5175,0.001145,234.20499999999998,0.4525,0.0012825
+N_TAS,north,664,European Atlantic mixed forests,2023,R21,restored,2020,fresh,arable land,NA,NA,233.575,0.5075000000000001,0.00224,253.79999999999998,0.3575,6.625e-4
+N_TRI,north,664,European Atlantic mixed forests,2023,R22,negative,2002,fresh,NA,0,2,217.3275,0.4625,0.0034875,245.07,0.375,0.002015
+N_TUT,north,664,European Atlantic mixed forests,2022,R22,restored,2019,dry,arable land,NA,NA,276.4275,0.46499999999999997,4.325e-4,255.655,0.31,4.725e-4
+N_UET,north,664,European Atlantic mixed forests,2022,R,negative,1960,fresh,NA,1,1,265.825,0.3725,0.001045,270.9175,0.3325,9.025e-4
+N_VIE,north,664,European Atlantic mixed forests,2022,R22,positive,2001,dry,NA,0,2,230.035,0.37,0.0018425,220.295,0.3275,0.00116
+N_VOG,north,664,European Atlantic mixed forests,2023,R,restored,2019,moist,arable land,0,2,318.77,0.6525000000000001,4.8499999999999997e-4,262.4825,0.565,0.001075
+N_WAL,north,664,European Atlantic mixed forests,2023,R,restored,2014,moist,grassland,0,2,250.625,0.6224999999999999,0.001515,257.835,0.5225,0.0016749999999999998
+N_WEN,north,664,European Atlantic mixed forests,2022,R22,restored,2018,dry,grassland,NA,NA,219.84,0.425,0.00286,256.65749999999997,0.385,9.699999999999999e-4
+N_WER,north,664,European Atlantic mixed forests,2023,R,positive,2003,moist,NA,0,2,260.605,0.495,7.75e-4,242.005,0.4525,0.0011099999999999999
+N_WIZ,north,664,European Atlantic mixed forests,2023,R22,positive,2013,dry,NA,NA,NA,243.565,0.5475,0.001245,241.0475,0.355,9.425e-4
+N_ZDF,north,664,European Atlantic mixed forests,2022,R22,restored,2019,fresh,arable land,0,2,257.1575,0.6575,0.0010125,247.6575,0.5725,0.00229
+S_ACR,south,686,Western European broadleaf forests,2022,R1A,restored,1999,dry,grassland,0,1,205.715,0.3875,0.00247,223.8,0.355,0.0012425000000000001
+S_AFR,south,686,Western European broadleaf forests,2023,R22,restored,NA,fresh,grassland,NA,2,274.9475,0.5725,7.524999999999999e-4,264.515,0.46499999999999997,0.0013675
+S_AMP,south,686,Western European broadleaf forests,2023,R22,positive,2004,moist,NA,0,2,229.985,0.45,0.0016350000000000002,241.25,0.425,0.00144
+S_AUH,south,686,Western European broadleaf forests,2022,R1A,restored,1997,dry,arable land,0,2,220.035,0.3825,0.002075,226.21,0.4,0.001465
+S_AUL,south,686,Western European broadleaf forests,2022,R22,restored,NA,fresh,arable land,0,2,224.89749999999998,0.48,0.002255,239.0725,0.455,0.00183
+S_BUC,south,686,Western European broadleaf forests,2022,R22,restored,2014,dry,arable land,0,2,263.6875,0.4225,7.45e-4,245.755,0.40249999999999997,0.0011025
+S_DIE,south,686,Western European broadleaf forests,2022,R,negative,1928,dry,NA,1,3,268.9075,0.66,6.175e-4,251.8125,0.545,9.75e-4
+S_ECH,south,686,Western European broadleaf forests,2022,R1A,restored,2013,dry,arable land,0,2,215.18,0.36,0.0017699999999999999,215.66,0.365,0.0012525000000000001
+S_EIT,south,686,Western European broadleaf forests,2023,R,positive,NA,fresh,NA,NA,2,256.4425,0.475,0.001205,255.7225,0.37,9.1e-4
+S_FCH,south,686,Western European broadleaf forests,2022,R22,restored,2000,fresh,grassland,0,2,230.0625,0.47750000000000004,0.0014925,235.20749999999998,0.4825,0.0014925
+S_FHZ,south,686,Western European broadleaf forests,2022,R35,restored,2008,moist,arable land,0,2,210.1875,0.59,8.1e-4,211.3425,0.5525,0.0010299999999999999
+S_GIG,south,686,Western European broadleaf forests,2022,R,restored,2020,fresh,grassland,0,2,238.42000000000002,0.58,0.0010025,240.0625,0.51,0.0012625
+S_GSH,south,686,Western European broadleaf forests,2022,R,restored,2021,fresh,arable land,0,2,251.3675,0.48,0.001165,263.5725,0.4475,0.0011975
+S_GSR,south,686,Western European broadleaf forests,2023,R,restored,2015,fresh,arable land,0,2,279.73,0.5325,7.925e-4,253.655,0.4375,0.0011825
+S_GTZ,south,686,Western European broadleaf forests,2022,R,restored,2011,moist,grassland,0,2,257.44,0.4625,6.525e-4,250.48250000000002,0.395,7.25e-4
+S_HBF,south,686,Western European broadleaf forests,2023,R,negative,2008,fresh,NA,1,5,292.26,0.36,8.425e-4,283.85,0.2875,5.625e-4
+S_HGR,south,686,Western European broadleaf forests,2022,R,negative,NA,fresh,NA,0,2,282.90999999999997,0.6325000000000001,4.4249999999999997e-4,294.06,0.4675,0.0010925
+S_HLZ,south,686,Western European broadleaf forests,2022,R,restored,2017,moist,arable land,0,3,249.67249999999999,0.48250000000000004,6.025e-4,253.285,0.41000000000000003,8.8e-4
+S_HTH,south,686,Western European broadleaf forests,2023,R,restored,2022,dry,arable land,0,2,208.98000000000002,0.4325,0.001935,228.4325,0.4225,0.001335
+S_HUB,south,686,Western European broadleaf forests,2023,R22,restored,2012,dry,arable land,0,2,226.6625,0.405,0.001505,242.4725,0.39,0.00112
+S_JAN,south,686,Western European broadleaf forests,2022,R,negative,2005,fresh,NA,1,3,281.0675,0.49750000000000005,6.375e-4,264.71500000000003,0.345,5.525e-4
+S_JAU,south,686,Western European broadleaf forests,2022,R22,restored,2020,fresh,arable land,0,2,249.67499999999998,0.455,0.001,251.31,0.4675,9.275e-4
+S_JHB,south,686,Western European broadleaf forests,2023,R,restored,1988,moist,arable land,0,2,242.7525,0.505,8.175e-4,250.7025,0.40249999999999997,0.0010225
+S_JOS,south,686,Western European broadleaf forests,2022,R,restored,NA,fresh,grassland,0,2,251.12,0.4325,0.0013425,244.675,0.4575,0.0011625
+S_KDT,south,686,Western European broadleaf forests,2023,R22,positive,2012,fresh,NA,0,2,228.53,0.4475,0.0013325,236.3225,0.4275,0.0014275
+S_KRT,south,686,Western European broadleaf forests,2023,R1A,restored,2022,dry,grassland,0,1,204.03,0.375,0.0023375,210.7125,0.38,0.00193
+S_LAP,south,686,Western European broadleaf forests,2023,R,restored,2016,fresh,grassland,0,2,262.0875,0.6825,0.0012100000000000001,263.8125,0.605,0.0024974999999999997
+S_LPI,south,686,Western European broadleaf forests,2023,R,restored,NA,dry,arable land,0,1,218.4725,0.4175,0.0020375,217.73,0.4075,0.0011325
+S_MAS,south,686,Western European broadleaf forests,2023,R,restored,2013,moist,grassland,0,2,226.6525,0.5325,0.002045,238.515,0.525,0.00149
+S_MBM,south,686,Western European broadleaf forests,2022,R1A,restored,2008,moist,arable land,0,1,204.88,0.515,0.001155,213.78,0.4575,0.0015325
+S_MCH,south,686,Western European broadleaf forests,2023,R22,restored,2018,fresh,grassland,0,2,211.7475,0.4725,0.0017324999999999999,220.91750000000002,0.4225,0.0022325
+S_MHH,south,686,Western European broadleaf forests,2023,R,positive,2020,dry,NA,0,1,206.9625,0.3975,0.001845,225.3725,0.3575,0.001495
+S_MTK,south,686,Western European broadleaf forests,2023,R,positive,1993,fresh,NA,0,2,237.375,0.47,8.775e-4,243.8775,0.41500000000000004,0.0010675
+S_NOZ,south,686,Western European broadleaf forests,2022,R,restored,NA,fresh,arable land,0,2,226.2125,0.495,0.001385,241.1225,0.48,0.0015125
+S_OST,south,686,Western European broadleaf forests,2023,R,restored,2022,moist,arable land,0,2,198.98250000000002,0.4075,0.0016075,225.60500000000002,0.4325,0.0011325
+S_OSW,south,686,Western European broadleaf forests,2023,R22,restored,2013,fresh,arable land,0,2,252.315,0.43,8.3e-4,251.0975,0.4025,9.175e-4
+S_PEI,south,686,Western European broadleaf forests,2022,R22,restored,2021,fresh,grassland,0,2,235.6625,0.4475,9.45e-4,256.4325,0.405,6.975e-4
+S_PEN,south,686,Western European broadleaf forests,2022,R22,negative,2013,moist,NA,0,2,243.35500000000002,0.55,9.65e-4,244.56,0.4475,7.45e-4
+S_POP,south,686,Western European broadleaf forests,2023,R22,restored,2018,fresh,arable land,0,2,256.895,0.4775,7.4e-4,254.9925,0.435,0.0011275
+S_RUP,south,686,Western European broadleaf forests,2023,R,negative,2002,fresh,NA,1,5,259.59749999999997,0.5525,0.00162,270.21,0.4125,6.375e-4
+S_SBA,south,686,Western European broadleaf forests,2022,R1A,positive,2013,dry,NA,0,2,215.4325,0.38,0.0013725,218.58249999999998,0.3625,9.875e-4
+S_SBN,south,686,Western European broadleaf forests,2022,R1A,restored,2012,dry,arable land,0,2,196.7825,0.3,8.825e-4,204.6525,0.325,7.9e-4
+S_SHH,south,686,Western European broadleaf forests,2022,R22,restored,2001,dry,arable land,NA,NA,235.8725,0.3275,6.2e-4,224.885,0.315,8.25e-4
+S_SIM,south,686,Western European broadleaf forests,2023,R,positive,1960,fresh,NA,0,1,225.6225,0.5025,0.0015925,237.195,0.40499999999999997,0.00132
+S_SNF,south,686,Western European broadleaf forests,2022,R,restored,2017,moist,arable land,0,2,272.8825,0.5025000000000001,5.4e-4,267.4425,0.39749999999999996,5.175e-4
+S_STB,south,686,Western European broadleaf forests,2023,R21,restored,2010,moist,arable land,0,2,222.9175,0.33,7e-4,217.6925,0.325,6.9e-4
+S_STW,south,686,Western European broadleaf forests,2022,R35,positive,1995,moist,NA,0,1,214.945,0.46499999999999997,0.0017075,227.27249999999998,0.4575,0.001615
+S_TIE,south,686,Western European broadleaf forests,2023,R22,restored,NA,fresh,arable land,0,2,242.1775,0.48,0.0020925,238.8125,0.45999999999999996,0.0018825
+S_TRN,south,686,Western European broadleaf forests,2023,R,restored,NA,fresh,arable land,0,1,248.22,0.3725,0.0013725,235.7825,0.3175,7.35e-4
+S_UKB,south,686,Western European broadleaf forests,2023,R22,negative,1960,fresh,NA,1,3,241.39499999999998,0.47750000000000004,0.0010275,242.0775,0.44,0.0010325
+S_VIB,south,686,Western European broadleaf forests,2023,R,negative,2020,moist,NA,1,5,295.26,0.5625,3.475e-4,280.01,0.33499999999999996,5.575e-4
+S_VLP,south,686,Western European broadleaf forests,2022,R,positive,2019,moist,NA,0,2,221.8975,0.535,0.00118,227.575,0.4475,0.0010975
+S_VLR,south,686,Western European broadleaf forests,2022,R,restored,2000,fresh,arable land,0,2,263.05,0.4975,0.0017425,241.41,0.4175,0.0010975
+S_WGD,south,686,Western European broadleaf forests,2022,R22,restored,2021,fresh,arable land,0,2,225.275,0.55,0.0014650000000000002,224.675,0.4825,0.00105
+S_WLF,south,686,Western European broadleaf forests,2023,R,negative,1997,fresh,NA,1,4,265.825,0.5425,7.1e-4,260.315,0.5025,8.075000000000001e-4
+S_WNG,south,686,Western European broadleaf forests,2023,R1A,positive,1998,dry,NA,0,2,195.7,0.3325,0.002555,217.7525,0.39249999999999996,0.0011
+S_WNK,south,686,Western European broadleaf forests,2023,R22,restored,2013,fresh,grassland,0,2,235.495,0.405,0.00134,249.1125,0.40249999999999997,9.55e-4
+S_WTB,south,686,Western European broadleaf forests,2023,R,negative,2008,fresh,NA,1,5,270.2425,0.4125,9.825e-4,271.7875,0.32,7.875e-4
+S_WTH,south,686,Western European broadleaf forests,2022,R,restored,1999,moist,grassland,0,2,247.0375,0.455,0.001455,241.1225,0.4425,0.0012475
+S_WTZ,south,686,Western European broadleaf forests,2023,R22,restored,2018,fresh,arable land,0,2,285.09000000000003,0.4275,5.475e-4,252.0625,0.41000000000000003,0.0010625
