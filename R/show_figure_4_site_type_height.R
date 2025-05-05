@@ -89,7 +89,7 @@ data <- sites %>%
   rename(predicted = y, x = site.type, group = esy4)
 
 data_text <- tibble(
-  label = c("", "", "Site type ***\nInteraction n.s."),
+  label = c("", "", "Site type **\nInteraction n.s."),
   group = c("R", "R22", "R1A")
 ) %>%
   mutate(group = fct_relevel(group, "R", "R22", "R1A"))

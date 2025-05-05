@@ -81,14 +81,14 @@ m@call
 
 
 data_model <- ggemmeans(
-  m, terms = c("site.type", "esy4"), back.transform = FALSE, ci_level = .95
+  m, terms = c("site.type", "esy4"), back.transform = TRUE, ci_level = .95
 )
 
 data <- sites %>%
   rename(predicted = y, x = site.type, group = esy4)
 
 data_text <- tibble(
-  label = c("", "", "Site type ***\nInteraction n.s."),
+  label = c("", "", "Site type n.s.\nInteraction n.s."),
   group = c("R", "R22", "R1A")
 ) %>%
   mutate(group = fct_relevel(group, "R", "R22", "R1A"))

@@ -81,7 +81,7 @@ m@call
 
 
 data_model <- ggemmeans(
-  m, terms = c("eco.id", "esy4"), back.transform = FALSE, ci_level = .95
+  m, terms = c("eco.id", "esy4"), back.transform = TRUE, ci_level = .95
   ) %>%
   filter(!(group == "R1A" & x == "664")) #%>%
   # mutate(
