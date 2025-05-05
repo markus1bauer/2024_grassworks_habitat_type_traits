@@ -247,7 +247,7 @@ MuMIn::AICc(m_1, m_2) %>%
 ### Summary table
 
 ```{r summary}
-car::Anova(m_1)
+car::Anova(m_1, type = 2)
 summary(m_1)
 ```
 
@@ -268,7 +268,7 @@ dotwhisker::dwplot(
 Effect sizes of chosen model just to get exact values of means etc. if
 necessary.
 
-#### ESY EUNIS Habitat type
+#### ESy EUNIS Habitat type
 
 ```{r effect-sizes-1, message = FALSE}
 (emm <- emmeans(

@@ -415,18 +415,19 @@ MuMIn::AICc(m_1, m_2) %>%
 ### Summary table
 
 ``` r
-car::Anova(m_2)
+car::Anova(m_2, type = 3)
 ```
 
-    ## Analysis of Deviance Table (Type II Wald chisquare tests)
+    ## Analysis of Deviance Table (Type III Wald chisquare tests)
     ## 
     ## Response: y
-    ##                  Chisq Df Pr(>Chisq)    
-    ## esy4           39.9739  2  2.088e-09 ***
-    ## site.type      31.6787  2  1.321e-07 ***
-    ## eco.id         30.8138  2  2.036e-07 ***
-    ## obs.year        0.7035  1     0.4016    
-    ## esy4:site.type  7.7568  4     0.1009    
+    ##                    Chisq Df Pr(>Chisq)    
+    ## (Intercept)    3152.3555  1  < 2.2e-16 ***
+    ## esy4             16.3796  2  0.0002775 ***
+    ## site.type        35.1453  2  2.335e-08 ***
+    ## eco.id           30.8138  2  2.036e-07 ***
+    ## obs.year          0.7035  1  0.4016107    
+    ## esy4:site.type    7.7568  4  0.1009046    
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 

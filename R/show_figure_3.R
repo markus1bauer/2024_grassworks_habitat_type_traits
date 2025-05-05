@@ -1,10 +1,10 @@
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # GRASSWORKS Project
-# CWMs of EUNIS habitat types 
-# Show figure of CWMs ~ EUNIS * site.type
+# CWMs of EUNIS habitat types ####
+# Show figure of Ecoregions
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Markus Bauer
-# 2024-09-05
+# 2025-05-05
 
 
 
@@ -31,15 +31,12 @@ rm(list = setdiff(ls(), c("graph_a", "graph_b", "graph_c", "graph_d")))
 
 
 graph_a / graph_b / graph_c +
-  plot_layout(guides = "collect") +
   plot_annotation(tag_levels = "A") &
   theme(plot.tag = element_text(face = "bold"))
 
 ### Save ###
 
 ggsave(
-  here(
-    "outputs", "figures", "figure_cwm_eunis_2_site.type_300dpi_24x15cm.tiff"
-    ),
-  dpi = 300, width = 24, height = 15, units = "cm"
+  here("outputs", "figures", "figure_3_300dpi_14x24cm.tiff"),
+  dpi = 300, width = 14, height = 24, units = "cm"
 )

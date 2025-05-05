@@ -248,7 +248,7 @@ MuMIn::AICc(m_1, m_2) %>%
 ### Summary table
 
 ```{r summary}
-car::Anova(m_1)
+car::Anova(m_1, type = 2)
 summary(m_1)
 ```
 
