@@ -284,7 +284,7 @@ plot(emm, comparison = TRUE)
 ```{r effect-sizes-2, message = FALSE}
 (emm <- emmeans(
   m_1,
-  revpairwise ~ esy16 + eco.id,
+  revpairwise ~ eco.id | esy16,
   type = "response"
   ))
 plot(emm, comparison = TRUE)
@@ -295,7 +295,7 @@ plot(emm, comparison = TRUE)
 ```{r effect-sizes-3, message = FALSE}
 (emm <- emmeans(
   m_1,
-  revpairwise ~ esy16 + site.type,
+  revpairwise ~ site.type | esy16,
   type = "response"
   ))
 plot(emm, comparison = TRUE)

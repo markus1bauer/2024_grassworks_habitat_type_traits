@@ -553,22 +553,29 @@ plot(emm, comparison = TRUE)
 ``` r
 (emm <- emmeans(
   m_2,
-  revpairwise ~ esy4 + eco.id,
+  revpairwise ~ eco.id | esy4,
   type = "response"
   ))
 ```
 
     ## $emmeans
-    ##  esy4 eco.id response       SE  df lower.CL upper.CL
-    ##  R    654    0.001562 1.32e-04 224 0.001322  0.00185
-    ##  R22  654    0.001498 1.46e-04 341 0.001236  0.00181
-    ##  R1A  654    0.001908 2.43e-04 367 0.001484  0.00245
-    ##  R    686    0.001114 8.85e-05 207 0.000953  0.00130
-    ##  R22  686    0.001068 9.80e-05 323 0.000892  0.00128
-    ##  R1A  686    0.001360 1.85e-04 402 0.001041  0.00178
-    ##  R    664    0.000969 8.06e-05 214 0.000822  0.00114
-    ##  R22  664    0.000929 8.58e-05 301 0.000774  0.00111
-    ##  R1A  664    0.001183 1.70e-04 419 0.000892  0.00157
+    ## esy4 = R:
+    ##  eco.id response       SE  df lower.CL upper.CL
+    ##  654    0.001562 1.32e-04 224 0.001322  0.00185
+    ##  686    0.001114 8.85e-05 207 0.000953  0.00130
+    ##  664    0.000969 8.06e-05 214 0.000822  0.00114
+    ## 
+    ## esy4 = R22:
+    ##  eco.id response       SE  df lower.CL upper.CL
+    ##  654    0.001498 1.46e-04 341 0.001236  0.00181
+    ##  686    0.001068 9.80e-05 323 0.000892  0.00128
+    ##  664    0.000929 8.58e-05 301 0.000774  0.00111
+    ## 
+    ## esy4 = R1A:
+    ##  eco.id response       SE  df lower.CL upper.CL
+    ##  654    0.001908 2.43e-04 367 0.001484  0.00245
+    ##  686    0.001360 1.85e-04 402 0.001041  0.00178
+    ##  664    0.001183 1.70e-04 419 0.000892  0.00157
     ## 
     ## Results are averaged over the levels of: site.type, obs.year 
     ## Degrees-of-freedom method: kenward-roger 
@@ -576,64 +583,32 @@ plot(emm, comparison = TRUE)
     ## Intervals are back-transformed from the log scale 
     ## 
     ## $contrasts
-    ##  contrast                      ratio     SE  df null t.ratio p.value
-    ##  R22 eco.id654 / R eco.id654   0.959 0.0605 586    1  -0.669  0.9991
-    ##  R1A eco.id654 / R eco.id654   1.221 0.1490 577    1   1.635  0.7854
-    ##  R1A eco.id654 / R22 eco.id654 1.274 0.1690 601    1   1.820  0.6686
-    ##  R eco.id686 / R eco.id654     0.713 0.0752 192    1  -3.206  0.0410
-    ##  R eco.id686 / R22 eco.id654   0.744 0.0922 321    1  -2.386  0.2954
-    ##  R eco.id686 / R1A eco.id654   0.584 0.0883 346    1  -3.556  0.0126
-    ##  R22 eco.id686 / R eco.id654   0.684 0.0833 307    1  -3.122  0.0503
-    ##  R22 eco.id686 / R22 eco.id654 0.713 0.0752 192    1  -3.206  0.0410
-    ##  R22 eco.id686 / R1A eco.id654 0.560 0.0892 382    1  -3.643  0.0093
-    ##  R22 eco.id686 / R eco.id686   0.959 0.0605 586    1  -0.669  0.9991
-    ##  R1A eco.id686 / R eco.id654   0.871 0.1490 396    1  -0.809  0.9966
-    ##  R1A eco.id686 / R22 eco.id654 0.908 0.1630 430    1  -0.535  0.9998
-    ##  R1A eco.id686 / R1A eco.id654 0.713 0.0752 192    1  -3.206  0.0410
-    ##  R1A eco.id686 / R eco.id686   1.221 0.1490 577    1   1.635  0.7854
-    ##  R1A eco.id686 / R22 eco.id686 1.274 0.1690 601    1   1.820  0.6686
-    ##  R eco.id664 / R eco.id654     0.620 0.0679 204    1  -4.364  0.0007
-    ##  R eco.id664 / R22 eco.id654   0.647 0.0837 337    1  -3.366  0.0237
-    ##  R eco.id664 / R1A eco.id654   0.508 0.0760 330    1  -4.529  0.0003
-    ##  R eco.id664 / R eco.id686     0.869 0.0911 191    1  -1.335  0.9194
-    ##  R eco.id664 / R22 eco.id686   0.907 0.1130 326    1  -0.785  0.9972
-    ##  R eco.id664 / R1A eco.id686   0.712 0.1120 356    1  -2.168  0.4290
-    ##  R22 eco.id664 / R eco.id654   0.594 0.0733 302    1  -4.217  0.0011
-    ##  R22 eco.id664 / R22 eco.id654 0.620 0.0679 204    1  -4.364  0.0007
-    ##  R22 eco.id664 / R1A eco.id654 0.487 0.0760 359    1  -4.612  0.0002
-    ##  R22 eco.id664 / R eco.id686   0.833 0.1000 302    1  -1.515  0.8480
-    ##  R22 eco.id664 / R22 eco.id686 0.869 0.0911 191    1  -1.335  0.9194
-    ##  R22 eco.id664 / R1A eco.id686 0.683 0.1120 387    1  -2.334  0.3246
-    ##  R22 eco.id664 / R eco.id664   0.959 0.0605 586    1  -0.669  0.9991
-    ##  R1A eco.id664 / R eco.id654   0.757 0.1340 411    1  -1.569  0.8213
-    ##  R1A eco.id664 / R22 eco.id654 0.790 0.1480 446    1  -1.262  0.9417
-    ##  R1A eco.id664 / R1A eco.id654 0.620 0.0679 204    1  -4.364  0.0007
-    ##  R1A eco.id664 / R eco.id686   1.062 0.1750 390    1   0.362  1.0000
-    ##  R1A eco.id664 / R22 eco.id686 1.107 0.1930 429    1   0.584  0.9997
-    ##  R1A eco.id664 / R1A eco.id686 0.869 0.0911 191    1  -1.335  0.9194
-    ##  R1A eco.id664 / R eco.id664   1.221 0.1490 577    1   1.635  0.7854
-    ##  R1A eco.id664 / R22 eco.id664 1.274 0.1690 601    1   1.820  0.6686
+    ## esy4 = R:
+    ##  contrast              ratio     SE  df null t.ratio p.value
+    ##  eco.id686 / eco.id654 0.713 0.0752 192    1  -3.206  0.0045
+    ##  eco.id664 / eco.id654 0.620 0.0679 204    1  -4.364  0.0001
+    ##  eco.id664 / eco.id686 0.869 0.0911 191    1  -1.335  0.3773
+    ## 
+    ## esy4 = R22:
+    ##  contrast              ratio     SE  df null t.ratio p.value
+    ##  eco.id686 / eco.id654 0.713 0.0752 192    1  -3.206  0.0045
+    ##  eco.id664 / eco.id654 0.620 0.0679 204    1  -4.364  0.0001
+    ##  eco.id664 / eco.id686 0.869 0.0911 191    1  -1.335  0.3773
+    ## 
+    ## esy4 = R1A:
+    ##  contrast              ratio     SE  df null t.ratio p.value
+    ##  eco.id686 / eco.id654 0.713 0.0752 192    1  -3.206  0.0045
+    ##  eco.id664 / eco.id654 0.620 0.0679 204    1  -4.364  0.0001
+    ##  eco.id664 / eco.id686 0.869 0.0911 191    1  -1.335  0.3773
     ## 
     ## Results are averaged over the levels of: site.type, obs.year 
     ## Degrees-of-freedom method: kenward-roger 
-    ## P value adjustment: tukey method for comparing a family of 9 estimates 
+    ## P value adjustment: tukey method for comparing a family of 3 estimates 
     ## Tests are performed on the log scale
 
 ``` r
 plot(emm, comparison = TRUE)
 ```
-
-    ## Warning: Comparison discrepancy in group "1", R eco.id654 - R eco.id686:
-    ##     Target overlap = -0.0219, overlap on graph = 0.0428
-
-    ## Warning: Comparison discrepancy in group "1", R eco.id654 - R22 eco.id686:
-    ##     Target overlap = 8e-04, overlap on graph = -0.0396
-
-    ## Warning: Comparison discrepancy in group "1", R eco.id654 - R1A eco.id664:
-    ##     Target overlap = 0.497, overlap on graph = -0.0336
-
-    ## Warning: Comparison discrepancy in group "1", R22 eco.id654 - R22 eco.id686:
-    ##     Target overlap = -0.0219, overlap on graph = 0.0707
 
 ![](model_check_seedmass_esy4_files/figure-gfm/effect-sizes-2-1.png)<!-- -->
 
@@ -642,22 +617,29 @@ plot(emm, comparison = TRUE)
 ``` r
 (emm <- emmeans(
   m_2,
-  revpairwise ~ esy4 + site.type,
+  revpairwise ~ site.type | esy4,
   type = "response"
   ))
 ```
 
     ## $emmeans
-    ##  esy4 site.type response       SE  df lower.CL upper.CL
-    ##  R    positive   0.00122 1.36e-04 261 0.000982  0.00152
-    ##  R22  positive   0.00108 1.44e-04 411 0.000828  0.00140
-    ##  R1A  positive   0.00146 2.36e-04 481 0.001059  0.00200
-    ##  R    restored   0.00122 7.41e-05 284 0.001081  0.00137
-    ##  R22  restored   0.00114 7.25e-05 307 0.001007  0.00129
-    ##  R1A  restored   0.00135 1.49e-04 534 0.001090  0.00168
-    ##  R    negative   0.00113 1.19e-04 210 0.000920  0.00139
-    ##  R22  negative   0.00121 1.85e-04 534 0.000894  0.00163
-    ##  R1A  negative   0.00156 4.72e-04 444 0.000858  0.00282
+    ## esy4 = R:
+    ##  site.type response       SE  df lower.CL upper.CL
+    ##  positive   0.00122 1.36e-04 261 0.000982  0.00152
+    ##  restored   0.00122 7.41e-05 284 0.001081  0.00137
+    ##  negative   0.00113 1.19e-04 210 0.000920  0.00139
+    ## 
+    ## esy4 = R22:
+    ##  site.type response       SE  df lower.CL upper.CL
+    ##  positive   0.00108 1.44e-04 411 0.000828  0.00140
+    ##  restored   0.00114 7.25e-05 307 0.001007  0.00129
+    ##  negative   0.00121 1.85e-04 534 0.000894  0.00163
+    ## 
+    ## esy4 = R1A:
+    ##  site.type response       SE  df lower.CL upper.CL
+    ##  positive   0.00146 2.36e-04 481 0.001059  0.00200
+    ##  restored   0.00135 1.49e-04 534 0.001090  0.00168
+    ##  negative   0.00156 4.72e-04 444 0.000858  0.00282
     ## 
     ## Results are averaged over the levels of: eco.id, obs.year 
     ## Degrees-of-freedom method: kenward-roger 
@@ -665,47 +647,27 @@ plot(emm, comparison = TRUE)
     ## Intervals are back-transformed from the log scale 
     ## 
     ## $contrasts
-    ##  contrast                    ratio    SE  df null t.ratio p.value
-    ##  R22 positive / R positive   0.881 0.105 592    1  -1.064  0.9790
-    ##  R1A positive / R positive   1.191 0.188 651    1   1.106  0.9732
-    ##  R1A positive / R22 positive 1.351 0.245 652    1   1.658  0.7721
-    ##  R restored / R positive     0.997 0.126 266    1  -0.026  1.0000
-    ##  R restored / R22 positive   1.131 0.166 386    1   0.837  0.9957
-    ##  R restored / R1A positive   0.837 0.145 453    1  -1.028  0.9831
-    ##  R22 restored / R positive   0.933 0.119 271    1  -0.543  0.9998
-    ##  R22 restored / R22 positive 1.059 0.157 387    1   0.385  1.0000
-    ##  R22 restored / R1A positive 0.783 0.137 457    1  -1.401  0.8973
-    ##  R22 restored / R restored   0.936 0.053 591    1  -1.168  0.9629
-    ##  R1A restored / R positive   1.107 0.174 382    1   0.648  0.9993
-    ##  R1A restored / R22 positive 1.256 0.219 470    1   1.307  0.9291
-    ##  R1A restored / R1A positive 0.930 0.182 488    1  -0.373  1.0000
-    ##  R1A restored / R restored   1.111 0.123 649    1   0.951  0.9898
-    ##  R1A restored / R22 restored 1.187 0.138 644    1   1.475  0.8668
-    ##  R negative / R positive     0.925 0.141 234    1  -0.511  0.9999
-    ##  R negative / R22 positive   1.049 0.179 317    1   0.284  1.0000
-    ##  R negative / R1A positive   0.777 0.150 379    1  -1.310  0.9282
-    ##  R negative / R restored     0.928 0.113 226    1  -0.616  0.9995
-    ##  R negative / R22 restored   0.991 0.122 232    1  -0.070  1.0000
-    ##  R negative / R1A restored   0.835 0.127 350    1  -1.182  0.9598
-    ##  R22 negative / R positive   0.988 0.187 426    1  -0.066  1.0000
-    ##  R22 negative / R22 positive 1.121 0.228 480    1   0.559  0.9998
-    ##  R22 negative / R1A positive 0.829 0.185 506    1  -0.839  0.9956
-    ##  R22 negative / R restored   0.991 0.163 496    1  -0.055  1.0000
-    ##  R22 negative / R22 restored 1.059 0.176 498    1   0.343  1.0000
-    ##  R22 negative / R1A restored 0.892 0.168 534    1  -0.606  0.9996
-    ##  R22 negative / R negative   1.068 0.145 582    1   0.482  0.9999
-    ##  R1A negative / R positive   1.273 0.412 419    1   0.744  0.9981
-    ##  R1A negative / R22 positive 1.444 0.481 442    1   1.104  0.9735
-    ##  R1A negative / R1A positive 1.069 0.367 447    1   0.193  1.0000
-    ##  R1A negative / R restored   1.277 0.395 437    1   0.791  0.9971
-    ##  R1A negative / R22 restored 1.364 0.423 439    1   1.002  0.9857
-    ##  R1A negative / R1A restored 1.150 0.368 446    1   0.435  1.0000
-    ##  R1A negative / R negative   1.376 0.422 496    1   1.040  0.9818
-    ##  R1A negative / R22 negative 1.289 0.425 534    1   0.768  0.9976
+    ## esy4 = R:
+    ##  contrast            ratio    SE  df null t.ratio p.value
+    ##  restored / positive 0.997 0.126 266    1  -0.026  0.9996
+    ##  negative / positive 0.925 0.141 234    1  -0.511  0.8662
+    ##  negative / restored 0.928 0.113 226    1  -0.616  0.8115
+    ## 
+    ## esy4 = R22:
+    ##  contrast            ratio    SE  df null t.ratio p.value
+    ##  restored / positive 1.059 0.157 387    1   0.385  0.9217
+    ##  negative / positive 1.121 0.228 480    1   0.559  0.8418
+    ##  negative / restored 1.059 0.176 498    1   0.343  0.9371
+    ## 
+    ## esy4 = R1A:
+    ##  contrast            ratio    SE  df null t.ratio p.value
+    ##  restored / positive 0.930 0.182 488    1  -0.373  0.9261
+    ##  negative / positive 1.069 0.367 447    1   0.193  0.9796
+    ##  negative / restored 1.150 0.368 446    1   0.435  0.9011
     ## 
     ## Results are averaged over the levels of: eco.id, obs.year 
     ## Degrees-of-freedom method: kenward-roger 
-    ## P value adjustment: tukey method for comparing a family of 9 estimates 
+    ## P value adjustment: tukey method for comparing a family of 3 estimates 
     ## Tests are performed on the log scale
 
 ``` r

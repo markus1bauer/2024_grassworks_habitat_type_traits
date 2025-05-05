@@ -102,7 +102,7 @@ data <- sites %>%
     geom_point(
       data = data_model,
       aes(x = x, y = predicted, color = x),
-      size = 2
+      size = 3
     ) +
     annotate("text", label = "n.s.", y = .005, x = 3.4) +
     scale_y_continuous(limits = c(0, .005), breaks = seq(0, 0.1, 0.001)) +

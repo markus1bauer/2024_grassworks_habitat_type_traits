@@ -214,15 +214,15 @@ Exclude r \> 0.7 <br> Dormann et al. 2013 Ecography [DOI:
 > models
 
 ``` r
-load(file = here("outputs", "models", "model_height_esy4_1.Rdata"))
+load(file = here("outputs", "models", "model_height_esy4_2.Rdata"))
 load(file = here("outputs", "models", "model_height_esy4_3.Rdata"))
-m_1 <- m1
+m_1 <- m2
 m_2 <- m3
 ```
 
 ``` r
 m_1@call
-## lmer(formula = y ~ esy4 * (site.type + eco.id) + obs.year + (1 | 
+## lmer(formula = y ~ esy4 * site.type + eco.id + obs.year + (1 | 
 ##     id.site), data = sites, REML = FALSE)
 m_2@call
 ## lmer(formula = y ~ esy4 * (site.type + eco.id) + obs.year + hydrology + 
@@ -366,13 +366,12 @@ Remove VIF \> 3 or \> 10 <br> Zuur et al. 2010 Methods Ecol Evol [DOI:
 car::vif(m_1)
 ```
 
-    ##                     GVIF Df GVIF^(1/(2*Df))
-    ## esy4           11.864594  2        1.855937
-    ## site.type       1.490355  2        1.104899
-    ## eco.id          1.697649  2        1.141463
-    ## obs.year        1.020805  1        1.010349
-    ## esy4:site.type  5.153993  4        1.227490
-    ## esy4:eco.id    10.133575  3        1.471049
+    ##                    GVIF Df GVIF^(1/(2*Df))
+    ## esy4           3.551636  2        1.372800
+    ## site.type      1.465204  2        1.100207
+    ## eco.id         1.071102  2        1.017320
+    ## obs.year       1.019635  1        1.009770
+    ## esy4:site.type 4.709179  4        1.213719
 
 ``` r
 car::vif(m_2)
@@ -394,7 +393,7 @@ car::vif(m_2)
 ``` r
 MuMIn::r.squaredGLMM(m_1)
 ##            R2m       R2c
-## [1,] 0.1666915 0.6593747
+## [1,] 0.1533298 0.6667487
 MuMIn::r.squaredGLMM(m_2)
 ##            R2m      R2c
 ## [1,] 0.3105558 0.687387
@@ -410,7 +409,7 @@ MuMIn::AICc(m_1, m_2) %>%
   arrange(AICc)
 ##     df      AICc
 ## m_2 19 -1259.429
-## m_1 17 -1226.279
+## m_1 14 -1227.388
 ```
 
 ## Predicted values
@@ -509,7 +508,7 @@ necessary.
 
 ``` r
 (emm <- emmeans(
-  m_2,
+  m_1,
   revpairwise ~ esy4,
   type = "response"
   ))
@@ -517,111 +516,21 @@ necessary.
 
     ## $emmeans
     ##  esy4 emmean      SE  df lower.CL upper.CL
-    ##  R     0.472 0.00896 266    0.454    0.489
-    ##  R22   0.485 0.01220 510    0.461    0.509
-    ##  R1A  nonEst      NA  NA       NA       NA
+    ##  R     0.482 0.00929 248    0.464    0.500
+    ##  R22   0.493 0.01230 482    0.468    0.517
+    ##  R1A   0.389 0.02100 448    0.348    0.431
     ## 
-    ## Results are averaged over the levels of: site.type, eco.id, obs.year, hydrology 
+    ## Results are averaged over the levels of: site.type, eco.id, obs.year 
     ## Degrees-of-freedom method: kenward-roger 
     ## Confidence level used: 0.95 
     ## 
     ## $contrasts
     ##  contrast  estimate     SE  df t.ratio p.value
-    ##  R22 - R     0.0134 0.0113 618   1.182  0.2376
-    ##  R1A - R     nonEst     NA  NA      NA      NA
-    ##  R1A - R22   nonEst     NA  NA      NA      NA
+    ##  R22 - R     0.0105 0.0113 594   0.929  0.6221
+    ##  R1A - R    -0.0926 0.0213 543  -4.340  0.0001
+    ##  R1A - R22  -0.1032 0.0233 573  -4.431  <.0001
     ## 
-    ## Results are averaged over the levels of: site.type, eco.id, obs.year, hydrology 
-    ## Degrees-of-freedom method: kenward-roger 
-    ## P value adjustment: tukey method for comparing a family of 2 estimates
-
-``` r
-plot(emm, comparison = TRUE)
-```
-
-    ## Warning: Removed 1 row containing missing values or values outside the scale range
-    ## (`geom_point()`).
-
-    ## Warning: Removed 1 row containing missing values or values outside the scale range
-    ## (`geom_segment()`).
-
-    ## Warning: Removed 1 row containing missing values or values outside the scale range
-    ## (`geom_point()`).
-
-![](model_check_height_esy4_files/figure-gfm/effect-sizes-1-1.png)<!-- -->
-
-#### Habiat type x Region
-
-``` r
-(emm <- emmeans(
-  m_2,
-  revpairwise ~ eco.id,
-  type = "response"
-  ))
-```
-
-    ## $emmeans
-    ##  eco.id emmean     SE  df lower.CL upper.CL
-    ##  654     0.477 0.0131 219    0.451    0.503
-    ##  686     0.453 0.0139 248    0.426    0.481
-    ##  664    nonEst     NA  NA       NA       NA
-    ## 
-    ## Results are averaged over the levels of: esy4, site.type, obs.year, hydrology 
-    ## Degrees-of-freedom method: kenward-roger 
-    ## Confidence level used: 0.95 
-    ## 
-    ## $contrasts
-    ##  contrast              estimate    SE  df t.ratio p.value
-    ##  eco.id686 - eco.id654  -0.0239 0.017 219  -1.407  0.1610
-    ##  eco.id664 - eco.id654   nonEst    NA  NA      NA      NA
-    ##  eco.id664 - eco.id686   nonEst    NA  NA      NA      NA
-    ## 
-    ## Results are averaged over the levels of: esy4, site.type, obs.year, hydrology 
-    ## Degrees-of-freedom method: kenward-roger 
-    ## P value adjustment: tukey method for comparing a family of 2 estimates
-
-``` r
-plot(emm, comparison = TRUE)
-```
-
-    ## Warning: Removed 1 row containing missing values or values outside the scale range
-    ## (`geom_point()`).
-
-    ## Warning: Removed 1 row containing missing values or values outside the scale range
-    ## (`geom_segment()`).
-
-    ## Warning: Removed 1 row containing missing values or values outside the scale range
-    ## (`geom_point()`).
-
-![](model_check_height_esy4_files/figure-gfm/effect-sizes-2-1.png)<!-- -->
-
-#### Habiat type x Site type
-
-``` r
-(emm <- emmeans(
-  m_2,
-  revpairwise ~ site.type,
-  type = "response"
-  ))
-```
-
-    ## $emmeans
-    ##  site.type emmean SE df asymp.LCL asymp.UCL
-    ##  positive  nonEst NA NA        NA        NA
-    ##  restored  nonEst NA NA        NA        NA
-    ##  negative  nonEst NA NA        NA        NA
-    ## 
-    ## Results are averaged over the levels of: esy4, eco.id, obs.year, hydrology 
-    ## Degrees-of-freedom method: kenward-roger 
-    ## Confidence level used: 0.95 
-    ## 
-    ## $contrasts
-    ##  contrast            estimate     SE  df t.ratio p.value
-    ##  restored - positive   0.0247 0.0185 217   1.331  0.3794
-    ##  negative - positive   0.0838 0.0268 259   3.128  0.0055
-    ##  negative - restored   0.0591 0.0230 277   2.570  0.0287
-    ## 
-    ## Results are averaged over the levels of: esy4, eco.id, obs.year, hydrology 
+    ## Results are averaged over the levels of: site.type, eco.id, obs.year 
     ## Degrees-of-freedom method: kenward-roger 
     ## P value adjustment: tukey method for comparing a family of 3 estimates
 
@@ -629,14 +538,129 @@ plot(emm, comparison = TRUE)
 plot(emm, comparison = TRUE)
 ```
 
-    ## Warning: Removed 3 rows containing missing values or values outside the scale range
-    ## (`geom_point()`).
+![](model_check_height_esy4_files/figure-gfm/effect-sizes-1-1.png)<!-- -->
 
-    ## Warning: Removed 3 rows containing missing values or values outside the scale range
-    ## (`geom_segment()`).
+#### Habiat type x Region
 
-    ## Warning: Removed 3 rows containing missing values or values outside the scale range
-    ## (`geom_point()`).
+``` r
+(emm <- emmeans(
+  m_1,
+  revpairwise ~ eco.id | esy4,
+  type = "response"
+  ))
+```
+
+    ## $emmeans
+    ## esy4 = R:
+    ##  eco.id emmean     SE  df lower.CL upper.CL
+    ##  654     0.496 0.0143 227    0.468    0.524
+    ##  686     0.479 0.0134 209    0.453    0.505
+    ##  664     0.471 0.0141 217    0.444    0.499
+    ## 
+    ## esy4 = R22:
+    ##  eco.id emmean     SE  df lower.CL upper.CL
+    ##  654     0.506 0.0167 353    0.473    0.539
+    ##  686     0.490 0.0157 336    0.459    0.520
+    ##  664     0.482 0.0158 312    0.451    0.513
+    ## 
+    ## esy4 = R1A:
+    ##  eco.id emmean     SE  df lower.CL upper.CL
+    ##  654     0.403 0.0219 354    0.360    0.446
+    ##  686     0.386 0.0235 386    0.340    0.433
+    ##  664     0.379 0.0248 402    0.330    0.427
+    ## 
+    ## Results are averaged over the levels of: site.type, obs.year 
+    ## Degrees-of-freedom method: kenward-roger 
+    ## Confidence level used: 0.95 
+    ## 
+    ## $contrasts
+    ## esy4 = R:
+    ##  contrast              estimate     SE  df t.ratio p.value
+    ##  eco.id686 - eco.id654 -0.01676 0.0177 192  -0.948  0.6107
+    ##  eco.id664 - eco.id654 -0.02443 0.0185 204  -1.322  0.3847
+    ##  eco.id664 - eco.id686 -0.00767 0.0176 191  -0.435  0.9011
+    ## 
+    ## esy4 = R22:
+    ##  contrast              estimate     SE  df t.ratio p.value
+    ##  eco.id686 - eco.id654 -0.01676 0.0177 192  -0.948  0.6107
+    ##  eco.id664 - eco.id654 -0.02443 0.0185 204  -1.322  0.3847
+    ##  eco.id664 - eco.id686 -0.00767 0.0176 191  -0.435  0.9011
+    ## 
+    ## esy4 = R1A:
+    ##  contrast              estimate     SE  df t.ratio p.value
+    ##  eco.id686 - eco.id654 -0.01676 0.0177 192  -0.948  0.6107
+    ##  eco.id664 - eco.id654 -0.02443 0.0185 204  -1.322  0.3847
+    ##  eco.id664 - eco.id686 -0.00767 0.0176 191  -0.435  0.9011
+    ## 
+    ## Results are averaged over the levels of: site.type, obs.year 
+    ## Degrees-of-freedom method: kenward-roger 
+    ## P value adjustment: tukey method for comparing a family of 3 estimates
+
+``` r
+plot(emm, comparison = TRUE)
+```
+
+![](model_check_height_esy4_files/figure-gfm/effect-sizes-2-1.png)<!-- -->
+
+#### Habiat type x Site type
+
+``` r
+(emm <- emmeans(
+  m_1,
+  revpairwise ~ site.type | esy4,
+  type = "response"
+  ))
+```
+
+    ## $emmeans
+    ## esy4 = R:
+    ##  site.type emmean     SE  df lower.CL upper.CL
+    ##  positive   0.446 0.0189 269    0.409    0.483
+    ##  restored   0.466 0.0104 296    0.445    0.486
+    ##  negative   0.535 0.0176 211    0.500    0.569
+    ## 
+    ## esy4 = R22:
+    ##  site.type emmean     SE  df lower.CL upper.CL
+    ##  positive   0.452 0.0231 425    0.407    0.497
+    ##  restored   0.493 0.0109 315    0.471    0.514
+    ##  negative   0.533 0.0267 550    0.481    0.586
+    ## 
+    ## esy4 = R1A:
+    ##  site.type emmean     SE  df lower.CL upper.CL
+    ##  positive   0.353 0.0281 475    0.298    0.408
+    ##  restored   0.366 0.0192 514    0.328    0.404
+    ##  negative   0.449 0.0523 411    0.346    0.552
+    ## 
+    ## Results are averaged over the levels of: eco.id, obs.year 
+    ## Degrees-of-freedom method: kenward-roger 
+    ## Confidence level used: 0.95 
+    ## 
+    ## $contrasts
+    ## esy4 = R:
+    ##  contrast            estimate     SE  df t.ratio p.value
+    ##  restored - positive   0.0196 0.0216 275   0.908  0.6354
+    ##  negative - positive   0.0885 0.0258 238   3.427  0.0021
+    ##  negative - restored   0.0689 0.0205 230   3.361  0.0026
+    ## 
+    ## esy4 = R22:
+    ##  contrast            estimate     SE  df t.ratio p.value
+    ##  restored - positive   0.0406 0.0255 400   1.592  0.2502
+    ##  negative - positive   0.0813 0.0353 496   2.300  0.0567
+    ##  negative - restored   0.0407 0.0289 514   1.411  0.3358
+    ## 
+    ## esy4 = R1A:
+    ##  contrast            estimate     SE  df t.ratio p.value
+    ##  restored - positive   0.0131 0.0339 477   0.387  0.9209
+    ##  negative - positive   0.0960 0.0593 419   1.618  0.2391
+    ##  negative - restored   0.0829 0.0554 414   1.497  0.2935
+    ## 
+    ## Results are averaged over the levels of: eco.id, obs.year 
+    ## Degrees-of-freedom method: kenward-roger 
+    ## P value adjustment: tukey method for comparing a family of 3 estimates
+
+``` r
+plot(emm, comparison = TRUE)
+```
 
 ![](model_check_height_esy4_files/figure-gfm/effect-sizes-3-1.png)<!-- -->
 

@@ -103,11 +103,11 @@ graph_b <- ggplot() +
   geom_point(
     data = data_model,
     aes(x = x, y = predicted, color = x),
-    size = 2
+    size = 3
   ) +
-  # annotate("text", label = "a", y = 1, x = 1) +
-  # annotate("text", label = "a", y = 1, x = 2) +
-  # annotate("text", label = "b", y = 1, x = 3) +
+  annotate("text", label = "a", y = 1, x = 1) +
+  annotate("text", label = "a", y = 1, x = 2) +
+  annotate("text", label = "b", y = 1, x = 3) +
   scale_fill_manual(
     values = c(
       "R" = "#440154",

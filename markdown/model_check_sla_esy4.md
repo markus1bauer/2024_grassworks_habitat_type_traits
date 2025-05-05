@@ -552,28 +552,54 @@ plot(emm, comparison = TRUE)
 ``` r
 (emm <- emmeans(
   m_2,
-  revpairwise ~ eco.id,
+  revpairwise ~ eco.id | esy4,
   type = "response"
   ))
 ```
 
     ## $emmeans
+    ## esy4 = R:
     ##  eco.id emmean   SE  df lower.CL upper.CL
-    ##  654       221 3.56 208      214      228
-    ##  686       237 3.59 222      230      244
-    ##  664       246 3.81 238      238      253
+    ##  654       227 3.62 224      219      234
+    ##  686       243 3.40 207      236      250
+    ##  664       252 3.56 214      245      259
     ## 
-    ## Results are averaged over the levels of: esy4, site.type, obs.year 
+    ## esy4 = R22:
+    ##  eco.id emmean   SE  df lower.CL upper.CL
+    ##  654       229 4.15 337      221      237
+    ##  686       245 3.91 319      238      253
+    ##  664       254 3.94 297      246      262
+    ## 
+    ## esy4 = R1A:
+    ##  eco.id emmean   SE  df lower.CL upper.CL
+    ##  654       207 5.42 372      196      218
+    ##  686       223 5.78 408      212      235
+    ##  664       232 6.08 425      220      244
+    ## 
+    ## Results are averaged over the levels of: site.type, obs.year 
     ## Degrees-of-freedom method: kenward-roger 
     ## Confidence level used: 0.95 
     ## 
     ## $contrasts
+    ## esy4 = R:
     ##  contrast              estimate   SE  df t.ratio p.value
     ##  eco.id686 - eco.id654    16.36 4.52 193   3.622  0.0011
     ##  eco.id664 - eco.id654    25.07 4.69 204   5.347  <.0001
     ##  eco.id664 - eco.id686     8.71 4.49 192   1.941  0.1302
     ## 
-    ## Results are averaged over the levels of: esy4, site.type, obs.year 
+    ## esy4 = R22:
+    ##  contrast              estimate   SE  df t.ratio p.value
+    ##  eco.id686 - eco.id654    16.36 4.52 193   3.622  0.0011
+    ##  eco.id664 - eco.id654    25.07 4.69 204   5.347  <.0001
+    ##  eco.id664 - eco.id686     8.71 4.49 192   1.941  0.1302
+    ## 
+    ## esy4 = R1A:
+    ##  contrast              estimate   SE  df t.ratio p.value
+    ##  eco.id686 - eco.id654    16.36 4.52 193   3.622  0.0011
+    ##  eco.id664 - eco.id654    25.07 4.69 204   5.347  <.0001
+    ##  eco.id664 - eco.id686     8.71 4.49 192   1.941  0.1302
+    ## 
+    ## Results are averaged over the levels of: site.type, obs.year 
     ## Degrees-of-freedom method: kenward-roger 
     ## P value adjustment: tukey method for comparing a family of 3 estimates
 
@@ -588,28 +614,54 @@ plot(emm, comparison = TRUE)
 ``` r
 (emm <- emmeans(
   m_2,
-  revpairwise ~ site.type,
+  revpairwise ~ site.type | esy4,
   type = "response"
   ))
 ```
 
     ## $emmeans
-    ##  site.type emmean   SE  df lower.CL upper.CL
-    ##  positive     222 4.46 209      213      231
-    ##  restored     232 2.50 232      227      237
-    ##  negative     250 5.63 298      239      262
+    ## esy4 = R:
+    ##  site.type emmean    SE  df lower.CL upper.CL
+    ##  positive     226  4.75 259      217      236
+    ##  restored     234  2.59 282      229      239
+    ##  negative     261  4.49 210      252      269
     ## 
-    ## Results are averaged over the levels of: esy4, eco.id, obs.year 
+    ## esy4 = R22:
+    ##  site.type emmean    SE  df lower.CL upper.CL
+    ##  positive     233  5.68 407      222      244
+    ##  restored     243  2.71 305      238      248
+    ##  negative     253  6.48 529      240      265
+    ## 
+    ## esy4 = R1A:
+    ##  site.type emmean    SE  df lower.CL upper.CL
+    ##  positive     206  6.87 482      193      220
+    ##  restored     218  4.66 540      209      227
+    ##  negative     238 12.80 456      213      264
+    ## 
+    ## Results are averaged over the levels of: eco.id, obs.year 
     ## Degrees-of-freedom method: kenward-roger 
     ## Confidence level used: 0.95 
     ## 
     ## $contrasts
-    ##  contrast            estimate   SE  df t.ratio p.value
-    ##  restored - positive     9.68 5.12 214   1.893  0.1433
-    ##  negative - positive    28.53 7.21 260   3.960  0.0003
-    ##  negative - restored    18.85 6.14 283   3.068  0.0067
+    ## esy4 = R:
+    ##  contrast            estimate    SE  df t.ratio p.value
+    ##  restored - positive     7.83  5.41 264   1.447  0.3183
+    ##  negative - positive    34.32  6.53 234   5.255  <.0001
+    ##  negative - restored    26.49  5.19 226   5.108  <.0001
     ## 
-    ## Results are averaged over the levels of: esy4, eco.id, obs.year 
+    ## esy4 = R22:
+    ##  contrast            estimate    SE  df t.ratio p.value
+    ##  restored - positive     9.61  6.28 383   1.531  0.2775
+    ##  negative - positive    19.32  8.62 475   2.240  0.0656
+    ##  negative - restored     9.71  7.02 492   1.382  0.3510
+    ## 
+    ## esy4 = R1A:
+    ##  contrast            estimate    SE  df t.ratio p.value
+    ##  restored - positive    11.61  8.27 491   1.404  0.3394
+    ##  negative - positive    31.97 14.50 457   2.199  0.0725
+    ##  negative - restored    20.36 13.60 457   1.500  0.2918
+    ## 
+    ## Results are averaged over the levels of: eco.id, obs.year 
     ## Degrees-of-freedom method: kenward-roger 
     ## P value adjustment: tukey method for comparing a family of 3 estimates
 

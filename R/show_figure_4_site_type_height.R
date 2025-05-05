@@ -88,42 +88,53 @@ data_model <- ggemmeans(
 data <- sites %>%
   rename(predicted = y, x = site.type, group = esy4)
 
+data_line <- tibble(
+  yintercept = c(0.4460645, 0.4520012, 0.3530873),
+  group = c("R", "R22", "R1A")
+) %>%
+  mutate(group = fct_relevel(group, "R", "R22", "R1A"))
+
 graph_b <- ggplot() +
-    geom_quasirandom(
-      data = data,
-      aes(x = x, y = predicted, color = x),
-      dodge.width = .6, size = 1, shape = 16, alpha = .3
-    ) +
-    geom_errorbar(
-      data = data_model,
-      aes(x = x, y = predicted, ymin = conf.low, ymax = conf.high, color = x),
-      width = 0.0, linewidth = 0.4
-    ) +
-    geom_point(
-      data = data_model,
-      aes(x = x, y = predicted, color = x),
-      size = 2
-    ) +
-    facet_grid(~ group) +
-    scale_color_manual(
-      values = c(
-        "positive" = "#440154",
-        "restored" = "#21918c",
-        "negative" = "orange"
-      ), guide = "none"
-    ) +
-    labs(
-      x = "",
-      y = expression(CWM ~ canopy ~ height ~ "[" * m * "]"),
-      title = "Canopy height",
-      tag = "B"
-    ) +
-    theme_mb() +
-    theme(
-      axis.text.x = element_blank(),
-      axis.ticks.x = element_blank(),
-      axis.line.x = element_blank()
-    ); graph_b
+  geom_quasirandom(
+    data = data,
+    aes(x = x, y = predicted, color = x),
+    dodge.width = .6, size = 1, shape = 16, alpha = .3
+  ) +
+  geom_hline(
+    data = data_line,
+    aes(yintercept = yintercept, group = group),
+    linetype = "dashed"
+  ) +
+  geom_errorbar(
+    data = data_model,
+    aes(x = x, y = predicted, ymin = conf.low, ymax = conf.high, color = x),
+    width = 0.0, linewidth = 0.4
+  ) +
+  geom_point(
+    data = data_model,
+    aes(x = x, y = predicted, color = x),
+    size = 2
+  ) +
+  facet_grid(~ group) +
+  scale_color_manual(
+    values = c(
+      "positive" = "#440154",
+      "restored" = "#21918c",
+      "negative" = "orange"
+    ), guide = "none"
+  ) +
+  labs(
+    x = "",
+    y = expression(CWM ~ canopy ~ height ~ "[" * m * "]"),
+    title = "Canopy height",
+    tag = "B"
+  ) +
+  theme_mb() +
+  theme(
+    axis.text.x = element_blank(),
+    axis.ticks.x = element_blank(),
+    axis.line.x = element_blank()
+  ); graph_b
 
 #### * Save ####
 

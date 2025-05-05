@@ -170,9 +170,9 @@ Dormann et al. 2013 Ecography [DOI: 10.1111/j.1600-0587.2012.07348.x](https://do
 > **NOTE:** Only here you have to modify the script to compare other models
 
 ```{r load-models, collapse = TRUE}
-load(file = here("outputs", "models", "model_height_esy4_1.Rdata"))
+load(file = here("outputs", "models", "model_height_esy4_2.Rdata"))
 load(file = here("outputs", "models", "model_height_esy4_3.Rdata"))
-m_1 <- m1
+m_1 <- m2
 m_2 <- m3
 ```
 
@@ -271,7 +271,7 @@ necessary.
 
 ```{r effect-sizes-1, message = FALSE}
 (emm <- emmeans(
-  m_2,
+  m_1,
   revpairwise ~ esy4,
   type = "response"
   ))
@@ -282,8 +282,8 @@ plot(emm, comparison = TRUE)
 
 ```{r effect-sizes-2, message = FALSE}
 (emm <- emmeans(
-  m_2,
-  revpairwise ~ eco.id,
+  m_1,
+  revpairwise ~ eco.id | esy4,
   type = "response"
   ))
 plot(emm, comparison = TRUE)
@@ -293,8 +293,8 @@ plot(emm, comparison = TRUE)
 
 ```{r effect-sizes-3, message = FALSE}
 (emm <- emmeans(
-  m_2,
-  revpairwise ~ site.type,
+  m_1,
+  revpairwise ~ site.type | esy4,
   type = "response"
   ))
 plot(emm, comparison = TRUE)

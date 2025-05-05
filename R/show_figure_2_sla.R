@@ -102,7 +102,7 @@ graph_a <- ggplot() +
   geom_point(
     data = data_model,
     aes(x = x, y = predicted, color = x),
-    size = 2
+    size = 3
   ) +
   annotate("text", label = "a", y = 339, x = 1) +
   annotate("text", label = "a", y = 339, x = 2) +

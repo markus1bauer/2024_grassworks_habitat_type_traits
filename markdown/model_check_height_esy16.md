@@ -419,7 +419,7 @@ MuMIn::AICc(m_1, m_2) %>%
 ### Summary table
 
 ``` r
-car::Anova(m_1)
+car::Anova(m_1, type = 2)
 ```
 
     ## Note: model has aliased coefficients
@@ -546,67 +546,54 @@ plot(emm, comparison = TRUE)
 ``` r
 (emm <- emmeans(
   m_1,
-  revpairwise ~ esy16 + eco.id,
+  revpairwise ~ eco.id | esy16,
   type = "response"
   ))
 ```
 
     ## $emmeans
-    ##  esy16 eco.id emmean     SE  df lower.CL upper.CL
-    ##  R     654     0.513 0.0179 157    0.478    0.548
-    ##  R22   654     0.578 0.0268 157    0.525    0.631
-    ##  R1A   654     0.330 0.0249 157    0.281    0.380
-    ##  R     686     0.497 0.0164 157    0.464    0.529
-    ##  R22   686     0.468 0.0220 157    0.424    0.511
-    ##  R1A   686     0.417 0.0352 157    0.347    0.487
-    ##  R     664     0.490 0.0168 157    0.457    0.523
-    ##  R22   664     0.471 0.0197 157    0.432    0.510
-    ##  R1A   664    nonEst     NA  NA       NA       NA
+    ## esy16 = R:
+    ##  eco.id emmean     SE  df lower.CL upper.CL
+    ##  654     0.513 0.0179 157    0.478    0.548
+    ##  686     0.497 0.0164 157    0.464    0.529
+    ##  664     0.490 0.0168 157    0.457    0.523
+    ## 
+    ## esy16 = R22:
+    ##  eco.id emmean     SE  df lower.CL upper.CL
+    ##  654     0.578 0.0268 157    0.525    0.631
+    ##  686     0.468 0.0220 157    0.424    0.511
+    ##  664     0.471 0.0197 157    0.432    0.510
+    ## 
+    ## esy16 = R1A:
+    ##  eco.id emmean     SE  df lower.CL upper.CL
+    ##  654     0.330 0.0249 157    0.281    0.380
+    ##  686     0.417 0.0352 157    0.347    0.487
+    ##  664    nonEst     NA  NA       NA       NA
     ## 
     ## Results are averaged over the levels of: site.type, obs.year 
     ## Confidence level used: 0.95 
     ## 
     ## $contrasts
-    ##  contrast                      estimate     SE  df t.ratio p.value
-    ##  R22 eco.id654 - R eco.id654    0.06510 0.0322 157   2.022  0.4702
-    ##  R1A eco.id654 - R eco.id654   -0.18276 0.0307 157  -5.949  <.0001
-    ##  R1A eco.id654 - R22 eco.id654 -0.24786 0.0367 157  -6.760  <.0001
-    ##  R eco.id686 - R eco.id654     -0.01628 0.0236 157  -0.689  0.9972
-    ##  R eco.id686 - R22 eco.id654   -0.08137 0.0313 157  -2.596  0.1653
-    ##  R eco.id686 - R1A eco.id654    0.16648 0.0299 157   5.564  <.0001
-    ##  R22 eco.id686 - R eco.id654   -0.04552 0.0284 157  -1.605  0.7469
-    ##  R22 eco.id686 - R22 eco.id654 -0.11062 0.0297 157  -3.719  0.0066
-    ##  R22 eco.id686 - R1A eco.id654  0.13724 0.0333 157   4.117  0.0016
-    ##  R22 eco.id686 - R eco.id686   -0.02924 0.0274 157  -1.066  0.9628
-    ##  R1A eco.id686 - R eco.id654   -0.09603 0.0396 157  -2.427  0.2359
-    ##  R1A eco.id686 - R22 eco.id654 -0.16113 0.0444 157  -3.630  0.0090
-    ##  R1A eco.id686 - R1A eco.id654  0.08673 0.0389 157   2.228  0.3409
-    ##  R1A eco.id686 - R eco.id686   -0.07975 0.0390 157  -2.045  0.4556
-    ##  R1A eco.id686 - R22 eco.id686 -0.05051 0.0417 157  -1.213  0.9272
-    ##  R eco.id664 - R eco.id654     -0.02294 0.0240 157  -0.956  0.9797
-    ##  R eco.id664 - R22 eco.id654   -0.08804 0.0316 157  -2.784  0.1066
-    ##  R eco.id664 - R1A eco.id654    0.15981 0.0301 157   5.305  <.0001
-    ##  R eco.id664 - R eco.id686     -0.00667 0.0227 157  -0.294  1.0000
-    ##  R eco.id664 - R22 eco.id686    0.02257 0.0277 157   0.814  0.9921
-    ##  R eco.id664 - R1A eco.id686    0.07308 0.0391 157   1.869  0.5741
-    ##  R22 eco.id664 - R eco.id654   -0.04247 0.0266 157  -1.595  0.7525
-    ##  R22 eco.id664 - R22 eco.id654 -0.10757 0.0292 157  -3.684  0.0075
-    ##  R22 eco.id664 - R1A eco.id654  0.14029 0.0318 157   4.409  0.0005
-    ##  R22 eco.id664 - R eco.id686   -0.02619 0.0256 157  -1.022  0.9705
-    ##  R22 eco.id664 - R22 eco.id686  0.00305 0.0255 157   0.120  1.0000
-    ##  R22 eco.id664 - R1A eco.id686  0.05356 0.0404 157   1.325  0.8879
-    ##  R22 eco.id664 - R eco.id664   -0.01952 0.0259 157  -0.753  0.9951
-    ##  R1A eco.id664 - R eco.id654     nonEst     NA  NA      NA      NA
-    ##  R1A eco.id664 - R22 eco.id654   nonEst     NA  NA      NA      NA
-    ##  R1A eco.id664 - R1A eco.id654   nonEst     NA  NA      NA      NA
-    ##  R1A eco.id664 - R eco.id686     nonEst     NA  NA      NA      NA
-    ##  R1A eco.id664 - R22 eco.id686   nonEst     NA  NA      NA      NA
-    ##  R1A eco.id664 - R1A eco.id686   nonEst     NA  NA      NA      NA
-    ##  R1A eco.id664 - R eco.id664     nonEst     NA  NA      NA      NA
-    ##  R1A eco.id664 - R22 eco.id664   nonEst     NA  NA      NA      NA
+    ## esy16 = R:
+    ##  contrast              estimate     SE  df t.ratio p.value
+    ##  eco.id686 - eco.id654 -0.01628 0.0236 157  -0.689  0.7704
+    ##  eco.id664 - eco.id654 -0.02294 0.0240 157  -0.956  0.6057
+    ##  eco.id664 - eco.id686 -0.00667 0.0227 157  -0.294  0.9535
+    ## 
+    ## esy16 = R22:
+    ##  contrast              estimate     SE  df t.ratio p.value
+    ##  eco.id686 - eco.id654 -0.11062 0.0297 157  -3.719  0.0008
+    ##  eco.id664 - eco.id654 -0.10757 0.0292 157  -3.684  0.0009
+    ##  eco.id664 - eco.id686  0.00305 0.0255 157   0.120  0.9922
+    ## 
+    ## esy16 = R1A:
+    ##  contrast              estimate     SE  df t.ratio p.value
+    ##  eco.id686 - eco.id654  0.08673 0.0389 157   2.228  0.0273
+    ##  eco.id664 - eco.id654   nonEst     NA  NA      NA      NA
+    ##  eco.id664 - eco.id686   nonEst     NA  NA      NA      NA
     ## 
     ## Results are averaged over the levels of: site.type, obs.year 
-    ## P value adjustment: tukey method for comparing a family of 8 estimates
+    ## P value adjustment: tukey method for varying family sizes
 
 ``` r
 plot(emm, comparison = TRUE)
@@ -628,67 +615,54 @@ plot(emm, comparison = TRUE)
 ``` r
 (emm <- emmeans(
   m_1,
-  revpairwise ~ esy16 + site.type,
+  revpairwise ~ site.type | esy16,
   type = "response"
   ))
 ```
 
     ## $emmeans
-    ##  esy16 site.type emmean     SE  df lower.CL upper.CL
-    ##  R     positive   0.462 0.0215 157    0.420    0.505
-    ##  R22   positive   0.493 0.0324 157    0.430    0.557
-    ##  R1A   positive  nonEst     NA  NA       NA       NA
-    ##  R     restored   0.493 0.0131 157    0.467    0.519
-    ##  R22   restored   0.499 0.0128 157    0.474    0.524
-    ##  R1A   restored  nonEst     NA  NA       NA       NA
-    ##  R     negative   0.545 0.0183 157    0.508    0.581
-    ##  R22   negative   0.524 0.0334 157    0.458    0.590
-    ##  R1A   negative  nonEst     NA  NA       NA       NA
+    ## esy16 = R:
+    ##  site.type emmean     SE  df lower.CL upper.CL
+    ##  positive   0.462 0.0215 157    0.420    0.505
+    ##  restored   0.493 0.0131 157    0.467    0.519
+    ##  negative   0.545 0.0183 157    0.508    0.581
+    ## 
+    ## esy16 = R22:
+    ##  site.type emmean     SE  df lower.CL upper.CL
+    ##  positive   0.493 0.0324 157    0.430    0.557
+    ##  restored   0.499 0.0128 157    0.474    0.524
+    ##  negative   0.524 0.0334 157    0.458    0.590
+    ## 
+    ## esy16 = R1A:
+    ##  site.type emmean     SE  df lower.CL upper.CL
+    ##  positive  nonEst     NA  NA       NA       NA
+    ##  restored  nonEst     NA  NA       NA       NA
+    ##  negative  nonEst     NA  NA       NA       NA
     ## 
     ## Results are averaged over the levels of: eco.id, obs.year 
     ## Confidence level used: 0.95 
     ## 
     ## $contrasts
-    ##  contrast                     estimate     SE  df t.ratio p.value
-    ##  R22 positive - R positive    0.031332 0.0388 157   0.807  0.9770
-    ##  R1A positive - R positive      nonEst     NA  NA      NA      NA
-    ##  R1A positive - R22 positive    nonEst     NA  NA      NA      NA
-    ##  R restored - R positive      0.031110 0.0251 157   1.239  0.8518
-    ##  R restored - R22 positive   -0.000222 0.0349 157  -0.006  1.0000
-    ##  R restored - R1A positive      nonEst     NA  NA      NA      NA
-    ##  R22 restored - R positive    0.036671 0.0250 157   1.464  0.7306
-    ##  R22 restored - R22 positive  0.005339 0.0344 157   0.155  1.0000
-    ##  R22 restored - R1A positive    nonEst     NA  NA      NA      NA
-    ##  R22 restored - R restored    0.005561 0.0183 157   0.303  0.9999
-    ##  R1A restored - R positive      nonEst     NA  NA      NA      NA
-    ##  R1A restored - R22 positive    nonEst     NA  NA      NA      NA
-    ##  R1A restored - R1A positive  0.054756 0.0425 157   1.287  0.8285
-    ##  R1A restored - R restored      nonEst     NA  NA      NA      NA
-    ##  R1A restored - R22 restored    nonEst     NA  NA      NA      NA
-    ##  R negative - R positive      0.082477 0.0283 157   2.920  0.0530
-    ##  R negative - R22 positive    0.051145 0.0372 157   1.375  0.7824
-    ##  R negative - R1A positive      nonEst     NA  NA      NA      NA
-    ##  R negative - R restored      0.051367 0.0225 157   2.278  0.2364
-    ##  R negative - R22 restored    0.045806 0.0223 157   2.053  0.3537
-    ##  R negative - R1A restored      nonEst     NA  NA      NA      NA
-    ##  R22 negative - R positive    0.061917 0.0395 157   1.569  0.6648
-    ##  R22 negative - R22 positive  0.030585 0.0461 157   0.663  0.9912
-    ##  R22 negative - R1A positive    nonEst     NA  NA      NA      NA
-    ##  R22 negative - R restored    0.030807 0.0358 157   0.859  0.9690
-    ##  R22 negative - R22 restored  0.025247 0.0357 157   0.707  0.9878
-    ##  R22 negative - R1A restored    nonEst     NA  NA      NA      NA
-    ##  R22 negative - R negative   -0.020559 0.0381 157  -0.540  0.9969
-    ##  R1A negative - R positive      nonEst     NA  NA      NA      NA
-    ##  R1A negative - R22 positive    nonEst     NA  NA      NA      NA
-    ##  R1A negative - R1A positive  0.196282 0.0650 157   3.020  0.0401
-    ##  R1A negative - R restored      nonEst     NA  NA      NA      NA
-    ##  R1A negative - R22 restored    nonEst     NA  NA      NA      NA
-    ##  R1A negative - R1A restored  0.141526 0.0576 157   2.457  0.1639
-    ##  R1A negative - R negative      nonEst     NA  NA      NA      NA
-    ##  R1A negative - R22 negative    nonEst     NA  NA      NA      NA
+    ## esy16 = R:
+    ##  contrast            estimate     SE  df t.ratio p.value
+    ##  restored - positive  0.03111 0.0251 157   1.239  0.4324
+    ##  negative - positive  0.08248 0.0283 157   2.920  0.0112
+    ##  negative - restored  0.05137 0.0225 157   2.278  0.0619
+    ## 
+    ## esy16 = R22:
+    ##  contrast            estimate     SE  df t.ratio p.value
+    ##  restored - positive  0.00534 0.0344 157   0.155  0.9868
+    ##  negative - positive  0.03059 0.0461 157   0.663  0.7851
+    ##  negative - restored  0.02525 0.0357 157   0.707  0.7595
+    ## 
+    ## esy16 = R1A:
+    ##  contrast            estimate     SE  df t.ratio p.value
+    ##  restored - positive  0.05476 0.0425 157   1.287  0.4045
+    ##  negative - positive  0.19628 0.0650 157   3.020  0.0083
+    ##  negative - restored  0.14153 0.0576 157   2.457  0.0399
     ## 
     ## Results are averaged over the levels of: eco.id, obs.year 
-    ## P value adjustment: tukey method for comparing a family of 6.52079728939615 estimates
+    ## P value adjustment: tukey method for comparing a family of 3 estimates
 
 ``` r
 plot(emm, comparison = TRUE)
