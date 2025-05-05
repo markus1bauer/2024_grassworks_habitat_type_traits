@@ -244,7 +244,8 @@ MuMIn::AICc(m_1, m_2) %>%
 ### Summary table
 
 ```{r summary}
-summary(m_1)
+car::Anova(m_2)
+summary(m_2)
 ```
 
 ### Forest plot
@@ -268,8 +269,8 @@ necessary.
 
 ```{r effect-sizes-1, message = FALSE}
 (emm <- emmeans(
-  m_1,
-  revpairwise ~ esy4 + eco.id,
+  m_2,
+  revpairwise ~ eco.id,
   type = "response"
   ))
 plot(emm, comparison = TRUE)
@@ -279,8 +280,8 @@ plot(emm, comparison = TRUE)
 
 ```{r effect-sizes-2, message = FALSE}
 (emm <- emmeans(
-  m_1,
-  revpairwise ~ esy4 + site.type,
+  m_2,
+  revpairwise ~ site.type,
   type = "response"
   ))
 plot(emm, comparison = TRUE)

@@ -246,6 +246,7 @@ MuMIn::AICc(m_1, m_2) %>%
 ### Summary table
 
 ```{r summary}
+car::Anova(m_2)
 summary(m_2)
 ```
 
@@ -271,7 +272,7 @@ necessary.
 ```{r effect-sizes-1, message = FALSE}
 (emm <- emmeans(
   m_2,
-  revpairwise ~ esy4 + eco.id,
+  revpairwise ~ eco.id,
   type = "response"
   ))
 plot(emm, comparison = TRUE)
@@ -282,7 +283,7 @@ plot(emm, comparison = TRUE)
 ```{r effect-sizes-2, message = FALSE}
 (emm <- emmeans(
   m_2,
-  revpairwise ~ esy4 + site.type,
+  revpairwise ~ site.type,
   type = "response"
   ))
 plot(emm, comparison = TRUE)

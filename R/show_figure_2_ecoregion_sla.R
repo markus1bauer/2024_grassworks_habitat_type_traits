@@ -103,6 +103,6 @@ graph_a <- ggplot(sites, aes(y = y, x = eco.id, fill = eco.id)) +
 #### * Save ####
 
 ggsave(
-  here("outputs", "figures", "figure_2_ecoregion_sla_300dpi_8x8cm.tiff"),
-  dpi = 300, width = 8, height = 8, units = "cm"
+  here("outputs", "figures", "figure_2_ecoregion_sla_300dpi_14x8cm.tiff"),
+  dpi = 300, width = 14, height = 8, units = "cm"
 )

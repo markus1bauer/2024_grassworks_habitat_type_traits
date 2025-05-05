@@ -108,12 +108,6 @@ data_text <- tibble(
       aes(x = x, y = predicted, color = x),
       dodge.width = .6, size = 1, shape = 16, alpha = .4
     ) +
-    geom_text(
-      data = data_text,
-      aes(x = -Inf, y = -Inf, label = label),
-      hjust = -.6,
-      vjust = -10
-      ) +
     geom_errorbar(
       data = data_model,
       aes(x = x, y = predicted, ymin = conf.low, ymax = conf.high, color = x),
@@ -124,6 +118,12 @@ data_text <- tibble(
       aes(x = x, y = predicted, color = x),
       size = 2
     ) +
+    geom_text(
+      data = data_text,
+      aes(x = -Inf, y = -Inf, label = label),
+      hjust = -.5,
+      vjust = -5.6
+      ) +
     facet_grid(~ group) +
     scale_y_continuous(limits = c(0, .005), breaks = seq(0, 0.1, 0.001)) +
     annotate("text", label = "a", ) +
@@ -145,6 +145,6 @@ data_text <- tibble(
 #### * Save ####
 
 ggsave(
-  here("outputs", "figures", "figure_2_ecoregion_seedmass_300dpi_8x8cm.tiff"),
-  dpi = 300, width = 8, height = 8, units = "cm"
+  here("outputs", "figures", "figure_2_ecoregion_seedmass_300dpi_14x8cm.tiff"),
+  dpi = 300, width = 14, height = 8, units = "cm"
 )
