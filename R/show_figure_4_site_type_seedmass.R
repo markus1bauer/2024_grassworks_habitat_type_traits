@@ -68,8 +68,8 @@ sites <- read_csv(
   rename(y = cwm.abu.seedmass)
 
 ### * Model ####
-load(file = here("outputs", "models", "model_seedmass_esy4_1.Rdata"))
-m <- m1
+load(file = here("outputs", "models", "model_seedmass_esy4_2.Rdata"))
+m <- m2
 m@call
 
 
@@ -88,7 +88,7 @@ data <- sites %>%
   rename(predicted = y, x = site.type, group = esy4)
 
 data_text <- tibble(
-  label = c("", "", "Site type n.s.\nInteraction n.s."),
+  label = c("", "", "Site type n.s. \n Interaction n.s."),
   group = c("R", "R22", "R1A")
 ) %>%
   mutate(group = fct_relevel(group, "R", "R22", "R1A"))
@@ -97,7 +97,7 @@ data_text <- tibble(
     geom_quasirandom(
       data = data,
       aes(x = x, y = predicted, color = x),
-      dodge.width = .6, size = 1, shape = 16, alpha = .4
+      dodge.width = .6, size = 1, shape = 16, alpha = .3
     ) +
     geom_errorbar(
       data = data_model,
@@ -109,12 +109,12 @@ data_text <- tibble(
       aes(x = x, y = predicted, color = x),
       size = 2
     ) +
-    geom_text(
-      data = data_text,
-      aes(x = -Inf, y = -Inf, label = label),
-      hjust = -.5,
-      vjust = -5.6
-    ) +
+    # geom_text(
+    #   data = data_text,
+    #   aes(x = -Inf, y = -Inf, label = label),
+    #   hjust = -.5,
+    #   vjust = -5.6
+    # ) +
     facet_grid(~ group) +
     scale_y_continuous(limits = c(0, .005), breaks = seq(0, 0.1, 0.001)) +
     scale_color_manual(
@@ -131,6 +131,7 @@ data_text <- tibble(
       tag = "C"
     ) +
     theme_mb())
+
 
 #### * Save ####
 
