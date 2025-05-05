@@ -2,7 +2,7 @@ Analysis of Bauer et al. (submitted) Functional traits of grasslands:
 <br> Community weighted mean of seed mass per plot (esy4)
 ================
 <b>Markus Bauer</b> <br>
-<b>2025-04-29</b>
+<b>2025-05-05</b>
 
 - [Preparation](#preparation)
 - [Statistics](#statistics)
@@ -415,6 +415,23 @@ MuMIn::AICc(m_1, m_2) %>%
 ### Summary table
 
 ``` r
+car::Anova(m_1)
+```
+
+    ## Analysis of Deviance Table (Type II Wald chisquare tests)
+    ## 
+    ## Response: log(y)
+    ##                  Chisq Df Pr(>Chisq)    
+    ## esy4            5.0559  2    0.07982 .  
+    ## site.type       0.0859  2    0.95795    
+    ## eco.id         21.3800  2  2.277e-05 ***
+    ## obs.year        3.6354  1    0.05656 .  
+    ## esy4:site.type  2.0850  4    0.72013    
+    ## esy4:eco.id     1.9936  3    0.57374    
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+``` r
 summary(m_1)
 ```
 
@@ -479,7 +496,53 @@ dotwhisker::dwplot(
 Effect sizes of chosen model just to get exact values of means etc. if
 necessary.
 
-#### Habiat type x Region
+#### ESY EUNIS Habitat type
+
+``` r
+(emm <- emmeans(
+  m_1,
+  revpairwise ~ esy4,
+  type = "response"
+  ))
+```
+
+    ## $emmeans
+    ##  esy4 response       SE  df lower.CL upper.CL
+    ##  R     0.00119 6.52e-05 245 0.001068  0.00133
+    ##  R22   0.00115 8.22e-05 475 0.000997  0.00132
+    ##  R1A    nonEst       NA  NA       NA       NA
+    ## 
+    ## Results are averaged over the levels of: site.type, eco.id, obs.year 
+    ## Degrees-of-freedom method: kenward-roger 
+    ## Confidence level used: 0.95 
+    ## Intervals are back-transformed from the log scale 
+    ## 
+    ## $contrasts
+    ##  contrast   ratio    SE  df null t.ratio p.value
+    ##  R22 / R    0.965 0.062 595    1  -0.558  0.5768
+    ##  R1A / R   nonEst    NA  NA    1      NA      NA
+    ##  R1A / R22 nonEst    NA  NA    1      NA      NA
+    ## 
+    ## Results are averaged over the levels of: site.type, eco.id, obs.year 
+    ## Degrees-of-freedom method: kenward-roger 
+    ## P value adjustment: tukey method for comparing a family of 2 estimates 
+    ## Tests are performed on the log scale
+
+``` r
+plot(emm, comparison = TRUE)
+```
+
+    ## Warning: Removed 1 row containing missing values or values outside the scale range
+    ## (`geom_point()`).
+
+    ## Warning: Removed 1 row containing missing values or values outside the scale range
+    ## (`geom_segment()`).
+
+    ## Warning: Removed 1 row containing missing values or values outside the scale range
+    ## (`geom_point()`).
+
+![](model_check_seedmass_esy4_files/figure-gfm/effect-sizes-1-1.png)<!-- -->
+\#### Habiat type x Region
 
 ``` r
 (emm <- emmeans(
@@ -563,7 +626,7 @@ plot(emm, comparison = TRUE)
     ## Warning: Removed 1 row containing missing values or values outside the scale range
     ## (`geom_point()`).
 
-![](model_check_seedmass_esy4_files/figure-gfm/effect-sizes-1-1.png)<!-- -->
+![](model_check_seedmass_esy4_files/figure-gfm/effect-sizes-2-1.png)<!-- -->
 
 #### Habiat type x Site type
 
@@ -649,7 +712,7 @@ plot(emm, comparison = TRUE)
     ## Warning: Removed 3 rows containing missing values or values outside the scale range
     ## (`geom_point()`).
 
-![](model_check_seedmass_esy4_files/figure-gfm/effect-sizes-2-1.png)<!-- -->
+![](model_check_seedmass_esy4_files/figure-gfm/effect-sizes-3-1.png)<!-- -->
 
 # Session info
 
@@ -697,18 +760,19 @@ plot(emm, comparison = TRUE)
     ##  [49] abind_1.4-8         yaml_2.3.9          MuMIn_1.48.11      
     ##  [52] doParallel_1.0.17   codetools_0.2-20    nonnest2_0.5-8     
     ##  [55] lattice_0.22-6      plyr_1.8.9          shiny_1.10.0       
-    ##  [58] withr_3.0.0         bayestestR_0.15.2   evaluate_0.24.0    
-    ##  [61] CompQuadForm_1.4.3  pillar_1.9.0        gap_1.6            
-    ##  [64] carData_3.0-5       foreach_1.5.2       stats4_4.4.2       
-    ##  [67] reformulas_0.4.0    insight_1.1.0       generics_0.1.3     
-    ##  [70] vroom_1.6.5         rprojroot_2.0.4     hms_1.1.3          
-    ##  [73] munsell_0.5.1       scales_1.3.0        minqa_1.2.8        
-    ##  [76] xtable_1.8-4        glue_1.7.0          tools_4.4.2        
-    ##  [79] lme4_1.1-37         mvtnorm_1.3-3       grid_4.4.2         
-    ##  [82] rbibutils_2.3       datawizard_1.0.2    colorspace_2.1-0   
-    ##  [85] nlme_3.1-164        Rmisc_1.5.1         performance_0.13.0 
-    ##  [88] beeswarm_0.4.0      vipor_0.4.7         Formula_1.2-5      
-    ##  [91] cli_3.6.3           fansi_1.0.6         gtable_0.3.5       
-    ##  [94] digest_0.6.36       pbkrtest_0.5.3      farver_2.1.2       
-    ##  [97] htmltools_0.5.8.1   lifecycle_1.0.4     mime_0.12          
-    ## [100] bit64_4.0.5         dotwhisker_0.8.3    MASS_7.3-60.2
+    ##  [58] withr_3.0.0         bayestestR_0.15.2   coda_0.19-4.1      
+    ##  [61] evaluate_0.24.0     CompQuadForm_1.4.3  pillar_1.9.0       
+    ##  [64] gap_1.6             carData_3.0-5       foreach_1.5.2      
+    ##  [67] stats4_4.4.2        reformulas_0.4.0    insight_1.1.0      
+    ##  [70] generics_0.1.3      vroom_1.6.5         rprojroot_2.0.4    
+    ##  [73] hms_1.1.3           munsell_0.5.1       scales_1.3.0       
+    ##  [76] minqa_1.2.8         xtable_1.8-4        glue_1.7.0         
+    ##  [79] tools_4.4.2         lme4_1.1-37         mvtnorm_1.3-3      
+    ##  [82] grid_4.4.2          rbibutils_2.3       datawizard_1.0.2   
+    ##  [85] colorspace_2.1-0    nlme_3.1-164        Rmisc_1.5.1        
+    ##  [88] performance_0.13.0  beeswarm_0.4.0      vipor_0.4.7        
+    ##  [91] Formula_1.2-5       cli_3.6.3           fansi_1.0.6        
+    ##  [94] gtable_0.3.5        digest_0.6.36       pbkrtest_0.5.3     
+    ##  [97] farver_2.1.2        htmltools_0.5.8.1   lifecycle_1.0.4    
+    ## [100] mime_0.12           bit64_4.0.5         dotwhisker_0.8.3   
+    ## [103] MASS_7.3-60.2

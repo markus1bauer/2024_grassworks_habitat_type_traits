@@ -2,7 +2,7 @@ Analysis of Bauer et al. (submitted) Functional traits of grasslands:
 <br> Average community weighted mean of seed mass per block (esy16)
 ================
 <b>Markus Bauer</b> <br>
-<b>2025-04-29</b>
+<b>2025-05-05</b>
 
 - [Preparation](#preparation)
 - [Statistics](#statistics)
@@ -418,6 +418,27 @@ MuMIn::AICc(m_1, m_2) %>%
 ### Summary table
 
 ``` r
+car::Anova(m_1)
+```
+
+    ## Note: model has aliased coefficients
+    ##       sums of squares computed by model comparison
+
+    ## Anova Table (Type II tests)
+    ## 
+    ## Response: y
+    ##                     Sum Sq  Df F value    Pr(>F)    
+    ## esy16           5.9850e-06   2  4.1774 0.0170647 *  
+    ## site.type       2.0550e-06   2  1.4343 0.2413615    
+    ## eco.id          1.0283e-05   2  7.1780 0.0010380 ** 
+    ## obs.year        8.2080e-06   1 11.4583 0.0008979 ***
+    ## esy16:site.type 3.1700e-07   4  0.1107 0.9786462    
+    ## esy16:eco.id    5.9270e-06   3  2.7583 0.0441686 *  
+    ## Residuals       1.1318e-04 158                      
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+``` r
 summary(m_1)
 ```
 
@@ -475,6 +496,49 @@ dotwhisker::dwplot(
 
 Effect sizes of chosen model just to get exact values of means etc. if
 necessary.
+
+#### ESY EUNIS Habitat type
+
+``` r
+(emm <- emmeans(
+  m_1,
+  revpairwise ~ esy16,
+  type = "response"
+  ))
+```
+
+    ## $emmeans
+    ##  esy16  emmean       SE  df lower.CL upper.CL
+    ##  R     0.00141 0.000100 158  0.00121  0.00160
+    ##  R22   0.00160 0.000157 158  0.00128  0.00191
+    ##  R1A    nonEst       NA  NA       NA       NA
+    ## 
+    ## Results are averaged over the levels of: site.type, eco.id, obs.year 
+    ## Confidence level used: 0.95 
+    ## 
+    ## $contrasts
+    ##  contrast  estimate       SE  df t.ratio p.value
+    ##  R22 - R   0.000188 0.000186 158   1.010  0.3139
+    ##  R1A - R     nonEst       NA  NA      NA      NA
+    ##  R1A - R22   nonEst       NA  NA      NA      NA
+    ## 
+    ## Results are averaged over the levels of: site.type, eco.id, obs.year 
+    ## P value adjustment: tukey method for comparing a family of 2 estimates
+
+``` r
+plot(emm, comparison = TRUE)
+```
+
+    ## Warning: Removed 1 row containing missing values or values outside the scale range
+    ## (`geom_point()`).
+
+    ## Warning: Removed 1 row containing missing values or values outside the scale range
+    ## (`geom_segment()`).
+
+    ## Warning: Removed 1 row containing missing values or values outside the scale range
+    ## (`geom_point()`).
+
+![](model_check_seedmass_esy16_files/figure-gfm/effect-sizes-1-1.png)<!-- -->
 
 #### Habiat type x Region
 
@@ -556,7 +620,7 @@ plot(emm, comparison = TRUE)
     ## Warning: Removed 1 row containing missing values or values outside the scale range
     ## (`geom_point()`).
 
-![](model_check_seedmass_esy16_files/figure-gfm/effect-sizes-1-1.png)<!-- -->
+![](model_check_seedmass_esy16_files/figure-gfm/effect-sizes-2-1.png)<!-- -->
 
 #### Habiat type x Site type
 
@@ -638,7 +702,7 @@ plot(emm, comparison = TRUE)
     ## Warning: Removed 3 rows containing missing values or values outside the scale range
     ## (`geom_point()`).
 
-![](model_check_seedmass_esy16_files/figure-gfm/effect-sizes-2-1.png)<!-- -->
+![](model_check_seedmass_esy16_files/figure-gfm/effect-sizes-3-1.png)<!-- -->
 
 # Session info
 
@@ -688,5 +752,5 @@ plot(emm, comparison = TRUE)
     ## [73] R6_2.5.1           Rdpack_2.6.3       doParallel_1.0.17  rprojroot_2.0.4   
     ## [77] vroom_1.6.5        evaluate_0.24.0    shiny_1.10.0       lattice_0.22-6    
     ## [81] highr_0.11         rbibutils_2.3      httpuv_1.6.15      Rcpp_1.0.14       
-    ## [85] gridExtra_2.3      nlme_3.1-164       MuMIn_1.48.11      mgcv_1.9-1        
-    ## [89] xfun_0.45          pkgconfig_2.0.3
+    ## [85] gridExtra_2.3      coda_0.19-4.1      nlme_3.1-164       MuMIn_1.48.11     
+    ## [89] mgcv_1.9-1         xfun_0.45          pkgconfig_2.0.3

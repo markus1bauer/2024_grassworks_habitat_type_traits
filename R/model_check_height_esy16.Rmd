@@ -269,9 +269,20 @@ dotwhisker::dwplot(
 Effect sizes of chosen model just to get exact values of means etc. if
 necessary.
 
-#### Habiat type x Region
+#### ESY EUNIS Habitat type
 
 ```{r effect-sizes-1, message = FALSE}
+(emm <- emmeans(
+  m_1,
+  revpairwise ~ esy16,
+  type = "response"
+  ))
+plot(emm, comparison = TRUE)
+```
+
+#### Habiat type x Region
+
+```{r effect-sizes-2, message = FALSE}
 (emm <- emmeans(
   m_1,
   revpairwise ~ esy16 + eco.id,
@@ -282,7 +293,7 @@ plot(emm, comparison = TRUE)
 
 #### Habiat type x Site type
 
-```{r effect-sizes-2, message = FALSE}
+```{r effect-sizes-3, message = FALSE}
 (emm <- emmeans(
   m_1,
   revpairwise ~ esy16 + site.type,

@@ -1,9 +1,8 @@
 Analysis of Bauer et al. (submitted) Functional traits of grasslands:
-<br> Average community weighted mean of specific leaf area (SLA) per
-plot (esy4)
+<br> Community weighted mean of specific leaf area (SLA) per plot (esy4)
 ================
 <b>Markus Bauer</b> <br>
-<b>2025-04-29</b>
+<b>2025-05-05</b>
 
 - [Preparation](#preparation)
 - [Statistics](#statistics)
@@ -416,51 +415,82 @@ MuMIn::AICc(m_1, m_2) %>%
 ### Summary table
 
 ``` r
-summary(m_1)
+car::Anova(m_2)
+```
+
+    ## Analysis of Deviance Table (Type II Wald chisquare tests)
+    ## 
+    ## Response: y
+    ##                  Chisq Df Pr(>Chisq)    
+    ## esy4           39.9739  2  2.088e-09 ***
+    ## site.type      31.6787  2  1.321e-07 ***
+    ## eco.id         30.8138  2  2.036e-07 ***
+    ## obs.year        0.7035  1     0.4016    
+    ## esy4:site.type  7.7568  4     0.1009    
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+``` r
+summary(m_2)
 ```
 
     ## Linear mixed model fit by maximum likelihood  ['lmerMod']
-    ## Formula: y ~ esy4 * (site.type + eco.id) + obs.year + (1 | id.site)
+    ## Formula: y ~ esy4 * site.type + eco.id + obs.year + (1 | id.site)
     ##    Data: sites
     ## 
     ##       AIC       BIC    logLik -2*log(L)  df.resid 
-    ##    5777.5    5853.4   -2871.7    5743.5       624 
+    ##    5771.9    5834.4   -2872.0    5743.9       627 
     ## 
     ## Scaled residuals: 
     ##     Min      1Q  Median      3Q     Max 
-    ## -3.6928 -0.5345  0.0068  0.4872  3.0424 
+    ## -3.7026 -0.5386  0.0059  0.4887  3.0485 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  id.site  (Intercept) 502.6    22.42   
-    ##  Residual             255.5    15.98   
+    ##  id.site  (Intercept) 505.9    22.49   
+    ##  Residual             255.1    15.97   
     ## Number of obs: 641, groups:  id.site, 182
     ## 
     ## Fixed effects:
     ##                     Estimate Std. Error t value
-    ## (Intercept)         227.6264     4.2135  54.023
-    ## esy4R22               4.3427     4.2344   1.026
-    ## esy4R1A             -19.2575     5.7309  -3.360
-    ## site.type.L          24.2126     4.5143   5.364
-    ## site.type.Q           7.5498     3.3344   2.264
-    ## eco.id686            16.7447     4.8330   3.465
-    ## eco.id664            26.2875     5.0106   5.246
-    ## obs.year2023         -3.0880     3.6089  -0.856
-    ## esy4R22:site.type.L -10.9172     5.3162  -2.054
-    ## esy4R1A:site.type.L  -1.6584    10.3451  -0.160
-    ## esy4R22:site.type.Q  -7.3472     3.6263  -2.026
-    ## esy4R1A:site.type.Q  -4.0051     7.0276  -0.570
-    ## esy4R22:eco.id686    -1.6401     4.8107  -0.341
-    ## esy4R1A:eco.id686    -0.1068     7.4929  -0.014
-    ## esy4R22:eco.id664    -3.5242     5.2531  -0.671
-
+    ## (Intercept)          228.048      4.062  56.146
+    ## esy4R22                2.521      2.619   0.963
+    ## esy4R1A              -19.481      5.072  -3.841
+    ## site.type.L           24.265      4.523   5.365
+    ## site.type.Q            7.619      3.339   2.282
+    ## eco.id686             16.357      4.418   3.702
+    ## eco.id664             25.067      4.588   5.464
+    ## obs.year2023          -3.034      3.618  -0.839
+    ## esy4R22:site.type.L  -10.605      5.295  -2.003
+    ## esy4R1A:site.type.L   -1.659     10.094  -0.164
+    ## esy4R22:site.type.Q   -7.581      3.607  -2.102
+    ## esy4R1A:site.type.Q   -4.045      6.893  -0.587
     ## 
-    ## Correlation matrix not shown by default, as p = 15 > 12.
-    ## Use print(x, correlation=TRUE)  or
-    ##     vcov(x)        if you need it
-
-    ## fit warnings:
-    ## fixed-effect model matrix is rank deficient so dropping 1 column / coefficient
+    ## Correlation of Fixed Effects:
+    ##             (Intr) es4R22 es4R1A st.t.L st.t.Q ec.686 ec.664 o.2023 e4R22:..L
+    ## esy4R22     -0.145                                                           
+    ## esy4R1A     -0.288  0.080                                                    
+    ## site.type.L -0.076  0.042 -0.013                                             
+    ## site.type.Q  0.311 -0.121 -0.122 -0.045                                      
+    ## eco.id686   -0.591 -0.019  0.122  0.063 -0.005                               
+    ## eco.id664   -0.588 -0.055  0.168  0.040  0.008  0.525                        
+    ## obs.yer2023 -0.491  0.034  0.102  0.016 -0.070  0.013  0.028                 
+    ## esy4R22:..L -0.006  0.130 -0.011 -0.260  0.035  0.016  0.044  0.014          
+    ## esy4R1A:..L -0.089 -0.021  0.555 -0.223 -0.023  0.078  0.058  0.052  0.082   
+    ## esy4R22:..Q -0.087  0.650  0.039  0.039 -0.313  0.010 -0.011  0.034  0.117   
+    ## esy4R1A:..Q -0.120  0.037  0.637 -0.017 -0.248  0.054  0.031  0.036 -0.016   
+    ##             e4R1A:..L e4R22:..Q
+    ## esy4R22                        
+    ## esy4R1A                        
+    ## site.type.L                    
+    ## site.type.Q                    
+    ## eco.id686                      
+    ## eco.id664                      
+    ## obs.yer2023                    
+    ## esy4R22:..L                    
+    ## esy4R1A:..L                    
+    ## esy4R22:..Q -0.015             
+    ## esy4R1A:..Q  0.491     0.106
 
 ### Forest plot
 
@@ -474,11 +504,6 @@ dotwhisker::dwplot(
   theme_classic()
 ```
 
-    ## Package 'merDeriv' needs to be installed to compute confidence intervals
-    ##   for random effect parameters.
-    ## Package 'merDeriv' needs to be installed to compute confidence intervals
-    ##   for random effect parameters.
-
 ![](model_check_sla_esy4_files/figure-gfm/predicted_values-1.png)<!-- -->
 
 ### Effect sizes
@@ -486,173 +511,112 @@ dotwhisker::dwplot(
 Effect sizes of chosen model just to get exact values of means etc. if
 necessary.
 
-#### Habiat type x Region
+#### ESY EUNIS Habitat type
 
 ``` r
 (emm <- emmeans(
-  m_1,
-  revpairwise ~ esy4 + eco.id,
+  m_2,
+  revpairwise ~ esy4,
   type = "response"
   ))
 ```
 
     ## $emmeans
-    ##  esy4 eco.id emmean   SE  df lower.CL upper.CL
-    ##  R    654       226 3.81 263      219      234
-    ##  R22  654       230 4.89 470      221      240
-    ##  R1A  654       207 5.74 401      196      218
-    ##  R    686       243 3.54 240      236      250
-    ##  R22  686       246 4.18 386      237      254
-    ##  R1A  686       223 7.25 524      209      238
-    ##  R    664       252 3.81 258      245      260
-    ##  R22  664       253 4.28 356      245      262
-    ##  R1A  664    nonEst   NA  NA       NA       NA
+    ##  esy4 emmean   SE  df lower.CL upper.CL
+    ##  R       240 2.34 242      236      245
+    ##  R22     243 3.01 460      237      249
+    ##  R1A     221 5.13 483      211      231
     ## 
-    ## Results are averaged over the levels of: site.type, obs.year 
+    ## Results are averaged over the levels of: site.type, eco.id, obs.year 
     ## Degrees-of-freedom method: kenward-roger 
     ## Confidence level used: 0.95 
     ## 
     ## $contrasts
-    ##  contrast                      estimate   SE  df t.ratio p.value
-    ##  R22 eco.id654 - R eco.id654      4.343 4.28 583   1.014  0.9723
-    ##  R1A eco.id654 - R eco.id654    -19.257 5.83 610  -3.301  0.0226
-    ##  R1A eco.id654 - R22 eco.id654  -23.600 6.78 632  -3.480  0.0125
-    ##  R eco.id686 - R eco.id654       16.745 4.94 260   3.390  0.0181
-    ##  R eco.id686 - R22 eco.id654     12.402 5.85 401   2.119  0.4047
-    ##  R eco.id686 - R1A eco.id654     36.002 6.65 368   5.414  <.0001
-    ##  R22 eco.id686 - R eco.id654     19.447 5.48 350   3.546  0.0104
-    ##  R22 eco.id686 - R22 eco.id654   15.105 5.75 386   2.625  0.1501
-    ##  R22 eco.id686 - R1A eco.id654   38.705 7.03 415   5.509  <.0001
-    ##  R22 eco.id686 - R eco.id686      2.703 3.49 560   0.775  0.9943
-    ##  R1A eco.id686 - R eco.id654     -2.620 8.16 474  -0.321  1.0000
-    ##  R1A eco.id686 - R22 eco.id654   -6.962 8.74 517  -0.796  0.9933
-    ##  R1A eco.id686 - R1A eco.id654   16.638 7.70 497   2.160  0.3781
-    ##  R1A eco.id686 - R eco.id686    -19.364 7.13 637  -2.714  0.1201
-    ##  R1A eco.id686 - R22 eco.id686  -22.067 7.59 644  -2.909  0.0725
-    ##  R eco.id664 - R eco.id654       26.288 5.12 267   5.134  <.0001
-    ##  R eco.id664 - R22 eco.id654     21.945 6.02 403   3.647  0.0072
-    ##  R eco.id664 - R1A eco.id654     45.545 6.78 370   6.715  <.0001
-    ##  R eco.id664 - R eco.id686        9.543 4.93 259   1.935  0.5283
-    ##  R eco.id664 - R22 eco.id686      6.840 5.44 347   1.258  0.9136
-    ##  R eco.id664 - R1A eco.id686     28.907 8.13 475   3.555  0.0098
-    ##  R22 eco.id664 - R eco.id654     27.106 5.55 335   4.885  <.0001
-    ##  R22 eco.id664 - R22 eco.id654   22.763 5.88 377   3.874  0.0031
-    ##  R22 eco.id664 - R1A eco.id654   46.363 7.07 403   6.553  <.0001
-    ##  R22 eco.id664 - R eco.id686     10.361 5.31 325   1.950  0.5178
-    ##  R22 eco.id664 - R22 eco.id686    7.659 5.31 317   1.441  0.8373
-    ##  R22 eco.id664 - R1A eco.id686   29.725 8.35 494   3.560  0.0096
-    ##  R22 eco.id664 - R eco.id664      0.818 4.03 634   0.203  1.0000
-    ##  R1A eco.id664 - R eco.id654     nonEst   NA  NA      NA      NA
-    ##  R1A eco.id664 - R22 eco.id654   nonEst   NA  NA      NA      NA
-    ##  R1A eco.id664 - R1A eco.id654   nonEst   NA  NA      NA      NA
-    ##  R1A eco.id664 - R eco.id686     nonEst   NA  NA      NA      NA
-    ##  R1A eco.id664 - R22 eco.id686   nonEst   NA  NA      NA      NA
-    ##  R1A eco.id664 - R1A eco.id686   nonEst   NA  NA      NA      NA
-    ##  R1A eco.id664 - R eco.id664     nonEst   NA  NA      NA      NA
-    ##  R1A eco.id664 - R22 eco.id664   nonEst   NA  NA      NA      NA
+    ##  contrast  estimate   SE  df t.ratio p.value
+    ##  R22 - R       2.52 2.64 581   0.955  0.6058
+    ##  R1A - R     -19.48 5.15 587  -3.780  0.0005
+    ##  R1A - R22   -22.00 5.60 610  -3.927  0.0003
     ## 
-    ## Results are averaged over the levels of: site.type, obs.year 
+    ## Results are averaged over the levels of: site.type, eco.id, obs.year 
     ## Degrees-of-freedom method: kenward-roger 
-    ## P value adjustment: tukey method for comparing a family of 8 estimates
+    ## P value adjustment: tukey method for comparing a family of 3 estimates
 
 ``` r
 plot(emm, comparison = TRUE)
 ```
 
-    ## Warning: Removed 1 row containing missing values or values outside the scale range
-    ## (`geom_point()`).
-
-    ## Warning: Removed 1 row containing missing values or values outside the scale range
-    ## (`geom_segment()`).
-
-    ## Warning: Removed 1 row containing missing values or values outside the scale range
-    ## (`geom_point()`).
-
 ![](model_check_sla_esy4_files/figure-gfm/effect-sizes-1-1.png)<!-- -->
+\#### Habiat type x Region
+
+``` r
+(emm <- emmeans(
+  m_2,
+  revpairwise ~ eco.id,
+  type = "response"
+  ))
+```
+
+    ## $emmeans
+    ##  eco.id emmean   SE  df lower.CL upper.CL
+    ##  654       221 3.56 208      214      228
+    ##  686       237 3.59 222      230      244
+    ##  664       246 3.81 238      238      253
+    ## 
+    ## Results are averaged over the levels of: esy4, site.type, obs.year 
+    ## Degrees-of-freedom method: kenward-roger 
+    ## Confidence level used: 0.95 
+    ## 
+    ## $contrasts
+    ##  contrast              estimate   SE  df t.ratio p.value
+    ##  eco.id686 - eco.id654    16.36 4.52 193   3.622  0.0011
+    ##  eco.id664 - eco.id654    25.07 4.69 204   5.347  <.0001
+    ##  eco.id664 - eco.id686     8.71 4.49 192   1.941  0.1302
+    ## 
+    ## Results are averaged over the levels of: esy4, site.type, obs.year 
+    ## Degrees-of-freedom method: kenward-roger 
+    ## P value adjustment: tukey method for comparing a family of 3 estimates
+
+``` r
+plot(emm, comparison = TRUE)
+```
+
+![](model_check_sla_esy4_files/figure-gfm/effect-sizes-2-1.png)<!-- -->
 
 #### Habiat type x Site type
 
 ``` r
 (emm <- emmeans(
-  m_1,
-  revpairwise ~ esy4 + site.type,
+  m_2,
+  revpairwise ~ site.type,
   type = "response"
   ))
 ```
 
     ## $emmeans
-    ##  esy4 site.type emmean   SE  df lower.CL upper.CL
-    ##  R    positive     226 4.75 261      217      236
-    ##  R22  positive     234 5.75 418      222      245
-    ##  R1A  positive  nonEst   NA  NA       NA       NA
-    ##  R    restored     234 2.61 282      229      239
-    ##  R22  restored     243 2.72 308      238      248
-    ##  R1A  restored  nonEst   NA  NA       NA       NA
-    ##  R    negative     261 4.48 211      252      269
-    ##  R22  negative     253 6.50 530      240      265
-    ##  R1A  negative  nonEst   NA  NA       NA       NA
+    ##  site.type emmean   SE  df lower.CL upper.CL
+    ##  positive     222 4.46 209      213      231
+    ##  restored     232 2.50 232      227      237
+    ##  negative     250 5.63 298      239      262
     ## 
-    ## Results are averaged over the levels of: eco.id, obs.year 
+    ## Results are averaged over the levels of: esy4, eco.id, obs.year 
     ## Degrees-of-freedom method: kenward-roger 
     ## Confidence level used: 0.95 
     ## 
     ## $contrasts
-    ##  contrast                    estimate    SE  df t.ratio p.value
-    ##  R22 positive - R positive      7.341  5.04 588   1.457  0.7354
-    ##  R1A positive - R positive     nonEst    NA  NA      NA      NA
-    ##  R1A positive - R22 positive   nonEst    NA  NA      NA      NA
-    ##  R restored - R positive        7.874  5.41 265   1.456  0.7357
-    ##  R restored - R22 positive      0.533  6.28 390   0.085  1.0000
-    ##  R restored - R1A positive     nonEst    NA  NA      NA      NA
-    ##  R22 restored - R positive     16.494  5.47 271   3.014  0.0389
-    ##  R22 restored - R22 positive    9.153  6.32 389   1.448  0.7403
-    ##  R22 restored - R1A positive   nonEst    NA  NA      NA      NA
-    ##  R22 restored - R restored      8.620  2.40 597   3.593  0.0056
-    ##  R1A restored - R positive     nonEst    NA  NA      NA      NA
-    ##  R1A restored - R22 positive   nonEst    NA  NA      NA      NA
-    ##  R1A restored - R1A positive   11.607  8.27 492   1.403  0.7671
-    ##  R1A restored - R restored     nonEst    NA  NA      NA      NA
-    ##  R1A restored - R22 restored   nonEst    NA  NA      NA      NA
-    ##  R negative - R positive       34.242  6.53 234   5.244  <.0001
-    ##  R negative - R22 positive     26.900  7.29 321   3.688  0.0042
-    ##  R negative - R1A positive     nonEst    NA  NA      NA      NA
-    ##  R negative - R restored       26.367  5.19 226   5.082  <.0001
-    ##  R negative - R22 restored     17.747  5.26 233   3.377  0.0129
-    ##  R negative - R1A restored     nonEst    NA  NA      NA      NA
-    ##  R22 negative - R positive     26.144  8.07 422   3.241  0.0189
-    ##  R22 negative - R22 positive   18.803  8.67 480   2.169  0.2857
-    ##  R22 negative - R1A positive   nonEst    NA  NA      NA      NA
-    ##  R22 negative - R restored     18.270  7.01 491   2.607  0.1121
-    ##  R22 negative - R22 restored    9.649  7.03 494   1.372  0.7845
-    ##  R22 negative - R1A restored   nonEst    NA  NA      NA      NA
-    ##  R22 negative - R negative     -8.098  5.73 584  -1.412  0.7616
-    ##  R1A negative - R positive     nonEst    NA  NA      NA      NA
-    ##  R1A negative - R22 positive   nonEst    NA  NA      NA      NA
-    ##  R1A negative - R1A positive   31.896 14.90 463   2.141  0.3009
-    ##  R1A negative - R restored     nonEst    NA  NA      NA      NA
-    ##  R1A negative - R22 restored   nonEst    NA  NA      NA      NA
-    ##  R1A negative - R1A restored   20.290 14.00 456   1.452  0.7379
-    ##  R1A negative - R negative     nonEst    NA  NA      NA      NA
-    ##  R1A negative - R22 negative   nonEst    NA  NA      NA      NA
+    ##  contrast            estimate   SE  df t.ratio p.value
+    ##  restored - positive     9.68 5.12 214   1.893  0.1433
+    ##  negative - positive    28.53 7.21 260   3.960  0.0003
+    ##  negative - restored    18.85 6.14 283   3.068  0.0067
     ## 
-    ## Results are averaged over the levels of: eco.id, obs.year 
+    ## Results are averaged over the levels of: esy4, eco.id, obs.year 
     ## Degrees-of-freedom method: kenward-roger 
-    ## P value adjustment: tukey method for comparing a family of 6.52079728939615 estimates
+    ## P value adjustment: tukey method for comparing a family of 3 estimates
 
 ``` r
 plot(emm, comparison = TRUE)
 ```
 
-    ## Warning: Removed 3 rows containing missing values or values outside the scale range
-    ## (`geom_point()`).
-
-    ## Warning: Removed 3 rows containing missing values or values outside the scale range
-    ## (`geom_segment()`).
-
-    ## Warning: Removed 3 rows containing missing values or values outside the scale range
-    ## (`geom_point()`).
-
-![](model_check_sla_esy4_files/figure-gfm/effect-sizes-2-1.png)<!-- -->
+![](model_check_sla_esy4_files/figure-gfm/effect-sizes-3-1.png)<!-- -->
 
 # Session info
 
@@ -681,27 +645,38 @@ plot(emm, comparison = TRUE)
     ## [13] ggplot2_3.5.1    tidyverse_2.0.0  here_1.0.1      
     ## 
     ## loaded via a namespace (and not attached):
-    ##  [1] Rdpack_2.6.3       gridExtra_2.3      rlang_1.1.4        magrittr_2.0.3    
-    ##  [5] compiler_4.4.2     mgcv_1.9-1         vctrs_0.6.5        pkgconfig_2.0.3   
-    ##  [9] crayon_1.5.3       fastmap_1.2.0      backports_1.5.0    labeling_0.4.3    
-    ## [13] utf8_1.2.4         ggstance_0.3.7     promises_1.3.2     rmarkdown_2.27    
-    ## [17] tzdb_0.4.0         nloptr_2.2.1       bit_4.0.5          xfun_0.45         
-    ## [21] highr_0.11         later_1.4.1        broom_1.0.6        parallel_4.4.2    
-    ## [25] R6_2.5.1           gap.datasets_0.0.6 stringi_1.8.4      qgam_1.3.4        
-    ## [29] car_3.1-3          boot_1.3-31        estimability_1.5.1 Rcpp_1.0.14       
-    ## [33] iterators_1.0.14   knitr_1.48         parameters_0.24.2  httpuv_1.6.15     
-    ## [37] Matrix_1.7-0       splines_4.4.2      timechange_0.3.0   tidyselect_1.2.1  
-    ## [41] rstudioapi_0.16.0  abind_1.4-8        yaml_2.3.9         MuMIn_1.48.11     
-    ## [45] doParallel_1.0.17  codetools_0.2-20   lattice_0.22-6     plyr_1.8.9        
-    ## [49] shiny_1.10.0       withr_3.0.0        bayestestR_0.15.2  evaluate_0.24.0   
-    ## [53] pillar_1.9.0       gap_1.6            carData_3.0-5      foreach_1.5.2     
-    ## [57] stats4_4.4.2       reformulas_0.4.0   insight_1.1.0      generics_0.1.3    
-    ## [61] vroom_1.6.5        rprojroot_2.0.4    hms_1.1.3          munsell_0.5.1     
-    ## [65] scales_1.3.0       minqa_1.2.8        xtable_1.8-4       glue_1.7.0        
-    ## [69] tools_4.4.2        lme4_1.1-37        mvtnorm_1.3-3      grid_4.4.2        
-    ## [73] rbibutils_2.3      datawizard_1.0.2   colorspace_2.1-0   nlme_3.1-164      
-    ## [77] Rmisc_1.5.1        performance_0.13.0 beeswarm_0.4.0     vipor_0.4.7       
-    ## [81] Formula_1.2-5      cli_3.6.3          fansi_1.0.6        gtable_0.3.5      
-    ## [85] digest_0.6.36      pbkrtest_0.5.3     farver_2.1.2       htmltools_0.5.8.1 
-    ## [89] lifecycle_1.0.4    mime_0.12          bit64_4.0.5        dotwhisker_0.8.3  
-    ## [93] MASS_7.3-60.2
+    ##   [1] mnormt_2.1.1        Rdpack_2.6.3        gridExtra_2.3      
+    ##   [4] sandwich_3.1-1      rlang_1.1.4         magrittr_2.0.3     
+    ##   [7] compiler_4.4.2      mgcv_1.9-1          vctrs_0.6.5        
+    ##  [10] quadprog_1.5-8      pkgconfig_2.0.3     crayon_1.5.3       
+    ##  [13] fastmap_1.2.0       backports_1.5.0     labeling_0.4.3     
+    ##  [16] pbivnorm_0.6.0      utf8_1.2.4          ggstance_0.3.7     
+    ##  [19] promises_1.3.2      rmarkdown_2.27      tzdb_0.4.0         
+    ##  [22] nloptr_2.2.1        bit_4.0.5           xfun_0.45          
+    ##  [25] highr_0.11          later_1.4.1         broom_1.0.6        
+    ##  [28] lavaan_0.6-19       parallel_4.4.2      R6_2.5.1           
+    ##  [31] gap.datasets_0.0.6  stringi_1.8.4       qgam_1.3.4         
+    ##  [34] car_3.1-3           boot_1.3-31         numDeriv_2016.8-1.1
+    ##  [37] estimability_1.5.1  Rcpp_1.0.14         iterators_1.0.14   
+    ##  [40] knitr_1.48          zoo_1.8-13          parameters_0.24.2  
+    ##  [43] httpuv_1.6.15       Matrix_1.7-0        splines_4.4.2      
+    ##  [46] timechange_0.3.0    tidyselect_1.2.1    rstudioapi_0.16.0  
+    ##  [49] abind_1.4-8         yaml_2.3.9          MuMIn_1.48.11      
+    ##  [52] doParallel_1.0.17   codetools_0.2-20    nonnest2_0.5-8     
+    ##  [55] lattice_0.22-6      plyr_1.8.9          shiny_1.10.0       
+    ##  [58] withr_3.0.0         bayestestR_0.15.2   coda_0.19-4.1      
+    ##  [61] evaluate_0.24.0     CompQuadForm_1.4.3  pillar_1.9.0       
+    ##  [64] gap_1.6             carData_3.0-5       foreach_1.5.2      
+    ##  [67] stats4_4.4.2        reformulas_0.4.0    insight_1.1.0      
+    ##  [70] generics_0.1.3      vroom_1.6.5         rprojroot_2.0.4    
+    ##  [73] hms_1.1.3           munsell_0.5.1       scales_1.3.0       
+    ##  [76] minqa_1.2.8         xtable_1.8-4        glue_1.7.0         
+    ##  [79] tools_4.4.2         lme4_1.1-37         mvtnorm_1.3-3      
+    ##  [82] grid_4.4.2          rbibutils_2.3       datawizard_1.0.2   
+    ##  [85] colorspace_2.1-0    nlme_3.1-164        Rmisc_1.5.1        
+    ##  [88] performance_0.13.0  beeswarm_0.4.0      vipor_0.4.7        
+    ##  [91] Formula_1.2-5       cli_3.6.3           fansi_1.0.6        
+    ##  [94] gtable_0.3.5        digest_0.6.36       pbkrtest_0.5.3     
+    ##  [97] farver_2.1.2        htmltools_0.5.8.1   lifecycle_1.0.4    
+    ## [100] mime_0.12           bit64_4.0.5         dotwhisker_0.8.3   
+    ## [103] MASS_7.3-60.2
