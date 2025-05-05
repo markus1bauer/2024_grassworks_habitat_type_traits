@@ -86,6 +86,7 @@ graph_b <- ggplot(sites, aes(y = y, x = eco.id, fill = eco.id)) +
   geom_boxplot(alpha = .5) +
   facet_grid(~ esy4) +
   scale_fill_viridis_d(guide = "none") +
+  scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, .1)) +
   labs(
     y = expression(CWM ~ Canopy ~ height ~ "[" * m * "]"),
     title = "Canopy height",
@@ -96,7 +97,8 @@ graph_b <- ggplot(sites, aes(y = y, x = eco.id, fill = eco.id)) +
   theme(
     axis.text.x = element_blank(),
     axis.ticks.x = element_blank(),
-    axis.line.x = element_blank()
+    axis.line.x = element_blank(),
+    strip.text = element_blank()
   ); graph_b
 
 
@@ -104,6 +106,6 @@ graph_b <- ggplot(sites, aes(y = y, x = eco.id, fill = eco.id)) +
 #### * Save ####
 
 ggsave(
-  here("outputs", "figures", "figure_3_ecoregion_height_300dpi_14x8cm.tiff"),
-  dpi = 300, width = 14, height = 8, units = "cm"
+  here("outputs", "figures", "figure_3_ecoregion_height_300dpi_15x8cm.tiff"),
+  dpi = 300, width = 15, height = 8, units = "cm"
 )

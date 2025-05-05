@@ -94,6 +94,14 @@ data_line <- tibble(
 ) %>%
   mutate(group = fct_relevel(group, "R", "R22", "R1A"))
 
+data_text <- tibble(
+  label = c("Site type **", "Interaction n.s."),
+  y = c(1, .93),
+  x = rep(c(2.6), 2),
+  group = rep("R1A", 2)
+) %>%
+  mutate(group = fct_relevel(group, "R", "R22", "R1A"))
+
 graph_b <- ggplot() +
   geom_quasirandom(
     data = data,
@@ -104,6 +112,10 @@ graph_b <- ggplot() +
     data = data_line,
     aes(yintercept = yintercept, group = group),
     linetype = "dashed"
+  ) +
+  geom_text(
+    data = data_text,
+    aes(y = y, x = x, group = group, label = label)
   ) +
   geom_errorbar(
     data = data_model,
@@ -118,11 +130,12 @@ graph_b <- ggplot() +
   facet_grid(~ group) +
   scale_color_manual(
     values = c(
-      "positive" = "#440154",
-      "restored" = "#21918c",
-      "negative" = "orange"
+      "positive" = "#21918c",
+      "restored" = "orange",
+      "negative" = "#440154"
     ), guide = "none"
   ) +
+  scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, .1)) +
   labs(
     x = "",
     y = expression(CWM ~ canopy ~ height ~ "[" * m * "]"),
@@ -133,7 +146,8 @@ graph_b <- ggplot() +
   theme(
     axis.text.x = element_blank(),
     axis.ticks.x = element_blank(),
-    axis.line.x = element_blank()
+    axis.line.x = element_blank(),
+    strip.text = element_blank()
   ); graph_b
 
 #### * Save ####

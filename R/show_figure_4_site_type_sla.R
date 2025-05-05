@@ -94,10 +94,10 @@ data_line <- tibble(
   mutate(group = fct_relevel(group, "R", "R22", "R1A"))
 
 data_text <- tibble(
-  label = rep(c("a", "a", "b", "n.s.", n), 3),
-  y = rep(330, 9),
-  x = rep(c("positive", "restored", "negative"), 3),
-  group = c(rep("R", 3), rep("R22", 3), rep("R1A", 3))
+  label = c("Site type ***", "Interaction n.s."),
+  y = c(330, 315),
+  x = rep(c(2.6), 2),
+  group = rep("R1A", 2)
 ) %>%
   mutate(group = fct_relevel(group, "R", "R22", "R1A"))
 
@@ -134,6 +134,7 @@ graph_a <- ggplot() +
       "negative" = "#440154"
     ), guide = "none"
   ) +
+  scale_y_continuous(limits = c(140, 340), breaks = seq(0, 400, 20)) +
   labs(
     x = "",
     y = expression(CWM ~ specific ~ leaf ~ area ~ "[" * cm^2 ~ g^-1 * "]"),

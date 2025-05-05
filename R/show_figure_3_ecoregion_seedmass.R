@@ -97,8 +97,10 @@ data <- sites %>%
   rename(predicted = y, x = eco.id, group = esy4)
 
 data_text <- tibble(
-  label = c("", "", "Ecoregion ***\nInteraction n.s."),
-  group = c("R", "R22", "R1A")
+  y = c(0.005, 0.0046),
+  x = rep(c(2.6), 2),
+  label = c("Ecoregion ***", "Interaction n.s."),
+  group = c("R1A", "R1A")
   ) %>%
   mutate(group = fct_relevel(group, "R", "R22", "R1A"))
 
@@ -120,9 +122,7 @@ data_text <- tibble(
     ) +
     geom_text(
       data = data_text,
-      aes(x = -Inf, y = -Inf, label = label),
-      hjust = -.5,
-      vjust = -5.6
+      aes(x = x, y = y, label = label, group = group)
       ) +
     facet_grid(~ group) +
     scale_y_continuous(limits = c(0, .005), breaks = seq(0, 0.1, 0.001)) +
@@ -133,17 +133,19 @@ data_text <- tibble(
         "686" = "orange"
       ), guide = "none"
     ) +
+    scale_y_continuous(limits = c(0, .005), breaks = seq(0, 0.1, 0.001)) +
     labs(
       x = "Ecoregion",
       y = expression( CWM ~ Seed ~ mass ~ "[" * g * "]"),
       title = "Seed mass",
       tag = "C"
     ) +
-    theme_mb())
+    theme_mb() +
+    theme(strip.text = element_blank()))
 
 #### * Save ####
 
 ggsave(
-  here("outputs", "figures", "figure_3_ecoregion_seedmass_300dpi_14x8cm.tiff"),
-  dpi = 300, width = 14, height = 8, units = "cm"
+  here("outputs", "figures", "figure_3_ecoregion_seedmass_300dpi_15x8cm.tiff"),
+  dpi = 300, width = 15, height = 8, units = "cm"
 )

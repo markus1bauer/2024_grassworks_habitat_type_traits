@@ -85,6 +85,7 @@ graph_a <- ggplot(sites, aes(y = y, x = eco.id, fill = eco.id)) +
   geom_boxplot(alpha = .5) +
   facet_grid(~ esy4) +
   scale_fill_viridis_d(guide = "none") +
+  scale_y_continuous(limits = c(140, 340), breaks = seq(0, 400, 20)) +
   labs(
     y = expression(CWM ~ Specific ~ leaf ~ area ~ "[" * cm^2 ~ g^-1 * "]"),
     title = "SLA",
@@ -103,6 +104,6 @@ graph_a <- ggplot(sites, aes(y = y, x = eco.id, fill = eco.id)) +
 #### * Save ####
 
 ggsave(
-  here("outputs", "figures", "figure_3_ecoregion_sla_300dpi_14x8cm.tiff"),
-  dpi = 300, width = 14, height = 8, units = "cm"
+  here("outputs", "figures", "figure_3_ecoregion_sla_300dpi_15x8cm.tiff"),
+  dpi = 300, width = 15, height = 8, units = "cm"
 )

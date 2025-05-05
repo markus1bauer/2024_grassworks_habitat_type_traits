@@ -93,6 +93,14 @@ data_line <- tibble(
 ) %>%
   mutate(group = fct_relevel(group, "R", "R22", "R1A"))
 
+data_text <- tibble(
+  label = c("Site type n.s.", "Interaction n.s."),
+  y = c(0.005, 0.0046),
+  x = rep(c(2.6), 2),
+  group = rep("R1A", 2)
+) %>%
+  mutate(group = fct_relevel(group, "R", "R22", "R1A"))
+
 (graph_c <- ggplot() +
     geom_quasirandom(
       data = data,
@@ -103,6 +111,10 @@ data_line <- tibble(
       data = data_line,
       aes(yintercept = yintercept, group = group),
       linetype = "dashed"
+    ) +
+    geom_text(
+      data = data_text,
+      aes(y = y, x = x, group = group, label = label)
     ) +
     geom_errorbar(
       data = data_model,
@@ -118,18 +130,20 @@ data_line <- tibble(
     scale_y_continuous(limits = c(0, .005), breaks = seq(0, 0.1, 0.001)) +
     scale_color_manual(
       values = c(
-        "positive" = "#440154",
-        "restored" = "#21918c",
-        "negative" = "orange"
+        "positive" = "#21918c",
+        "restored" = "orange",
+        "negative" = "#440154"
       ), guide = "none"
     ) +
+    scale_y_continuous(limits = c(0, .005), breaks = seq(0, 0.1, 0.001)) +
     labs(
       x = "Site type",
       y = expression(CWM ~ seed ~ mass ~ "[" * g * "]"),
       title = "Seed mass",
       tag = "C"
     ) +
-    theme_mb())
+    theme_mb() +
+    theme(strip.text = element_blank()))
 
 
 #### * Save ####

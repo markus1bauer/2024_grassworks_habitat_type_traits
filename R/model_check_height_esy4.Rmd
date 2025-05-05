@@ -281,12 +281,12 @@ plot(emm, comparison = TRUE)
 #### Habiat type x Region
 
 ```{r effect-sizes-2, message = FALSE}
-(emm <- emmeans(
-  m_1,
-  revpairwise ~ eco.id | esy4,
-  type = "response"
-  ))
-plot(emm, comparison = TRUE)
+# (emm <- emmeans(
+#   m_1,
+#   revpairwise ~ eco.id | esy4,
+#   type = "response"
+#   ))
+# plot(emm, comparison = TRUE)
 ```
 
 #### Habiat type x Site type
@@ -294,7 +294,7 @@ plot(emm, comparison = TRUE)
 ```{r effect-sizes-3, message = FALSE}
 (emm <- emmeans(
   m_1,
-  revpairwise ~ site.type | esy4,
+  revpairwise ~ site.type,
   type = "response"
   ))
 plot(emm, comparison = TRUE)
