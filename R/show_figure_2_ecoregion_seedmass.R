@@ -1,10 +1,10 @@
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # GRASSWORKS Project
-# CWMs of EUNIS habitat types 
-# Show figure of CWM Seed mass ~ EUNIS
+# CWMs of EUNIS habitat types ####
+# Show figure of seed mass
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Markus Bauer
-# 2024-09-05
+# 2025-05-05
 
 
 
@@ -17,6 +17,7 @@
 ### Packages ###
 library(here)
 library(tidyverse)
+library(ggeffects)
 library(ggbeeswarm)
 
 ### Start ###
@@ -42,43 +43,34 @@ theme_mb <- function() {
   )
 }
 
-#### Load sites data and model ###
-
-# base::load(file = here("outputs", "models", "model_plants_nmds_presence.Rdata"))
-
+#### Load data ###
 sites <- read_csv(
-  here("data", "raw", "sites_processed_environment_nms_20240813.csv"),
+  here("data", "processed", "data_processed_sites_esy4.csv"),
   col_names = TRUE, na = c("na", "NA", ""), col_types = cols(
     .default = "?",
-    eco.id = "f",
-    region = col_factor(levels = c("north", "centre", "south"), ordered = TRUE),
+    eco.id = col_factor(levels = c("664", "654", "686"), ordered = TRUE),
     site.type = col_factor(
       levels = c("positive", "restored", "negative"), ordered = TRUE
     ),
+    fertilized = "f",
     freq.mow = "f",
-    fertilized = "f"
+    obs.year = "f"
   )
 ) %>%
-  select(
-    id.plot, longitude, latitude, region, eco.id, eco.name, obs.year,
-    esy4, esy16,
-    site.type, history, hydrology, land.use.hist, fertilized, freq.mow,
-    cwm.abu.sla, cwm.abu.height, cwm.abu.seedmass,
-    cwm.pres.sla, cwm.pres.height, cwm.pres.seedmass,
-    fdis.abu.sla, fdis.abu.height, fdis.abu.seedmass,
-    fric.abu.sla, fric.abu.height, fric.abu.seedmass
-  ) %>%
-  group_by(esy16) %>%
-  mutate(n = n()) %>%
-  ungroup() %>%
-  filter(n > 20) %>%
+  filter(esy4 %in% c("R", "R22", "R1A") & !(eco.id == 647)) %>%
   mutate(
-    esy16 = fct_relevel(esy16, "R", "R22", "R1A"),
-    esy16 = fct_recode(
-      esy16, "Dry grassland\nR1A" = "R1A", "Hay meadow\nR22" = "R22",
-      "Undefined\nR" = "R"
-    )
-  )
+    esy4 = fct_relevel(esy4, "R", "R22", "R1A")#,
+    # esy4 = fct_recode(
+    #   esy4, "Dry grassland\nR1A" = "R1A", "Hay meadow\nR22" = "R22",
+    #   "Undefined\nR" = "R"
+    # )
+  ) %>%
+  rename(y = cwm.abu.seedmass)
+
+### * Model ####
+load(file = here("outputs", "models", "model_seedmass_esy4_1.Rdata"))
+m <- m1
+m@call
 
 
 
@@ -88,17 +80,71 @@ sites <- read_csv(
 
 
 
-graph_c <- ggplot(sites, aes(y = cwm.abu.seedmass, x = esy16, fill = esy16)) +
-  geom_quasirandom(color = "grey") +
-  geom_boxplot(alpha = .5) +
-  scale_fill_viridis_d(guide = "none") +
-  labs(y = "CWM Seed mass (abu) [g]", title = "Seed mass", tag = "C") +
-  theme_mb() +
-  theme(axis.title.x = element_blank()); graph_c
+data_model <- ggemmeans(
+  m, terms = c("eco.id", "esy4"), back.transform = FALSE, ci_level = .95
+  ) %>%
+  filter(!(group == "R1A" & x == "664")) #%>%
+  # mutate(
+  #   x = fct_recode(
+  #     x,
+  #     "Central European\nmixed forests" = "654",
+  #     "European Atlantic\nmixed forests" = "664",
+  #     "Western European\nbroadleaf forests" = "686"
+  #   )
+  # )
+
+data <- sites %>%
+  rename(predicted = y, x = eco.id, group = esy4)
+
+data_text <- tibble(
+  label = c("", "", "Ecoregion ***\nInteraction n.s."),
+  group = c("R", "R22", "R1A")
+  ) %>%
+  mutate(group = fct_relevel(group, "R", "R22", "R1A"))
+
+(graph_c <- ggplot() +
+    geom_quasirandom(
+      data = data,
+      aes(x = x, y = predicted, color = x),
+      dodge.width = .6, size = 1, shape = 16, alpha = .4
+    ) +
+    geom_text(
+      data = data_text,
+      aes(x = -Inf, y = -Inf, label = label),
+      hjust = -.6,
+      vjust = -10
+      ) +
+    geom_errorbar(
+      data = data_model,
+      aes(x = x, y = predicted, ymin = conf.low, ymax = conf.high, color = x),
+      width = 0.0, linewidth = 0.4
+    ) +
+    geom_point(
+      data = data_model,
+      aes(x = x, y = predicted, color = x),
+      size = 2
+    ) +
+    facet_grid(~ group) +
+    scale_y_continuous(limits = c(0, .005), breaks = seq(0, 0.1, 0.001)) +
+    annotate("text", label = "a", ) +
+    scale_color_manual(
+      values = c(
+        "664" = "#440154",
+        "654" = "#21918c",
+        "686" = "orange"
+      ), guide = "none"
+    ) +
+    labs(
+      x = "Ecoregion",
+      y = expression( CWM ~ Seed ~ mass ~ "[" * g * "]"),
+      title = "Seed mass",
+      tag = "C"
+    ) +
+    theme_mb())
 
 #### * Save ####
 
 ggsave(
-  here("outputs", "figures", "figure_cwm_eunis_1_seedmass_300dpi_10x10cm.tiff"),
-  dpi = 300, width = 10, height = 10, units = "cm"
+  here("outputs", "figures", "figure_2_ecoregion_seedmass_300dpi_8x8cm.tiff"),
+  dpi = 300, width = 8, height = 8, units = "cm"
 )

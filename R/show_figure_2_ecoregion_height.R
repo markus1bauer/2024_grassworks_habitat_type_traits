@@ -1,10 +1,10 @@
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # GRASSWORKS Project
 # CWMs of EUNIS habitat types ####
-# Show figure of CWM Canopy height ~ EUNIS
+# Show figure of canopy height
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Markus Bauer
-# 2025-04-29
+# 2025-05-05
 
 
 
@@ -17,6 +17,7 @@
 ### Packages ###
 library(here)
 library(tidyverse)
+library(ggeffects)
 library(ggbeeswarm)
 
 ### Start ###
@@ -42,32 +43,35 @@ theme_mb <- function() {
   )
 }
 
-#### Load sites data and model ###
-
-base::load(file = here("outputs", "models", "model_height_esy16_1.Rdata"))
-
+#### Load data ###
 sites <- read_csv(
-  here("data", "processed", "data_processed_sites_esy16.csv"),
+  here("data", "processed", "data_processed_sites_esy4.csv"),
   col_names = TRUE, na = c("na", "NA", ""), col_types = cols(
     .default = "?",
-    eco.id = "f",
-    region = col_factor(levels = c("north", "centre", "south"), ordered = TRUE),
+    eco.id = col_factor(levels = c("664", "654", "686"), ordered = TRUE),
     site.type = col_factor(
       levels = c("positive", "restored", "negative"), ordered = TRUE
-    )
+    ),
+    fertilized = "f",
+    freq.mow = "f",
+    obs.year = "f"
   )
 ) %>%
-  filter(esy16 %in% c("R", "R22", "R1A") & !(eco.id == 647)) %>%
+  filter(esy4 %in% c("R", "R22", "R1A") & !(eco.id == 647)) %>%
   mutate(
-    esy16 = fct_relevel(esy16, "R", "R22", "R1A"),
-    esy16 = fct_recode(
-      esy16, "Dry grassland\nR1A" = "R1A", "Hay meadow\nR22" = "R22",
-      "Undefined\nR" = "R"
-    )
+    esy4 = fct_relevel(esy4, "R", "R22", "R1A")#,
+    # esy4 = fct_recode(
+    #   esy4, "Dry grassland\nR1A" = "R1A", "Hay meadow\nR22" = "R22",
+    #   "Undefined\nR" = "R"
+    # )
   ) %>%
-  mutate(y = cwm.abu.height.mean) %>%
-  filter(y < 1) # see section Outliers: Exclude site N_DAM (more or less only the tall grass Arrhenatherum elatius germinated at this young restoration site)
+  rename(y = cwm.abu.height) %>%
+  filter(y < 1)
 
+### * Model ####
+load(file = here("outputs", "models", "model_height_esy4_2.Rdata"))
+m <- m2
+m@call
 
 
 
@@ -77,27 +81,29 @@ sites <- read_csv(
 
 
 
-graph_b <- ggplot(sites, aes(y = y, x = esy16, fill = esy16)) +
-  geom_quasirandom(color = "grey") +
-  geom_boxplot(alpha = .5) +
-  facet_grid(~ eco.id) +
-  scale_fill_viridis_d(guide = "none") +
-  labs(y = "CWM Height (abu) [m]", title = "Canopy height", tag = "B") +
-  theme_mb() +
-  theme(axis.title.x = element_blank()); graph_b
-
 graph_b <- ggplot(sites, aes(y = y, x = eco.id, fill = eco.id)) +
   geom_quasirandom(color = "grey") +
   geom_boxplot(alpha = .5) +
-  facet_grid(~ esy16) +
+  facet_grid(~ esy4) +
   scale_fill_viridis_d(guide = "none") +
-  labs(y = "CWM Height (abu) [m]", title = "Canopy height", tag = "B") +
+  labs(
+    y = expression(CWM ~ Canopy ~ height ~ "[" * m * "]"),
+    title = "Canopy height",
+    tag = "B",
+    x = ""
+  ) +
   theme_mb() +
-  theme(axis.title.x = element_blank()); graph_b
+  theme(
+    axis.text.x = element_blank(),
+    axis.ticks.x = element_blank(),
+    axis.line.x = element_blank()
+  ); graph_b
+
+
 
 #### * Save ####
 
 ggsave(
-  here("outputs", "figures", "figure_2_height_300dpi_10x10cm.tiff"),
-  dpi = 300, width = 10, height = 10, units = "cm"
+  here("outputs", "figures", "figure_2_ecoregion_height_300dpi_8x8cm.tiff"),
+  dpi = 300, width = 8, height = 8, units = "cm"
 )

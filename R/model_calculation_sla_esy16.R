@@ -19,6 +19,7 @@ library(here)
 library(tidyverse)
 library(ggbeeswarm)
 library(patchwork)
+library(lme4)
 library(DHARMa)
 
 ### Start ###

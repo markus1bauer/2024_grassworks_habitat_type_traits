@@ -1,10 +1,10 @@
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # GRASSWORKS Project
-# CWMs of EUNIS habitat types 
-# Show figure of CWM SLA ~ EUNIS
+# CWMs of EUNIS habitat types ####
+# Show figure of specific leaf area
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Markus Bauer
-# 2024-09-05
+# 2025-05-05
 
 
 
@@ -17,6 +17,7 @@
 ### Packages ###
 library(here)
 library(tidyverse)
+library(ggeffects)
 library(ggbeeswarm)
 
 ### Start ###
@@ -42,43 +43,34 @@ theme_mb <- function() {
   )
 }
 
-#### Load sites data and model ###
-
-# base::load(file = here("outputs", "models", "model_plants_nmds_presence.Rdata"))
-
+#### Load data ###
 sites <- read_csv(
-  here("data", "raw", "sites_processed_environment_nms_20240813.csv"),
+  here("data", "processed", "data_processed_sites_esy4.csv"),
   col_names = TRUE, na = c("na", "NA", ""), col_types = cols(
     .default = "?",
-    eco.id = "f",
-    region = col_factor(levels = c("north", "centre", "south"), ordered = TRUE),
+    eco.id = col_factor(levels = c("664", "654", "686"), ordered = TRUE),
     site.type = col_factor(
       levels = c("positive", "restored", "negative"), ordered = TRUE
     ),
+    fertilized = "f",
     freq.mow = "f",
-    fertilized = "f"
+    obs.year = "f"
   )
 ) %>%
-  select(
-    id.plot, longitude, latitude, region, eco.id, eco.name, obs.year,
-    esy4, esy16,
-    site.type, history, hydrology, land.use.hist, fertilized, freq.mow,
-    cwm.abu.sla, cwm.abu.height, cwm.abu.seedmass,
-    cwm.pres.sla, cwm.pres.height, cwm.pres.seedmass,
-    fdis.abu.sla, fdis.abu.height, fdis.abu.seedmass,
-    fric.abu.sla, fric.abu.height, fric.abu.seedmass
-  ) %>%
-  group_by(esy16) %>%
-  mutate(n = n()) %>%
-  ungroup() %>%
-  filter(n > 20) %>%
+  filter(esy4 %in% c("R", "R22", "R1A") & !(eco.id == 647)) %>%
   mutate(
-    esy16 = fct_relevel(esy16, "R", "R22", "R1A"),
-    esy16 = fct_recode(
-      esy16, "Dry grassland\nR1A" = "R1A", "Hay meadow\nR22" = "R22",
-      "Undefined\nR" = "R"
-    )
-  )
+    esy4 = fct_relevel(esy4, "R", "R22", "R1A")#,
+    # esy4 = fct_recode(
+    #   esy4, "Dry grassland\nR1A" = "R1A", "Hay meadow\nR22" = "R22",
+    #   "Undefined\nR" = "R"
+      # )
+    ) %>%
+  rename(y = cwm.abu.sla)
+
+### * Model ####
+load(file = here("outputs", "models", "model_sla_esy4_2.Rdata"))
+m <- m2
+m@call
 
 
 
@@ -88,17 +80,29 @@ sites <- read_csv(
 
 
 
-graph_a <- ggplot(sites, aes(y = cwm.abu.sla, x = esy16, fill = esy16)) +
+graph_a <- ggplot(sites, aes(y = y, x = eco.id, fill = eco.id)) +
   geom_quasirandom(color = "grey") +
   geom_boxplot(alpha = .5) +
+  facet_grid(~ esy4) +
   scale_fill_viridis_d(guide = "none") +
-  labs(y = "CWM SLA (abu) [cm²/g]", title = "SLA", tag = "A") +
+  labs(
+    y = expression(CWM ~ Specific ~ leaf ~ area ~ "[" * cm^2 ~ g^-1 * "]"),
+    title = "SLA",
+    tag = "A",
+    x = ""
+    ) +
   theme_mb() +
-  theme(axis.title.x = element_blank()); graph_a
+  theme(
+    axis.text.x = element_blank(),
+    axis.ticks.x = element_blank(),
+    axis.line.x = element_blank()
+  ); graph_a
+
+
 
 #### * Save ####
 
 ggsave(
-  here("outputs", "figures", "figure_cwm_eunis_1_sla_300dpi_10x10cm.tiff"),
-  dpi = 300, width = 10, height = 10, units = "cm"
+  here("outputs", "figures", "figure_2_ecoregion_sla_300dpi_8x8cm.tiff"),
+  dpi = 300, width = 8, height = 8, units = "cm"
 )
