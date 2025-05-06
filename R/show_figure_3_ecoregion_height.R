@@ -81,8 +81,21 @@ m@call
 
 
 
+data_text <- tibble(
+  y = 1,
+  eco.id = "686",
+  label = c("Ecoregion n.s."),
+  esy4 = c("R1A")
+) %>%
+  mutate(esy4 = fct_relevel(esy4, "R", "R22", "R1A"))
+
 graph_b <- ggplot(sites, aes(y = y, x = eco.id, fill = eco.id)) +
   geom_quasirandom(color = "grey") +
+  geom_text(
+    data = data_text,
+    aes(x = eco.id, y = y, label = label, group = esy4),
+    hjust = .7
+  ) +
   geom_boxplot(alpha = .5) +
   facet_grid(~ esy4) +
   scale_fill_viridis_d(guide = "none") +
