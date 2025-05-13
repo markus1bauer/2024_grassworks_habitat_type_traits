@@ -12,19 +12,20 @@
 library(renv)
 library(here)
 library(tidyverse)
+library(installr)
 
 ### Start ###
 rm(list = ls())
-# installr::updateR(
-#   browse_news = FALSE,
-#   install_R = TRUE,
-#   copy_packages = TRUE,
-#   copy_site_files = TRUE,
-#   keep_old_packages = FALSE,
-#   update_packages = FALSE,
-#   start_new_R = FALSE,
-#   quit_R = TRUE
-#   )
+installr::updateR(
+  browse_news = FALSE,
+  install_R = TRUE,
+  copy_packages = TRUE,
+  copy_site_files = TRUE,
+  keep_old_packages = FALSE,
+  update_packages = FALSE,
+  start_new_R = FALSE,
+  quit_R = TRUE
+  )
 
 
 
@@ -118,7 +119,8 @@ sites_esy16 <- data %>%
     cwm.pres.sla.mean = mean(cwm.pres.sla),
     cwm.pres.height.mean = mean(cwm.pres.height),
     cwm.pres.seedmass.mean = mean(cwm.pres.seedmass),
-  )
+  ) %>%
+  filter(esy16 %in% c("R", "R22", "R1A") & !(eco.id == 647))
   
 sites_esy4 <- data %>%
   select(
@@ -127,9 +129,10 @@ sites_esy4 <- data %>%
     site.type, history, hydrology, land.use.hist, fertilized, freq.mow,
     cwm.abu.sla, cwm.abu.height, cwm.abu.seedmass,
     cwm.pres.sla, cwm.pres.height, cwm.pres.seedmass
-  )
+  ) %>%
+  filter(esy4 %in% c("R", "R22", "R1A") & !(eco.id == 647))
 
-
+table(sites_esy4$esy4)
 
 ## 2 Surveys from sPlotOpen ####################################################
 

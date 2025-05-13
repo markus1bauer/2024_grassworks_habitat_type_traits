@@ -40,7 +40,6 @@ sites <- read_csv(
     obs.year = "f"
   )
 ) %>%
-  filter(esy4 %in% c("R", "R22", "R1A") & !(eco.id == 647)) %>%
   mutate(esy4 = fct_relevel(esy4, "R", "R22", "R1A")) %>%
   rename(y = cwm.abu.sla)
 

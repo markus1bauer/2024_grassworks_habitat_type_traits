@@ -40,7 +40,6 @@ sites <- read_csv(
     obs.year = "f"
   )
 ) %>%
-  filter(esy16 %in% c("R", "R22", "R1A") & !(eco.id == 647)) %>%
   mutate(esy16 = fct_relevel(esy16, "R", "R22", "R1A")) %>%
   rename(y = cwm.abu.height.mean) %>%
   filter(y < 1) # see section Outliers: Exclude site N_DAM (more or less only the tall grass Arrhenatherum elatius germinated at this young restoration site)
