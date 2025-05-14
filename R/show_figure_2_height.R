@@ -4,7 +4,7 @@
 # Show figure of canopy height
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Markus Bauer
-# 2025-05-05
+# 2025-05-14
 
 
 
@@ -57,13 +57,7 @@ sites <- read_csv(
     obs.year = "f"
   )
 ) %>%
-  mutate(
-    esy4 = fct_relevel(esy4, "R", "R22", "R1A")#,
-    # esy4 = fct_recode(
-    #   esy4, "Dry grassland\nR1A" = "R1A", "Hay meadow\nR22" = "R22",
-    #   "Undefined\nR" = "R"
-    # )
-  ) %>%
+  mutate(esy4 = fct_relevel(esy4, "R", "R22", "R1A")) %>%
   rename(y = cwm.abu.height) %>%
   filter(y < 1)
 
@@ -80,29 +74,28 @@ m@call
 
 
 
-data_model <- ggemmeans(
-  m, terms = "esy4", back.transform = FALSE, ci_level = .95
-)
-
 data <- sites %>%
-  rename(predicted = y, x = esy4)
+  group_by(esy4) %>%
+  summarize(mean = mean(y), sd = sd(y, na.rm = TRUE))
 
 graph_b <- ggplot() +
-  geom_violin(
-    data = data,
-    aes(x = x, y = predicted, fill = x),
-    alpha = .4
+  geom_quasirandom(
+    data = sites,
+    aes(x = esy4, y = y, color = esy4),
+    alpha = .2, shape = 16, size = 1
   ) +
-  geom_hline(yintercept = 0.4820903, linetype = "dashed") +
+  geom_hline(yintercept = .488, linetype = "solid", color = "grey70") +
+  geom_hline(yintercept = .488+.1196, linetype = "dashed", color = "grey70") +
+  geom_hline(yintercept = .488-.1196, linetype = "dashed", color = "grey70") +
   geom_errorbar(
-    data = data_model,
-    aes(x = x, y = predicted, ymin = conf.low, ymax = conf.high, color = x),
+    data = data,
+    aes(x = esy4, ymin = mean-sd, ymax = mean+sd, color = esy4),
     width = 0.0, linewidth = 0.4
   ) +
   geom_point(
-    data = data_model,
-    aes(x = x, y = predicted, color = x),
-    size = 3
+    data = data,
+    aes(x = esy4, y = mean, color = esy4),
+    size = 2
   ) +
   annotate("text", label = "a", y = 1, x = 1) +
   annotate("text", label = "a", y = 1, x = 2) +
@@ -138,6 +131,6 @@ graph_b <- ggplot() +
 #### * Save ####
 
 ggsave(
-  here("outputs", "figures", "figure_2_height_300dpi_15x8cm.tiff"),
-  dpi = 300, width = 15, height = 8, units = "cm"
+  here("outputs", "figures", "figure_2_height_300dpi_8x6cm.tiff"),
+  dpi = 300, width = 8, height = 6, units = "cm"
 )

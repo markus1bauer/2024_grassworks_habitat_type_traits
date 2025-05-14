@@ -1,6 +1,6 @@
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # GRASSWORKS Project
-# Traits ~ Habitat types ####
+# CWMs of EUNIS habitat types ####
 # Prepare data
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Markus Bauer
@@ -16,16 +16,16 @@ library(installr)
 
 ### Start ###
 rm(list = ls())
-installr::updateR(
-  browse_news = FALSE,
-  install_R = TRUE,
-  copy_packages = TRUE,
-  copy_site_files = TRUE,
-  keep_old_packages = FALSE,
-  update_packages = FALSE,
-  start_new_R = FALSE,
-  quit_R = TRUE
-  )
+# installr::updateR(
+#   browse_news = FALSE,
+#   install_R = TRUE,
+#   copy_packages = TRUE,
+#   copy_site_files = TRUE,
+#   keep_old_packages = FALSE,
+#   update_packages = FALSE,
+#   start_new_R = FALSE,
+#   quit_R = TRUE
+#   )
 
 
 
@@ -81,7 +81,7 @@ species_splot <- read_delim(
 
 
 rm(list = setdiff(ls(), c(
-  "sites", "sites_splot", "species", "species_splot", "traits")))
+  "sites", "sites_splot", "species", "species_splot")))
 
 
 
@@ -133,6 +133,8 @@ sites_esy4 <- data %>%
   filter(esy4 %in% c("R", "R22", "R1A") & !(eco.id == 647))
 
 table(sites_esy4$esy4)
+
+
 
 ## 2 Surveys from sPlotOpen ####################################################
 
@@ -189,20 +191,10 @@ data_species <- species_splot %>%
   summarise(across(everything(), ~ sum(.x, na.rm = TRUE)))
 species_splot <- data_species
 
-### Check species name congruency ###
-data <- data_species %>%
-  anti_join(traits, by = "name") %>%
-  select(name) %>%
-  print(n = 50)
-
 rm(list = setdiff(ls(), c(
-  "sites", "sites_splot", "species", "species_splot",
-  "traits"
+  "sites", "sites_splot", "species", "species_splot", "sites_esy4", "sites_esy16"
 )))
 
-
-
-## 3 Traits ###################################################################
 
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

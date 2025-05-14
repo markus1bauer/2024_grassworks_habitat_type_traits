@@ -4,7 +4,7 @@
 # Show figure of seed mass
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Markus Bauer
-# 2025-05-05
+# 2025-05-14
 
 
 
@@ -58,11 +58,12 @@ sites <- read_csv(
   )
 ) %>%
   mutate(
-    esy4 = fct_relevel(esy4, "R", "R22", "R1A")#,
-    # esy4 = fct_recode(
-    #   esy4, "Dry grassland\nR1A" = "R1A", "Hay meadow\nR22" = "R22",
-    #   "Undefined\nR" = "R"
-    # )
+    esy4 = fct_relevel(esy4, "R", "R22", "R1A"),
+    cwm.abu.seedmass = cwm.abu.seedmass * 1000,
+    esy4 = fct_recode(
+      esy4, "Dry grassland\nR1A" = "R1A", "Hay meadow\nR22" = "R22",
+      "Undefined\nR" = "R"
+    )
   ) %>%
   rename(y = cwm.abu.seedmass)
 
@@ -79,58 +80,57 @@ m@call
 
 
 
-data_model <- ggemmeans(
-  m, terms = "esy4", back.transform = TRUE, ci_level = .95
-)
-
 data <- sites %>%
-  rename(predicted = y, x = esy4)
+  group_by(esy4) %>%
+  summarize(mean = mean(y), sd = sd(y, na.rm = TRUE))
 
-(graph_c <- ggplot() +
-    geom_violin(
-      data = data,
-      aes(x = x, y = predicted, fill = x),
-      alpha = .4
-    ) +
-    geom_hline(yintercept = 0.001190240, linetype = "dashed") +
-    geom_errorbar(
-      data = data_model,
-      aes(x = x, y = predicted, ymin = conf.low, ymax = conf.high, color = x),
-      width = 0.0, linewidth = 0.4
-    ) +
-    geom_point(
-      data = data_model,
-      aes(x = x, y = predicted, color = x),
-      size = 3
-    ) +
-    annotate("text", label = "n.s.", y = .005, x = 3.4) +
-    scale_y_continuous(limits = c(0, .005), breaks = seq(0, 0.1, 0.001)) +
+graph_c <- ggplot() +
+  geom_quasirandom(
+    data = sites,
+    aes(x = esy4, y = y, color = esy4),
+    alpha = .2, shape = 16, size = 1
+  ) +
+  geom_hline(yintercept = 1.48, linetype = "solid", color = "grey70") +
+  geom_hline(yintercept = 1.48+1.169, linetype = "dashed", color = "grey70") +
+  geom_hline(yintercept = 1.48-1.169, linetype = "dashed", color = "grey70") +
+  geom_errorbar(
+    data = data,
+    aes(x = esy4, ymin = mean-sd, ymax = mean+sd, color = esy4),
+    width = 0.0, linewidth = 0.4
+  ) +
+  geom_point(
+    data = data,
+    aes(x = esy4, y = mean, color = esy4),
+    size = 2
+  ) +
+    annotate("text", label = "n.s.", y = 9, x = 3.4) +
+    scale_y_continuous(limits = c(0, 10), breaks = seq(0, 10, 1)) +
     scale_fill_manual(
       values = c(
-        "R" = "#440154",
-        "R22" = "#21918c",
-        "R1A" = "orange"
+        "Undefined\nR" = "#440154",
+        "Hay meadow\nR22" = "#21918c",
+        "Dry grassland\nR1A" = "orange"
       ), guide = "none"
     ) +
     scale_color_manual(
       values = c(
-        "R" = "#440154",
-        "R22" = "#21918c",
-        "R1A" = "orange"
+        "Undefined\nR" = "#440154",
+        "Hay meadow\nR22" = "#21918c",
+        "Dry grassland\nR1A" = "orange"
       ), guide = "none"
     ) +
     labs(
-      x = "Habitat type",
-      y = expression(CWM ~ seed ~ mass ~ "[" * g * "]"),
+      x = "",
+      y = expression(CWM ~ seed ~ mass ~ "[" * mg * "]"),
       title = "Seed mass",
       tag = "C"
     ) +
-    theme_mb())
+    theme_mb(); graph_c
 
 
 #### * Save ####
 
 ggsave(
-  here("outputs", "figures", "figure_2_seedmass_300dpi_15x8cm.tiff"),
-  dpi = 300, width = 15, height = 8, units = "cm"
+  here("outputs", "figures", "figure_2_seedmass_300dpi_8x6cm.tiff"),
+  dpi = 300, width = 8, height = 6, units = "cm"
 )
