@@ -131,6 +131,6 @@ graph_b <- ggplot() +
 #### * Save ####
 
 ggsave(
-  here("outputs", "figures", "figure_2_height_300dpi_8x6cm.tiff"),
-  dpi = 300, width = 8, height = 6, units = "cm"
+  here("outputs", "figures", "figure_2_height_300dpi_9x6cm.tiff"),
+  dpi = 300, width = 9, height = 6, units = "cm"
 )

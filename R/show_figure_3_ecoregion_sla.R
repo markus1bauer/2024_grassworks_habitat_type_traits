@@ -35,7 +35,7 @@ theme_mb <- function() {
                               color = "black"),
     axis.line = element_line(),
     legend.key = element_rect(fill = "white"),
-    legend.position = "bottom",
+    legend.position = "none",
     legend.text = element_text(size = 9),
     legend.margin = margin(0, 0, 0, 0, "cm"),
     plot.margin = margin(0, 0, 0, 0, "cm"),
@@ -57,13 +57,7 @@ sites <- read_csv(
     obs.year = "f"
   )
 ) %>%
-  mutate(
-    esy4 = fct_relevel(esy4, "R", "R22", "R1A")#,
-    # esy4 = fct_recode(
-    #   esy4, "Dry grassland\nR1A" = "R1A", "Hay meadow\nR22" = "R22",
-    #   "Undefined\nR" = "R"
-      # )
-    ) %>%
+  mutate(esy4 = fct_relevel(esy4, "R", "R22", "R1A")) %>%
   rename(y = cwm.abu.sla)
 
 ### * Model ####
@@ -80,28 +74,44 @@ m@call
 
 
 data_text <- tibble(
-  y = 340,
-  eco.id = "686",
-  label = c("Ecoregion ***"),
-  esy4 = c("R1A")
+  y = c(340, 340, 340),
+  eco.id = c("664", "654", "686"),
+  label = c("", "", "Ecoregion ***"),
+  esy4 = c("R", "R22", "R1A")
 ) %>%
   mutate(esy4 = fct_relevel(esy4, "R", "R22", "R1A"))
 
+data <- sites %>%
+  group_by(esy4, eco.id) %>%
+  summarize(mean = mean(y), sd = sd(y, na.rm = TRUE))
 
-graph_a <- ggplot(sites, aes(y = y, x = eco.id, fill = eco.id)) +
-  geom_quasirandom(color = "grey") +
+graph_a <- ggplot() +
+  geom_quasirandom(
+    data = sites,
+    aes(x = eco.id, y = y, color = eco.id),
+    alpha = .2, shape = 16, size = 1
+  ) +
+  geom_errorbar(
+    data = data,
+    aes(x = eco.id, y = mean, ymin = mean-sd, ymax = mean+sd, color = eco.id),
+    width = 0.0, linewidth = 0.4
+  ) +
+  geom_point(
+    data = data,
+    aes(x = eco.id, y = mean, color = eco.id),
+    size = 2
+  ) +
   geom_text(
     data = data_text,
     aes(x = eco.id, y = y, label = label, group = esy4),
-    hjust = .7
+    hjust = .8, size = 3.1
   ) +
-  geom_boxplot(alpha = .5) +
   facet_grid(~ esy4) +
   scale_fill_viridis_d(guide = "none") +
   scale_y_continuous(limits = c(140, 340), breaks = seq(0, 400, 20)) +
   labs(
     y = expression(CWM ~ Specific ~ leaf ~ area ~ "[" * cm^2 ~ g^-1 * "]"),
-    title = "SLA",
+    title = "Specific leaf area",
     tag = "A",
     x = ""
     ) +
@@ -115,6 +125,6 @@ graph_a <- ggplot(sites, aes(y = y, x = eco.id, fill = eco.id)) +
 
 #### * Save ####
 ggsave(
-  here("outputs", "figures", "figure_3_ecoregion_sla_300dpi_15x8cm.tiff"),
-  dpi = 300, width = 15, height = 8, units = "cm"
+  here("outputs", "figures", "figure_3_ecoregion_sla_300dpi_9x6cm.tiff"),
+  dpi = 300, width = 9, height = 6, units = "cm"
 )

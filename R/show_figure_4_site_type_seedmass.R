@@ -58,12 +58,10 @@ sites <- read_csv(
   )
 ) %>%
   mutate(
-    esy4 = fct_relevel(esy4, "R", "R22", "R1A")#,
-    # esy4 = fct_recode(
-    #   esy4, "Dry grassland\nR1A" = "R1A", "Hay meadow\nR22" = "R22",
-    #   "Undefined\nR" = "R"
-    # )
-  ) %>%
+    esy4 = fct_relevel(esy4, "R", "R22", "R1A"),
+    cwm.abu.seedmass = cwm.abu.seedmass * 1000,
+    site.type = fct_recode(site.type, "+" = "positive", "−" = "negative")
+    ) %>%
   rename(y = cwm.abu.seedmass)
 
 ### * Model ####
@@ -79,75 +77,79 @@ m@call
 
 
 
-data_model <- ggemmeans(
-  m, terms = c("site.type", "esy4"), back.transform = TRUE, ci_level = .95
-)
-
 data <- sites %>%
-  rename(predicted = y, x = site.type, group = esy4)
+  group_by(esy4, site.type) %>%
+  summarize(mean = mean(y), sd = sd(y, na.rm = TRUE))
 
-data_line <- tibble(
-  yintercept = c(0.001222956, 0.001077819, 0.001456481),
-  group = c("R", "R22", "R1A")
-) %>%
-  mutate(group = fct_relevel(group, "R", "R22", "R1A"))
+data_line <- data %>%
+  filter(site.type == "+")
 
 data_text <- tibble(
-  label = c("Site type n.s.", "Interaction n.s."),
-  y = c(0.005, 0.0046),
-  x = rep(c(2.6), 2),
-  group = rep("R1A", 2)
+  y = c(10, 10, 10, 9),
+  site.type = c("+", "restored", "−", "−"),
+  label = c("", "", "Site type n.s.", "Interaction n.s."),
+  esy4 = c("R", "R22", "R1A", "R1A")
 ) %>%
-  mutate(group = fct_relevel(group, "R", "R22", "R1A"))
+  mutate(esy4 = fct_relevel(esy4, "R", "R22", "R1A"))
 
-(graph_c <- ggplot() +
-    geom_quasirandom(
-      data = data,
-      aes(x = x, y = predicted, color = x),
-      dodge.width = .6, size = 1, shape = 16, alpha = .3
-    ) +
-    geom_hline(
-      data = data_line,
-      aes(yintercept = yintercept, group = group),
-      linetype = "dashed"
-    ) +
-    geom_text(
-      data = data_text,
-      aes(y = y, x = x, group = group, label = label)
-    ) +
-    geom_errorbar(
-      data = data_model,
-      aes(x = x, y = predicted, ymin = conf.low, ymax = conf.high, color = x),
-      width = 0.0, linewidth = 0.4
-    ) +
-    geom_point(
-      data = data_model,
-      aes(x = x, y = predicted, color = x),
-      size = 2
-    ) +
-    facet_grid(~ group) +
-    scale_y_continuous(limits = c(0, .005), breaks = seq(0, 0.1, 0.001)) +
-    scale_color_manual(
-      values = c(
-        "positive" = "#21918c",
-        "restored" = "orange",
-        "negative" = "#440154"
-      ), guide = "none"
-    ) +
-    scale_y_continuous(limits = c(0, .005), breaks = seq(0, 0.1, 0.001)) +
-    labs(
-      x = "Site type",
-      y = expression(CWM ~ seed ~ mass ~ "[" * g * "]"),
-      title = "Seed mass",
-      tag = "C"
-    ) +
-    theme_mb() +
-    theme(strip.text = element_blank()))
+graph_c <- ggplot() +
+  geom_quasirandom(
+    data = sites,
+    aes(x = site.type, y = y, color = site.type),
+    alpha = .2, shape = 16, size = 1
+  ) +
+  geom_hline(
+    data = data_line,
+    aes(yintercept = mean),
+    linetype = "solid", color = "grey70"
+  ) +
+  geom_hline(
+    data = data_line,
+    aes(yintercept = mean+sd),
+    linetype = "dashed", color = "grey70"
+  ) +
+  geom_hline(
+    data = data_line,
+    aes(yintercept = mean-sd),
+    linetype = "dashed", color = "grey70"
+  ) +
+  geom_errorbar(
+    data = data,
+    aes(x = site.type, y = mean, ymin = mean-sd, ymax = mean+sd, color = site.type),
+    width = 0.0, linewidth = 0.4
+  ) +
+  geom_point(
+    data = data,
+    aes(x = site.type, y = mean, color = site.type),
+    size = 2
+  ) +
+  geom_text(
+    data = data_text,
+    aes(x = site.type, y = y, label = label, group = esy4),
+    hjust = .8, size = 3.1
+  ) +
+  facet_grid(~ esy4) +
+  scale_color_manual(
+    values = c(
+      "+" = "#21918c",
+      "restored" = "orange",
+      "−" = "#440154"
+    ), guide = "none"
+  ) +
+  scale_y_continuous(limits = c(0, 10), breaks = seq(0, 10, 1)) +
+  labs(
+    x = "Restoration compared to references",
+    y = expression(CWM ~ seed ~ mass ~ "[" * g * "]"),
+    title = "Seed mass",
+    tag = "C"
+  ) +
+  theme_mb() +
+  theme(strip.text = element_blank()); graph_c
 
 
 #### * Save ####
 
 ggsave(
-  here("outputs", "figures", "figure_4_site.type_seedmass_300dpi_15x8cm.tiff"),
-  dpi = 300, width = 15, height = 8, units = "cm"
+  here("outputs", "figures", "figure_4_site.type_seedmass_300dpi_9x6cm.tiff"),
+  dpi = 300, width = 9, height = 6, units = "cm"
 )

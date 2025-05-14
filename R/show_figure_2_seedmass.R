@@ -59,11 +59,11 @@ sites <- read_csv(
 ) %>%
   mutate(
     esy4 = fct_relevel(esy4, "R", "R22", "R1A"),
-    cwm.abu.seedmass = cwm.abu.seedmass * 1000,
     esy4 = fct_recode(
       esy4, "Dry grassland\nR1A" = "R1A", "Hay meadow\nR22" = "R22",
       "Undefined\nR" = "R"
-    )
+    ),
+    cwm.abu.seedmass = cwm.abu.seedmass * 1000
   ) %>%
   rename(y = cwm.abu.seedmass)
 
@@ -131,6 +131,6 @@ graph_c <- ggplot() +
 #### * Save ####
 
 ggsave(
-  here("outputs", "figures", "figure_2_seedmass_300dpi_8x6cm.tiff"),
-  dpi = 300, width = 8, height = 6, units = "cm"
+  here("outputs", "figures", "figure_2_seedmass_300dpi_9x6cm.tiff"),
+  dpi = 300, width = 9, height = 6, units = "cm"
 )

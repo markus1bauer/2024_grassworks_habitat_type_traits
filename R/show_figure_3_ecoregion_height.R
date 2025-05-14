@@ -35,7 +35,7 @@ theme_mb <- function() {
                               color = "black"),
     axis.line = element_line(),
     legend.key = element_rect(fill = "white"),
-    legend.position = "bottom",
+    legend.position = "none",
     legend.text = element_text(size = 9),
     legend.margin = margin(0, 0, 0, 0, "cm"),
     plot.margin = margin(0, 0, 0, 0, "cm"),
@@ -57,13 +57,7 @@ sites <- read_csv(
     obs.year = "f"
   )
 ) %>%
-  mutate(
-    esy4 = fct_relevel(esy4, "R", "R22", "R1A")#,
-    # esy4 = fct_recode(
-    #   esy4, "Dry grassland\nR1A" = "R1A", "Hay meadow\nR22" = "R22",
-    #   "Undefined\nR" = "R"
-    # )
-  ) %>%
+  mutate(esy4 = fct_relevel(esy4, "R", "R22", "R1A")) %>%
   rename(y = cwm.abu.height) %>%
   filter(y < 1)
 
@@ -81,21 +75,38 @@ m@call
 
 
 data_text <- tibble(
-  y = 1,
-  eco.id = "686",
-  label = c("Ecoregion n.s."),
-  esy4 = c("R1A")
+  y = c(1, 1, 1),
+  eco.id = c("664", "654", "686"),
+  label = c("", "", "Ecoregion n.s."),
+  esy4 = c("R", "R22", "R1A")
 ) %>%
   mutate(esy4 = fct_relevel(esy4, "R", "R22", "R1A"))
 
-graph_b <- ggplot(sites, aes(y = y, x = eco.id, fill = eco.id)) +
-  geom_quasirandom(color = "grey") +
+data <- sites %>%
+  group_by(esy4, eco.id) %>%
+  summarize(mean = mean(y), sd = sd(y, na.rm = TRUE))
+
+graph_b <- ggplot() +
+  geom_quasirandom(
+    data = sites,
+    aes(x = eco.id, y = y, color = eco.id),
+    alpha = .2, shape = 16, size = 1
+  ) +
+  geom_errorbar(
+    data = data,
+    aes(x = eco.id, y = mean, ymin = mean-sd, ymax = mean+sd, color = eco.id),
+    width = 0.0, linewidth = 0.4
+  ) +
+  geom_point(
+    data = data,
+    aes(x = eco.id, y = mean, color = eco.id),
+    size = 2
+  ) +
   geom_text(
     data = data_text,
     aes(x = eco.id, y = y, label = label, group = esy4),
-    hjust = .7
+    hjust = .8, size = 3.1
   ) +
-  geom_boxplot(alpha = .5) +
   facet_grid(~ esy4) +
   scale_fill_viridis_d(guide = "none") +
   scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, .1)) +
@@ -118,6 +129,6 @@ graph_b <- ggplot(sites, aes(y = y, x = eco.id, fill = eco.id)) +
 #### * Save ####
 
 ggsave(
-  here("outputs", "figures", "figure_3_ecoregion_height_300dpi_8x6cm.tiff"),
-  dpi = 300, width = 8, height = 6, units = "cm"
+  here("outputs", "figures", "figure_3_ecoregion_height_300dpi_9x6cm.tiff"),
+  dpi = 300, width = 9, height = 6, units = "cm"
 )

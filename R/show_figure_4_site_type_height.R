@@ -57,13 +57,7 @@ sites <- read_csv(
     obs.year = "f"
   )
 ) %>%
-  mutate(
-    esy4 = fct_relevel(esy4, "R", "R22", "R1A")#,
-    # esy4 = fct_recode(
-    #   esy4, "Dry grassland\nR1A" = "R1A", "Hay meadow\nR22" = "R22",
-    #   "Undefined\nR" = "R"
-    # )
-  ) %>%
+  mutate(esy4 = fct_relevel(esy4, "R", "R22", "R1A")) %>%
   rename(y = cwm.abu.height) %>%
   filter(y < 1)
 
@@ -80,53 +74,58 @@ m@call
 
 
 
-data_model <- ggemmeans(
-  m, terms = c("site.type", "esy4"), back.transform = FALSE, ci_level = .95
-)
-
 data <- sites %>%
-  rename(predicted = y, x = site.type, group = esy4)
+  group_by(esy4, site.type) %>%
+  summarize(mean = mean(y), sd = sd(y, na.rm = TRUE))
 
-data_line <- tibble(
-  yintercept = c(0.4460645, 0.4520012, 0.3530873),
-  group = c("R", "R22", "R1A")
-) %>%
-  mutate(group = fct_relevel(group, "R", "R22", "R1A"))
+data_line <- data %>%
+  filter(site.type == "positive")
 
 data_text <- tibble(
-  label = c("Site type **", "Interaction n.s."),
-  y = c(1, .93),
-  x = rep(c(2.6), 2),
-  group = rep("R1A", 2)
+  y = c(1, 1, 1, .93),
+  site.type = c("positive", "restored", "negative", "negative"),
+  label = c("", "", "Site type **", "Interaction n.s."),
+  esy4 = c("R", "R22", "R1A", "R1A")
 ) %>%
-  mutate(group = fct_relevel(group, "R", "R22", "R1A"))
+  mutate(esy4 = fct_relevel(esy4, "R", "R22", "R1A"))
 
 graph_b <- ggplot() +
   geom_quasirandom(
-    data = data,
-    aes(x = x, y = predicted, color = x),
-    dodge.width = .6, size = 1, shape = 16, alpha = .3
+    data = sites,
+    aes(x = site.type, y = y, color = site.type),
+    alpha = .2, shape = 16, size = 1
   ) +
   geom_hline(
     data = data_line,
-    aes(yintercept = yintercept, group = group),
-    linetype = "dashed"
+    aes(yintercept = mean),
+    linetype = "solid", color = "grey70"
   ) +
-  geom_text(
-    data = data_text,
-    aes(y = y, x = x, group = group, label = label)
+  geom_hline(
+    data = data_line,
+    aes(yintercept = mean+sd),
+    linetype = "dashed", color = "grey70"
+  ) +
+  geom_hline(
+    data = data_line,
+    aes(yintercept = mean-sd),
+    linetype = "dashed", color = "grey70"
   ) +
   geom_errorbar(
-    data = data_model,
-    aes(x = x, y = predicted, ymin = conf.low, ymax = conf.high, color = x),
+    data = data,
+    aes(x = site.type, y = mean, ymin = mean-sd, ymax = mean+sd, color = site.type),
     width = 0.0, linewidth = 0.4
   ) +
   geom_point(
-    data = data_model,
-    aes(x = x, y = predicted, color = x),
+    data = data,
+    aes(x = site.type, y = mean, color = site.type),
     size = 2
   ) +
-  facet_grid(~ group) +
+  geom_text(
+    data = data_text,
+    aes(x = site.type, y = y, label = label, group = esy4),
+    hjust = .8, size = 3.1
+  ) +
+  facet_grid(~ esy4) +
   scale_color_manual(
     values = c(
       "positive" = "#21918c",
@@ -152,6 +151,6 @@ graph_b <- ggplot() +
 #### * Save ####
 
 ggsave(
-  here("outputs", "figures", "figure_4_site.type_height_300dpi_15x8cm.tiff"),
-  dpi = 300, width = 15, height = 8, units = "cm"
+  here("outputs", "figures", "figure_4_site.type_height_300dpi_9x6cm.tiff"),
+  dpi = 300, width = 9, height = 6, units = "cm"
 )
