@@ -48,3 +48,4 @@ po/*~
 # RStudio Connect folder
 rsconnect/
 data/raw/database_splotopen/sPlotOpen_DT.txt
+data/raw/ecoregions2017.shp
