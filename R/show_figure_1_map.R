@@ -40,15 +40,14 @@ theme_mb <- function() {
 }
 
 ### Load data ###
+
 sites <- st_read(
   here("data", "raw", "data_processed_sites_epsg4326.gpkg")
   ) %>%
-  filter(eco.id %in% c(664, 654, 686))
-germany <- geodata::gadm(
-  country = "DEU", level = 0, version = "latest", resolution = 2, path = here()
-) %>%
-  st_as_sf() %>%
-  st_set_crs(4326)
+  filter(
+    eco.id %in% c(664, 654, 686) & !(eco.id == 686 & region == "centre")
+    )
+
 ecoregions <- st_read(here("data", "raw", "ecoregions2017.shp")) %>%
   st_transform(crs = 4326) %>%
   filter(
@@ -58,6 +57,13 @@ ecoregions <- st_read(here("data", "raw", "ecoregions2017.shp")) %>%
       ECO_NAME == "Baltic mixed forests" |
       ECO_NAME == "Alps conifer and mixed forests"
   )
+
+germany <- geodata::gadm(
+  country = "DEU", level = 0, version = "latest", resolution = 2, path = here()
+) %>%
+  st_as_sf() %>%
+  st_set_crs(4326)
+
 elevation <- elevatr::get_elev_raster(
   locations = data.frame(x = c(5.5, 15.5), y = c(47, 55.5)),
   prj = "+proj=longlat +datum=WGS84 +no_defs",
@@ -65,16 +71,29 @@ elevation <- elevatr::get_elev_raster(
 ) %>%
   terra::rast()
 
+rivers <- rnaturalearth::ne_download(
+  scale = 50, type = 'rivers_lake_centerlines', category = 'physical'
+) %>%
+  st_crop(xmin = 5.5, xmax = 15.5, ymin = 47, ymax = 55.4)
+
 
 
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# B Plot #######################################################################
-#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# B Create variables ###########################################################
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
 
 clip <- st_intersection(ecoregions, germany)
-grad <- tidyterra::hypso.colors2(10, "dem_poster")
+crop <- st_crop(ecoregions, xmin = 5.5, xmax = 15.5, ymin = 47, ymax = 55.4)
+mask <- mask(elevation, crop)
+gradient_1 <- tidyterra::hypso.colors2(10, "dem_poster")
+
+
+
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# C Plot #######################################################################
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
 
@@ -130,19 +149,24 @@ graph_sites <- ggplot() +
 
 
 graph_sites <- ggplot() +
-  tidyterra::geom_spatraster(data = elevation) +
+  tidyterra::geom_spatraster(data = mask) +
   geom_sf(
-    data = clip, colour = "black", fill = "transparent", size = 1,
-    linetype = "dashed"
+    data = crop, colour = "black", fill = "transparent", size = 1,
+    linetype = "solid"
     ) +
-  geom_sf(data = germany, colour = "black", fill = "transparent", size = 1) +
+  geom_sf(data = rivers, color = "blue", linewidth = 0.2) +
+  annotate(
+    geom = "text", label = c("Danube", "Elbe"),
+    x = c(13.5, 11.7), y = c(48.95, 53.25),
+    angle = 333, color = "blue", size = 3.5
+  ) +
   geom_sf(data = sites, colour = "black", size = 1) +
   annotate(
-    geom = "label", x = c(9.9, 12.85, 11), y = c(52.8, 51.55, 48.7),
+    geom = "label", x = c(9.85, 14, 11), y = c(52.85, 51.7, 49.2),
     label = c("ID 664", "ID 654", "ID 686"), fill = "transparent", size = 3.5,
   ) +
   annotate(
-    geom = "text", x = c(8, 13, 13.8, 10), y = c(53.1, 53.85, 52.2, 49.4),
+    geom = "text", x = c(7.6, 13, 13.4, 10.4), y = c(53, 53.82, 52.2, 49.7),
     lineheight = .8, size = 3.5,
     label = c(
       "European Atlantic\nmixed forests",
@@ -156,14 +180,16 @@ graph_sites <- ggplot() +
     style = ggspatial::north_arrow_fancy_orienteering(),
     height = unit(2, "cm"),
     width = unit(2, "cm"),
-    pad_y = unit(.5, "cm"),
-    pad_x = unit(0.1, "cm")
+    pad_y = unit(.6, "cm"),
+    pad_x = unit(0.2, "cm")
   ) +
   ggspatial::annotation_scale(
-    pad_y = unit(.7, "cm"),
-    pad_x = unit(2, "cm")
+    pad_y = unit(.9, "cm"),
+    pad_x = unit(2.2, "cm")
   ) +
-  scale_fill_gradientn(colours = grad, na.value = NA, name = "Elevation [m]") +
+  scale_fill_gradientn(
+    colours = gradient_1, na.value = NA, name = "Elevation [m]"
+    ) +
   theme_mb();graph_sites
 
 

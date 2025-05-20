@@ -79,7 +79,7 @@ m@call
 
 data <- sites %>%
   group_by(esy4, site.type) %>%
-  summarize(mean = mean(y), sd = sd(y, na.rm = TRUE))
+  summarize(median = median(y), sd = sd(y, na.rm = TRUE), mean = mean(y))
 
 data_line <- data %>%
   filter(site.type == "+")
@@ -100,7 +100,7 @@ graph_c <- ggplot() +
   ) +
   geom_hline(
     data = data_line,
-    aes(yintercept = mean),
+    aes(yintercept = median),
     linetype = "solid", color = "grey70"
   ) +
   geom_hline(
@@ -120,7 +120,7 @@ graph_c <- ggplot() +
   ) +
   geom_point(
     data = data,
-    aes(x = site.type, y = mean, color = site.type),
+    aes(x = site.type, y = median, color = site.type),
     size = 2
   ) +
   geom_text(

@@ -68,7 +68,9 @@ sites_splot <- read_delim(
     .default = "?",
     Cover_algae_layer = "d"
   )
-)
+) %>%
+  filter(!(ESY %in% c(NA, "?"))) %>%
+  filter(ESY %in% c("E12a", "E22") & Country == "Germany")
 
 species_splot <- read_delim(
   here("data", "raw", "database_splotopen", "sPlotOpen_DT.txt"),
@@ -77,7 +79,8 @@ species_splot <- read_delim(
       .default = "?"
     )
 ) %>%
-  filter(Abundance_scale == "CoverPerc")
+  filter(Abundance_scale == "CoverPerc") %>%
+  semi_join(sites_splot, by = "PlotObservationID")
 
 
 rm(list = setdiff(ls(), c(
@@ -98,7 +101,12 @@ data <- sites %>%
   mutate(
     history = if_else(str_detect(history, "ie Fläche"), NA, history),
     history = as.numeric(history)
-    )
+    ) %>%
+  filter(
+    eco.id %in% c(664, 654, 686) &
+      !(eco.id == 686 & region == "centre") &
+      !(eco.id == 664 & region == "centre")
+  )
 
 sites_esy16 <- data %>%
   select(
@@ -120,7 +128,7 @@ sites_esy16 <- data %>%
     cwm.pres.height.mean = mean(cwm.pres.height),
     cwm.pres.seedmass.mean = mean(cwm.pres.seedmass),
   ) %>%
-  filter(esy16 %in% c("R", "R22", "R1A") & !(eco.id == 647))
+  filter(esy16 %in% c("R", "R22", "R1A"))
   
 sites_esy4 <- data %>%
   select(
@@ -130,8 +138,9 @@ sites_esy4 <- data %>%
     cwm.abu.sla, cwm.abu.height, cwm.abu.seedmass,
     cwm.pres.sla, cwm.pres.height, cwm.pres.seedmass
   ) %>%
-  filter(esy4 %in% c("R", "R22", "R1A") & !(eco.id == 647))
+  filter(esy4 %in% c("R", "R22", "R1A"))
 
+table(sites_esy16$esy16)
 table(sites_esy4$esy4)
 
 

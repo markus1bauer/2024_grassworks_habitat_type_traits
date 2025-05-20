@@ -16,22 +16,18 @@ M_FAL,centre,654,Central European mixed forests,2023,R,restored,2017,fresh,arabl
 M_FRB,centre,654,Central European mixed forests,2023,R,restored,2017,dry,grassland,NA,NA,176.735,0.29250000000000004,0.0022275,211.5375,0.3025,0.001185
 M_GRO,centre,654,Central European mixed forests,2022,R22,restored,1996,fresh,arable land,0,1,268.59250000000003,0.8225,0.002165,233.235,0.4525,0.001545
 M_HAH,centre,654,Central European mixed forests,2023,R1A,positive,NA,dry,NA,NA,NA,185.2625,0.17500000000000002,9.775e-4,170.2975,0.2625,0.0017925
-M_HAI,centre,686,Western European broadleaf forests,2022,R22,restored,2003,fresh,grassland,NA,NA,229.17000000000002,0.5,0.00305,230.8,0.41,0.0019525
 M_HAR,centre,654,Central European mixed forests,2023,R,restored,2012,fresh,arable land,0,1,219.375,0.605,0.0031375,222.26749999999998,0.4925,0.00213
 M_HIR,centre,654,Central European mixed forests,2022,R1A,restored,2014,dry,grassland,NA,NA,222.8,0.3975,0.0012000000000000001,209.485,0.3375,0.0013475
-M_HLI,centre,686,Western European broadleaf forests,2022,R22,positive,2003,fresh,NA,0,1,236.4125,0.48,0.0013675,245.64249999999998,0.4425,0.0011925
 M_HNB,centre,654,Central European mixed forests,2023,R1A,restored,2020,dry,grassland,NA,NA,191.31,0.315,0.001865,206.465,0.35,0.0013225
 M_HOH,centre,654,Central European mixed forests,2022,R,restored,2003,moist,arable land,0,1,211.1775,0.475,0.0014550000000000001,214.3125,0.5025,0.0017200000000000002
 M_ILB,centre,654,Central European mixed forests,2023,R22,restored,2016,fresh,arable land,0,2,237.07,0.355,0.00126,230.7475,0.47,0.00112
 M_JEP,centre,654,Central European mixed forests,2023,R,positive,2018,fresh,NA,0,1,174.7075,0.4725,0.002285,229.01999999999998,0.255,0.001055
-M_KAL,centre,686,Western European broadleaf forests,2022,R1A,positive,2003,fresh,NA,NA,NA,175.8625,0.3525,0.0037974999999999997,203.3175,0.41000000000000003,0.0024850000000000002
 M_KAP,centre,654,Central European mixed forests,2023,R,negative,2018,fresh,NA,0,1,240.035,0.6425,0.00474,240.1475,0.45499999999999996,0.0043325
 M_KIF,centre,654,Central European mixed forests,2022,R1A,negative,2011,dry,NA,0,1,197.82999999999998,0.485,0.0032300000000000002,196.5925,0.3925,0.00273
 M_KOL,centre,654,Central European mixed forests,2023,R,restored,2020,dry,arable land,0,1,213.47,0.455,0.001165,221.8825,0.4175,0.001215
 M_KOT,centre,654,Central European mixed forests,2022,R22,restored,NA,fresh,arable land,NA,NA,231.265,0.505,0.0022375,235.9425,0.5575,0.0016350000000000002
 M_KUH,centre,654,Central European mixed forests,2022,R1A,restored,2019,dry,grassland,NA,NA,178.445,0.3725,0.0025975,202.67,0.275,0.0014725
 M_LOB,centre,654,Central European mixed forests,2023,R,restored,2003,fresh,arable land,0,1,224.06,0.4925,0.0050425,224.595,0.39,0.0017100000000000001
-M_MOZ,centre,686,Western European broadleaf forests,2023,R,positive,2019,moist,NA,1,1,251.9925,0.49,7.125e-4,250.0175,0.3825,8.325e-4
 M_NIS,centre,654,Central European mixed forests,2022,R1A,negative,NA,dry,NA,NA,NA,239.6825,0.445,7.875e-4,240.515,0.4275,0.001395
 M_SKF,centre,654,Central European mixed forests,2022,R22,restored,2014,fresh,arable land,0,1,198.095,0.4675,0.0010425,219.2625,0.4975,0.0013375000000000001
 M_SMH,centre,654,Central European mixed forests,2023,R1A,negative,NA,dry,NA,NA,NA,172.0675,0.41,0.0029925,191.38,0.2775,0.0013075
@@ -53,7 +49,6 @@ M_VOC,centre,654,Central European mixed forests,2023,R22,restored,2018,fresh,ara
 M_WDG,centre,654,Central European mixed forests,2022,R22,restored,2017,fresh,arable land,0,2,201.4625,0.37,0.0017775,212.485,0.4,0.0012175
 M_WED,centre,654,Central European mixed forests,2023,R22,restored,2018,moist,arable land,0,2,245.85000000000002,0.755,0.0023825,236.2775,0.5700000000000001,0.0014175
 M_WEF,centre,654,Central European mixed forests,2022,R22,restored,2011,moist,grassland,0,2,228.735,0.6125,6.575e-4,196.86,0.51,7.975e-4
-M_WIM,centre,686,Western European broadleaf forests,2022,R22,restored,2017,fresh,arable land,0,1,204.2025,0.44,0.0011324999999999998,221.0925,0.4525,0.0010875
 M_WLE,centre,654,Central European mixed forests,2022,R,negative,2000,moist,NA,1,3,263.65250000000003,0.6475,8.024999999999999e-4,223.3325,0.495,0.0012225
 M_WUG,centre,654,Central European mixed forests,2022,R,restored,NA,fresh,arable land,NA,NA,243.7325,0.4575,0.0015975,231.315,0.49,0.0012174999999999998
 M_WUM,centre,654,Central European mixed forests,2022,R,restored,2008,fresh,grassland,NA,NA,224.8,0.565,0.0010249999999999999,230.845,0.56,0.00148

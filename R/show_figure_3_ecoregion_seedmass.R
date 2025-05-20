@@ -78,7 +78,7 @@ m@call
 
 data <- sites %>%
   group_by(esy4, eco.id) %>%
-  summarize(mean = mean(y), sd = sd(y, na.rm = TRUE))
+  summarize(mean = mean(y), sd = sd(y, na.rm = TRUE), median = median(y))
 
 data_text <- tibble(
   y = c(1, 1, 10, 9),
@@ -101,7 +101,7 @@ graph_c <- ggplot() +
   ) +
   geom_point(
     data = data,
-    aes(x = eco.id, y = mean, color = eco.id),
+    aes(x = eco.id, y = median, color = eco.id),
     size = 2
   ) +
   geom_text(

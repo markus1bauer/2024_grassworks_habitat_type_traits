@@ -109,6 +109,13 @@ graph_a <- ggplot() +
   facet_grid(~ esy4) +
   scale_fill_viridis_d(guide = "none") +
   scale_y_continuous(limits = c(140, 340), breaks = seq(0, 400, 20)) +
+  scale_color_manual(
+    values = c(
+      "664" = "#440154",
+      "654" = "#21918c",
+      "686" = "orange"
+    ), guide = "none"
+  ) +
   labs(
     y = expression(CWM ~ Specific ~ leaf ~ area ~ "[" * cm^2 ~ g^-1 * "]"),
     title = "Specific leaf area",

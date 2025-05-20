@@ -82,7 +82,7 @@ m@call
 
 data <- sites %>%
   group_by(esy4) %>%
-  summarize(mean = mean(y), sd = sd(y, na.rm = TRUE))
+  summarize(mean = mean(y), sd = sd(y, na.rm = TRUE), median = median(y))
 
 graph_c <- ggplot() +
   geom_quasirandom(
@@ -90,9 +90,9 @@ graph_c <- ggplot() +
     aes(x = esy4, y = y, color = esy4),
     alpha = .2, shape = 16, size = 1
   ) +
-  geom_hline(yintercept = 1.48, linetype = "solid", color = "grey70") +
-  geom_hline(yintercept = 1.48+1.169, linetype = "dashed", color = "grey70") +
-  geom_hline(yintercept = 1.48-1.169, linetype = "dashed", color = "grey70") +
+  geom_hline(yintercept = 1.21, linetype = "solid", color = "grey70") +
+  geom_hline(yintercept = 1.47+1.159, linetype = "dashed", color = "grey70") +
+  geom_hline(yintercept = 1.47-1.159, linetype = "dashed", color = "grey70") +
   geom_errorbar(
     data = data,
     aes(x = esy4, ymin = mean-sd, ymax = mean+sd, color = esy4),
@@ -100,7 +100,7 @@ graph_c <- ggplot() +
   ) +
   geom_point(
     data = data,
-    aes(x = esy4, y = mean, color = esy4),
+    aes(x = esy4, y = median, color = esy4),
     size = 2
   ) +
     annotate("text", label = "n.s.", y = 9, x = 3.4) +

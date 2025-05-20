@@ -110,6 +110,13 @@ graph_b <- ggplot() +
   facet_grid(~ esy4) +
   scale_fill_viridis_d(guide = "none") +
   scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, .1)) +
+  scale_color_manual(
+    values = c(
+      "664" = "#440154",
+      "654" = "#21918c",
+      "686" = "orange"
+    ), guide = "none"
+  ) +
   labs(
     y = expression(CWM ~ Canopy ~ height ~ "[" * m * "]"),
     title = "Canopy height",
