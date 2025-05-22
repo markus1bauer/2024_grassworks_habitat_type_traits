@@ -78,20 +78,20 @@ data <- sites %>%
   summarize(mean = mean(y), sd = sd(y, na.rm = TRUE))
 
 graph_a <- ggplot() +
+  geom_hline(
+    yintercept = 245, linetype = "solid", color = "grey70", linewidth = .2
+    ) +
+  geom_hline(
+    yintercept = 245+32.7, linetype = "dashed", color = "grey70", linewidth = .2
+    ) +
+  geom_hline(
+    yintercept = 245-32.7, linetype = "dashed", color = "grey70", linewidth = .2
+    ) +
   geom_quasirandom(
     data = sites,
     aes(x = esy4, y = y, color = esy4),
     alpha = .2, shape = 16, size = 1
   ) +
-  geom_hline(
-    yintercept = 245, linetype = "solid", color = "grey70", size = .5
-    ) +
-  geom_hline(
-    yintercept = 245+32.7, linetype = "dashed", color = "grey70", size = .5
-    ) +
-  geom_hline(
-    yintercept = 245-32.7, linetype = "dashed", color = "grey70", size = .5
-    ) +
   geom_errorbar(
     data = data,
     aes(x = esy4, ymin = mean-sd, ymax = mean+sd, color = esy4),
@@ -109,14 +109,14 @@ graph_a <- ggplot() +
     values = c(
       "R" = "#440154",
       "R22" = "#21918c",
-      "R1A" = "orange"
+      "R1A" = "#FFA500"
     ), guide = "none"
   ) +
   scale_color_manual(
     values = c(
       "R" = "#440154",
       "R22" = "#21918c",
-      "R1A" = "orange"
+      "R1A" = "#FFA500"
     ), guide = "none"
   ) +
   scale_y_continuous(limits = c(140, 340), breaks = seq(0, 400, 20)) +
@@ -136,6 +136,6 @@ graph_a <- ggplot() +
 #### * Save ####
 
 ggsave(
-  here("outputs", "figures", "figure_2_sla_300dpi_9x6cm.tiff"),
+  here("outputs", "figures", "figure_3_sla_300dpi_9x6cm.tiff"),
   dpi = 300, width = 9, height = 6, units = "cm"
 )

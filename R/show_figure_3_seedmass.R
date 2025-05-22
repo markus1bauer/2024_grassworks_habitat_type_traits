@@ -85,20 +85,22 @@ data <- sites %>%
   summarize(mean = mean(y), sd = sd(y, na.rm = TRUE), median = median(y))
 
 graph_c <- ggplot() +
+  geom_hline(
+    yintercept = 1.21, linetype = "solid", color = "grey70", linewidth = .2
+    ) +
+  geom_hline(
+    yintercept = 1.47+1.159,
+    linetype = "dashed", color = "grey70", linewidth = .2
+    ) +
+  geom_hline(
+    yintercept = 1.47-1.159,
+    linetype = "dashed", color = "grey70", linewidth = .2
+    ) +
   geom_quasirandom(
     data = sites,
     aes(x = esy4, y = y, color = esy4),
     alpha = .2, shape = 16, size = 1
   ) +
-  geom_hline(
-    yintercept = 1.21, linetype = "solid", color = "grey70", size = .5
-    ) +
-  geom_hline(
-    yintercept = 1.47+1.159, linetype = "dashed", color = "grey70", size = .5
-    ) +
-  geom_hline(
-    yintercept = 1.47-1.159, linetype = "dashed", color = "grey70", size = .5
-    ) +
   geom_errorbar(
     data = data,
     aes(x = esy4, ymin = mean-sd, ymax = mean+sd, color = esy4),
@@ -115,14 +117,14 @@ graph_c <- ggplot() +
       values = c(
         "Undefined\nR" = "#440154",
         "Hay meadow\nR22" = "#21918c",
-        "Dry grassland\nR1A" = "orange"
+        "Dry grassland\nR1A" = "#FFA500"
       ), guide = "none"
     ) +
     scale_color_manual(
       values = c(
         "Undefined\nR" = "#440154",
         "Hay meadow\nR22" = "#21918c",
-        "Dry grassland\nR1A" = "orange"
+        "Dry grassland\nR1A" = "#FFA500"
       ), guide = "none"
     ) +
     labs(
@@ -137,6 +139,6 @@ graph_c <- ggplot() +
 #### * Save ####
 
 ggsave(
-  here("outputs", "figures", "figure_2_seedmass_300dpi_9x6cm.tiff"),
+  here("outputs", "figures", "figure_3_seedmass_300dpi_9x6cm.tiff"),
   dpi = 300, width = 9, height = 6, units = "cm"
 )

@@ -4,7 +4,7 @@
 # Show figure of canopy height
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Markus Bauer
-# 2025-05-14
+# 2025-05-22
 
 
 
@@ -48,10 +48,11 @@ sites <- read_csv(
   here("data", "processed", "data_processed_sites_esy4.csv"),
   col_names = TRUE, na = c("na", "NA", ""), col_types = cols(
     .default = "?",
+    eco.id = "f",
     eco.id = col_factor(levels = c("664", "654", "686"), ordered = TRUE),
-    site.type = col_factor(
-      levels = c("positive", "restored", "negative"), ordered = TRUE
-    ),
+    # site.type = col_factor(
+    #   levels = c("positive", "restored", "negative"), ordered = TRUE
+    # ),
     fertilized = "f",
     freq.mow = "f",
     obs.year = "f"
@@ -79,28 +80,35 @@ data <- sites %>%
   summarize(mean = mean(y), sd = sd(y, na.rm = TRUE))
 
 graph_b <- ggplot() +
+  geom_hline(
+    yintercept = .488, linetype = "solid", color = "grey70", linewidth = .2
+    ) +
+  geom_hline(
+    yintercept = .488+.1196,
+    linetype = "dashed", color = "grey70", linewidth = .2
+    ) +
+  geom_hline(
+    yintercept = .488-.1196,
+    linetype = "dashed", color = "grey70", linewidth = .2
+    ) +
   geom_quasirandom(
-    data = sites,
-    aes(x = esy4, y = y, color = esy4),
+    data = sites, aes(x = esy4, y = y, color = esy4),
     alpha = .2, shape = 16, size = 1
   ) +
-  geom_hline(
-    yintercept = .488, linetype = "solid", color = "grey70", size = .5
-    ) +
-  geom_hline(
-    yintercept = .488+.1196, linetype = "dashed", color = "grey70", size = .5
-    ) +
-  geom_hline(
-    yintercept = .488-.1196, linetype = "dashed", color = "grey70", size = .5
+  geom_boxplot(
+    data = sites, aes(x = esy4, y = y, fill = esy4),
+    alpha = .5
     ) +
   geom_errorbar(
     data = data,
-    aes(x = esy4, ymin = mean-sd, ymax = mean+sd, color = esy4),
+    aes(x = as.numeric(
+      factor(esy4)) + 0.45, ymin = mean-sd, ymax = mean+sd, color = esy4
+      ),
     width = 0.0, linewidth = 0.4
   ) +
   geom_point(
     data = data,
-    aes(x = esy4, y = mean, color = esy4),
+    aes(x = as.numeric(factor(esy4)) + 0.45, y = mean, color = esy4),
     size = 2
   ) +
   annotate("text", label = "a", y = 1, x = 1) +
@@ -110,14 +118,14 @@ graph_b <- ggplot() +
     values = c(
       "R" = "#440154",
       "R22" = "#21918c",
-      "R1A" = "orange"
+      "R1A" = "#FFA500"
     ), guide = "none"
   ) +
   scale_color_manual(
     values = c(
       "R" = "#440154",
       "R22" = "#21918c",
-      "R1A" = "orange"
+      "R1A" = "#FFA500"
     ), guide = "none"
   ) +
   scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, .1)) +
@@ -137,6 +145,6 @@ graph_b <- ggplot() +
 #### * Save ####
 
 ggsave(
-  here("outputs", "figures", "figure_2_height_300dpi_9x6cm.tiff"),
+  here("outputs", "figures", "figure_3_height_300dpi_9x6cm.tiff"),
   dpi = 300, width = 9, height = 6, units = "cm"
 )
