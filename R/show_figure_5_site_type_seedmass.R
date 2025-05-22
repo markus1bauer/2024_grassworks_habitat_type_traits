@@ -4,7 +4,7 @@
 # Show figure of seed mass
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Markus Bauer
-# 2025-05-05
+# 2025-05-22
 
 
 
@@ -77,51 +77,65 @@ m@call
 
 
 
-data <- sites %>%
+### * Preparation ####
+
+data_summary <- sites %>%
   group_by(esy4, site.type) %>%
   summarize(median = median(y), sd = sd(y, na.rm = TRUE), mean = mean(y))
 
-data_line <- data %>%
-  filter(site.type == "+")
+data_model <- ggemmeans(
+  m, terms = c("esy4", "site.type"), back.transform = FALSE, ci_level = .95
+) %>%
+  as_tibble() %>%
+  rename(esy4 = x) %>%
+  mutate(
+    predicted = predicted * 1000,
+    conf.low = conf.low * 1000,
+    conf.high = conf.high * 1000,
+    group = fct_recode(group, "+" = "positive", "−" = "negative"),
+    group = fct_relevel(group, "+", "restored", "−")
+  )
+
+data_line <- data_model %>%
+  filter(group == "+")
 
 data_text <- tibble(
-  y = c(10, 10, 10, 9),
+  y = c(10, 10, 6.2, 5.7),
   site.type = c("+", "restored", "−", "−"),
   label = c("", "", "Site type n.s.", "Interaction n.s."),
   esy4 = c("R", "R22", "R1A", "R1A")
 ) %>%
   mutate(esy4 = fct_relevel(esy4, "R", "R22", "R1A"))
 
+### * Plot ####
+
 graph_c <- ggplot() +
+  geom_hline(
+    data = data_line,
+    aes(yintercept = predicted),
+    linetype = "dashed", color = "grey70", size = .5
+  ) +
   geom_quasirandom(
     data = sites,
     aes(x = site.type, y = y, color = site.type),
     alpha = .2, shape = 16, size = 1
   ) +
-  geom_hline(
-    data = data_line,
-    aes(yintercept = median),
-    linetype = "solid", color = "grey70", size = .5
-  ) +
-  geom_hline(
-    data = data_line,
-    aes(yintercept = mean+sd),
-    linetype = "dashed", color = "grey70", size = .5
-  ) +
-  geom_hline(
-    data = data_line,
-    aes(yintercept = mean-sd),
-    linetype = "dashed", color = "grey70", size = .5
+  geom_boxplot(
+    data = sites, aes(x = site.type, y = y, fill = site.type),
+    alpha = .5
   ) +
   geom_errorbar(
-    data = data,
-    aes(x = site.type, y = mean, ymin = mean-sd, ymax = mean+sd, color = site.type),
+    data = data_model,
+    aes(
+      x = as.numeric(factor(group)) + 0.5, ymin = conf.low, ymax = conf.high,
+      color = group
+    ),
     width = 0.0, linewidth = 0.4
   ) +
   geom_point(
-    data = data,
-    aes(x = site.type, y = median, color = site.type),
-    size = 2
+    data = data_model,
+    aes(x = as.numeric(factor(group)) + 0.5, y = predicted, color = group),
+    size = 1
   ) +
   geom_text(
     data = data_text,
@@ -132,11 +146,18 @@ graph_c <- ggplot() +
   scale_color_manual(
     values = c(
       "+" = "#21918c",
-      "restored" = "orange",
+      "restored" = "#FFA500",
       "−" = "#440154"
     ), guide = "none"
   ) +
-  scale_y_continuous(limits = c(0, 10), breaks = seq(0, 10, 1)) +
+  scale_fill_manual(
+    values = c(
+      "+" = "#21918c",
+      "restored" = "#FFA500",
+      "−" = "#440154"
+    ), guide = "none"
+  ) +
+  scale_y_continuous(limits = c(0, 6.2), breaks = seq(0, 10, .5)) +
   labs(
     x = "Restoration compared to references",
     y = expression(CWM ~ seed ~ mass ~ "[" * g * "]"),
@@ -150,6 +171,6 @@ graph_c <- ggplot() +
 #### * Save ####
 
 ggsave(
-  here("outputs", "figures", "figure_4_site.type_seedmass_300dpi_9x6cm.tiff"),
+  here("outputs", "figures", "figure_5_site.type_seedmass_300dpi_9x6cm.tiff"),
   dpi = 300, width = 9, height = 6, units = "cm"
 )

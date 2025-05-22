@@ -4,7 +4,7 @@
 # Show figure of specific leaf area
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Markus Bauer
-# 2025-05-05
+# 2025-05-22
 
 
 
@@ -73,6 +73,19 @@ m@call
 
 
 
+### * Preparation ####
+
+data_summary <- sites %>%
+  group_by(esy4) %>%
+  summarize(mean = mean(y), sd = sd(y, na.rm = TRUE))
+
+data_model <- ggemmeans(
+  m, terms = c("esy4", "eco.id"), back.transform = FALSE, ci_level = .95
+) %>%
+  as_tibble() %>%
+  rename(esy4 = x) %>%
+  mutate(group = fct_relevel(group, "664", "654", "686"))
+
 data_text <- tibble(
   y = c(340, 340, 340),
   eco.id = c("664", "654", "686"),
@@ -81,9 +94,7 @@ data_text <- tibble(
 ) %>%
   mutate(esy4 = fct_relevel(esy4, "R", "R22", "R1A"))
 
-data <- sites %>%
-  group_by(esy4, eco.id) %>%
-  summarize(mean = mean(y), sd = sd(y, na.rm = TRUE))
+### * Plot ####
 
 graph_a <- ggplot() +
   geom_quasirandom(
@@ -91,16 +102,23 @@ graph_a <- ggplot() +
     aes(x = eco.id, y = y, color = eco.id),
     alpha = .2, shape = 16, size = 1
   ) +
-  geom_errorbar(
-    data = data,
-    aes(x = eco.id, y = mean, ymin = mean-sd, ymax = mean+sd, color = eco.id),
-    width = 0.0, linewidth = 0.4
+  geom_boxplot(
+    data = sites, aes(x = eco.id, y = y, fill = eco.id),
+    alpha = .5
   ) +
-  geom_point(
-    data = data,
-    aes(x = eco.id, y = mean, color = eco.id),
-    size = 2
-  ) +
+  # geom_errorbar(
+  #   data = data_model,
+  #   aes(
+  #     x = as.numeric(factor(group)) + 0.5, ymin = conf.low, ymax = conf.high,
+  #     color = group
+  #   ),
+  #   width = 0.0, linewidth = 0.4
+  # ) +
+  # geom_point(
+  #   data = data_model,
+  #   aes(x = as.numeric(factor(group)) + 0.5, y = predicted, color = group),
+  #   size = 1
+  # ) +
   geom_text(
     data = data_text,
     aes(x = eco.id, y = y, label = label, group = esy4),
@@ -113,7 +131,14 @@ graph_a <- ggplot() +
     values = c(
       "664" = "#440154",
       "654" = "#21918c",
-      "686" = "orange"
+      "686" = "#FFA500"
+    ), guide = "none"
+  ) +
+  scale_fill_manual(
+    values = c(
+      "664" = "#440154",
+      "654" = "#21918c",
+      "686" = "#FFA500"
     ), guide = "none"
   ) +
   labs(
@@ -132,6 +157,6 @@ graph_a <- ggplot() +
 
 #### * Save ####
 ggsave(
-  here("outputs", "figures", "figure_3_ecoregion_sla_300dpi_9x6cm.tiff"),
+  here("outputs", "figures", "figure_4_ecoregion_sla_300dpi_9x6cm.tiff"),
   dpi = 300, width = 9, height = 6, units = "cm"
 )

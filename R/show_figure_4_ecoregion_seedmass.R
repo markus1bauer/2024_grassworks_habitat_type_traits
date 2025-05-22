@@ -4,7 +4,7 @@
 # Show figure of seed mass
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Markus Bauer
-# 2025-05-05
+# 2025-05-22
 
 
 
@@ -76,17 +76,33 @@ m@call
 
 
 
-data <- sites %>%
-  group_by(esy4, eco.id) %>%
-  summarize(mean = mean(y), sd = sd(y, na.rm = TRUE), median = median(y))
+### * Preparation ####
+
+data_summary <- sites %>%
+  group_by(esy4) %>%
+  summarize(median = median(y), sd = sd(y, na.rm = TRUE))
+
+data_model <- ggemmeans(
+  m, terms = c("esy4", "eco.id"), back.transform = TRUE, ci_level = .95
+) %>%
+  as_tibble() %>%
+  rename(esy4 = x) %>%
+  mutate(
+    predicted = predicted * 1000,
+    conf.low = conf.low * 1000,
+    conf.high = conf.high * 1000,
+    group = fct_relevel(group, "664", "654", "686")
+  )
 
 data_text <- tibble(
-  y = c(1, 1, 10, 9),
+  y = c(1, 1, 6.2, 5.6),
   eco.id = c("664", "654", "686", "686"),
   label = c("", "", "Ecoregion ***", "Interaction n.s."),
   esy4 = c("R", "R22", "R1A", "R1A")
 ) %>%
   mutate(esy4 = fct_relevel(esy4, "R", "R22", "R1A"))
+
+### * Plot ####
 
 graph_c <- ggplot() +
   geom_quasirandom(
@@ -94,15 +110,22 @@ graph_c <- ggplot() +
     aes(x = eco.id, y = y, color = eco.id),
     alpha = .2, shape = 16, size = 1
   ) +
+  geom_boxplot(
+    data = sites, aes(x = eco.id, y = y, fill = eco.id),
+    alpha = .5
+  ) +
   geom_errorbar(
-    data = data,
-    aes(x = eco.id, y = mean, ymin = mean-sd, ymax = mean+sd, color = eco.id),
+    data = data_model,
+    aes(
+      x = as.numeric(factor(group)) + 0.5, ymin = conf.low, ymax = conf.high,
+      color = group
+    ),
     width = 0.0, linewidth = 0.4
   ) +
   geom_point(
-    data = data,
-    aes(x = eco.id, y = median, color = eco.id),
-    size = 2
+    data = data_model,
+    aes(x = as.numeric(factor(group)) + 0.5, y = predicted, color = group),
+    size = 1
   ) +
   geom_text(
     data = data_text,
@@ -114,10 +137,17 @@ graph_c <- ggplot() +
     values = c(
       "664" = "#440154",
       "654" = "#21918c",
-      "686" = "orange"
+      "686" = "#FFA500"
     ), guide = "none"
   ) +
-  scale_y_continuous(limits = c(0, 10), breaks = seq(0, 10, 1)) +
+  scale_fill_manual(
+    values = c(
+      "664" = "#440154",
+      "654" = "#21918c",
+      "686" = "#FFA500"
+    ), guide = "none"
+  ) +
+  scale_y_continuous(limits = c(0, 6.2), breaks = seq(0, 10, .5)) +
   labs(
     x = "Ecoregion",
     y = expression( CWM ~ Seed ~ mass ~ "[" * mg * "]"),
@@ -130,6 +160,6 @@ graph_c <- ggplot() +
 #### * Save ####
 
 ggsave(
-  here("outputs", "figures", "figure_3_ecoregion_seedmass_300dpi_9x6cm.tiff"),
+  here("outputs", "figures", "figure_4_ecoregion_seedmass_300dpi_9x6cm.tiff"),
   dpi = 300, width = 9, height = 6, units = "cm"
 )

@@ -75,20 +75,23 @@ m@call
 
 
 
-data <- sites %>%
+### * Preparation ####
+
+data_summary <- sites %>%
   group_by(esy4) %>%
   summarize(mean = mean(y), sd = sd(y, na.rm = TRUE))
 
+data_model <- ggemmeans(
+  m, terms = c("esy4"), back.transform = FALSE, ci_level = .95
+) %>%
+  as_tibble()
+
+### * Plot ####
+
 graph_b <- ggplot() +
   geom_hline(
-    yintercept = .488, linetype = "solid", color = "grey70", linewidth = .2
-    ) +
-  geom_hline(
-    yintercept = .488+.1196,
-    linetype = "dashed", color = "grey70", linewidth = .2
-    ) +
-  geom_hline(
-    yintercept = .488-.1196,
+    yintercept = data_model %>%
+      filter(x == "R") %>% select(predicted) %>% pull(),
     linetype = "dashed", color = "grey70", linewidth = .2
     ) +
   geom_quasirandom(
@@ -100,16 +103,17 @@ graph_b <- ggplot() +
     alpha = .5
     ) +
   geom_errorbar(
-    data = data,
-    aes(x = as.numeric(
-      factor(esy4)) + 0.45, ymin = mean-sd, ymax = mean+sd, color = esy4
+    data = data_model,
+    aes(
+      x = as.numeric(factor(x)) + 0.45, ymin = conf.low, ymax = conf.high,
+      color = x
       ),
     width = 0.0, linewidth = 0.4
   ) +
   geom_point(
-    data = data,
-    aes(x = as.numeric(factor(esy4)) + 0.45, y = mean, color = esy4),
-    size = 2
+    data = data_model,
+    aes(x = as.numeric(factor(x)) + 0.45, y = predicted, color = x),
+    size = 1.5
   ) +
   annotate("text", label = "a", y = 1, x = 1) +
   annotate("text", label = "a", y = 1, x = 2) +

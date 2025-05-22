@@ -4,7 +4,7 @@
 # Show figure of site types
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Markus Bauer
-# 2025-05-05
+# 2025-05-22
 
 
 
@@ -36,6 +36,6 @@ graph_a / graph_b / graph_c +
 
 ### Save ###
 ggsave(
-  here("outputs", "figures", "figure_4_300dpi_9x18cm.tiff"),
+  here("outputs", "figures", "figure_5_300dpi_9x18cm.tiff"),
   dpi = 300, width = 9, height = 18, units = "cm"
 )

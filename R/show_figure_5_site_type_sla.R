@@ -4,7 +4,7 @@
 # Show figure of specific leaf area
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Markus Bauer
-# 2025-05-05
+# 2025-05-22
 
 
 
@@ -73,12 +73,21 @@ m@call
 
 
 
+### * Preparation ####
+
 data <- sites %>%
   group_by(esy4, site.type) %>%
   summarize(mean = mean(y), sd = sd(y, na.rm = TRUE))
 
-data_line <- data %>%
-  filter(site.type == "positive")
+data_model <- ggemmeans(
+  m, terms = c("esy4", "site.type"), back.transform = FALSE, ci_level = .95
+) %>%
+  as_tibble() %>%
+  rename(esy4 = x) %>%
+  mutate(group = fct_relevel(group, "positive", "restored", "negative"))
+
+data_line <- data_model %>%
+  filter(group == "positive")
 
 data_text <- tibble(
   y = c(340, 340, 340, 320),
@@ -88,36 +97,35 @@ data_text <- tibble(
 ) %>%
   mutate(esy4 = fct_relevel(esy4, "R", "R22", "R1A"))
 
+### * Plot ####
+
 graph_a <- ggplot() +
+  geom_hline(
+    data = data_line,
+    aes(yintercept = predicted),
+    linetype = "dashed", color = "grey70", size = .5
+  ) +
   geom_quasirandom(
     data = sites,
     aes(x = site.type, y = y, color = site.type),
     alpha = .2, shape = 16, size = 1
   ) +
-  geom_hline(
-    data = data_line,
-    aes(yintercept = mean),
-    linetype = "solid", color = "grey70", size = .5
-  ) +
-  geom_hline(
-    data = data_line,
-    aes(yintercept = mean+sd),
-    linetype = "dashed", color = "grey70", size = .5
-  ) +
-  geom_hline(
-    data = data_line,
-    aes(yintercept = mean-sd),
-    linetype = "dashed", color = "grey70", size = .5
+  geom_boxplot(
+    data = sites, aes(x = site.type, y = y, fill = site.type),
+    alpha = .5
   ) +
   geom_errorbar(
-    data = data,
-    aes(x = site.type, y = mean, ymin = mean-sd, ymax = mean+sd, color = site.type),
+    data = data_model,
+    aes(
+      x = as.numeric(factor(group)) + 0.5, ymin = conf.low, ymax = conf.high,
+      color = group
+    ),
     width = 0.0, linewidth = 0.4
   ) +
   geom_point(
-    data = data,
-    aes(x = site.type, y = mean, color = site.type),
-    size = 2
+    data = data_model,
+    aes(x = as.numeric(factor(group)) + 0.5, y = predicted, color = group),
+    size = 1
   ) +
   geom_text(
     data = data_text,
@@ -128,7 +136,14 @@ graph_a <- ggplot() +
   scale_color_manual(
     values = c(
       "positive" = "#21918c",
-      "restored" = "orange",
+      "restored" = "#FFA500",
+      "negative" = "#440154"
+    ), guide = "none"
+  ) +
+  scale_fill_manual(
+    values = c(
+      "positive" = "#21918c",
+      "restored" = "#FFA500",
       "negative" = "#440154"
     ), guide = "none"
   ) +
@@ -149,6 +164,6 @@ graph_a <- ggplot() +
 #### * Save ####
 
 ggsave(
-  here("outputs", "figures", "figure_4_site.type_sla_300dpi_9x6cm.tiff"),
+  here("outputs", "figures", "figure_5_site.type_sla_300dpi_9x6cm.tiff"),
   dpi = 300, width = 9, height = 6, units = "cm"
 )
