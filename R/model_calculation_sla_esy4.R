@@ -4,7 +4,7 @@
 # Specific leaf area (SLA) for ESY4
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Markus Bauer
-# 2025-04-29
+# 2025-06-03
 
 
 
@@ -36,7 +36,6 @@ sites <- read_csv(
       levels = c("positive", "restored", "negative"), ordered = TRUE
       ),
     fertilized = "f",
-    freq.mow = "f",
     obs.year = "f"
   )
 ) %>%
@@ -77,15 +76,6 @@ ggplot(sites, aes(y = y, x = obs.year)) +
   geom_boxplot(fill = "transparent") +
   facet_grid(~ esy4) +
   labs(y = "CWM SLA (abu) [cm²/g]", x = "Survey year")
-
-sites %>%
-  filter(site.type == "restored") %>%
-  mutate(history = as.numeric(history)) %>%
-  ggplot(aes(y = y, x = history)) +
-  geom_quasirandom(color = "grey") +
-  geom_smooth() +
-  facet_grid(~ esy4) +
-  labs(y = "CWM SLA (abu) [cm²/g]")
 
 
 ### b Outliers, zero-inflation, transformations? ------------------------------
@@ -133,16 +123,9 @@ m2 <- lmer(
   data = sites
   )
 simulateResiduals(m2, plot = TRUE)
-m3 <- lmer(
-  y ~ esy4 + site.type + eco.id + obs.year + (1|id.site),
-  REML = FALSE,
-  data = sites
-)
-simulateResiduals(m3, plot = TRUE)
 
 
 ### b Save ---------------------------------------------------------------------
 
 save(m1, file = here("outputs", "models", "model_sla_esy4_1.Rdata"))
 save(m2, file = here("outputs", "models", "model_sla_esy4_2.Rdata"))
-save(m3, file = here("outputs", "models", "model_sla_esy4_3.Rdata"))
