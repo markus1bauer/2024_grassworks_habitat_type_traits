@@ -1,0 +1,9 @@
+esy4,region,eco.id,eco.name,n
+R,north,664,European Atlantic mixed forests,112
+R,centre,654,Central European mixed forests,102
+R,south,686,Western European broadleaf forests,116
+R22,north,664,European Atlantic mixed forests,91
+R22,centre,654,Central European mixed forests,48
+R22,south,686,Western European broadleaf forests,71
+R1A,centre,654,Central European mixed forests,53
+R1A,south,686,Western European broadleaf forests,28
