@@ -62,8 +62,8 @@ sites <- read_csv(
   filter(y < 1)
 
 ### * Model ####
-load(file = here("outputs", "models", "model_height_esy4_2.Rdata"))
-m <- m2
+load(file = here("outputs", "models", "model_height_esy4_3.Rdata"))
+m <- m3
 m@call
 
 
@@ -93,7 +93,7 @@ data_line <- data_model %>%
 data_text <- tibble(
   y = c(1, 1, 1, .93),
   site.type = c("positive", "restored", "negative", "negative"),
-  label = c("", "", "Site type **", "Interaction n.s."),
+  label = c("", "", "Site type *", "Interaction n.s."),
   esy4 = c("R", "R22", "R1A", "R1A")
 ) %>%
   mutate(esy4 = fct_relevel(esy4, "R", "R22", "R1A"))
@@ -101,11 +101,11 @@ data_text <- tibble(
 ### * Plot ####
 
 graph_b <- ggplot() +
-  geom_hline(
-    data = data_line,
-    aes(yintercept = predicted),
-    linetype = "dashed", color = "grey70", size = .5
-  ) +
+  # geom_hline(
+  #   data = data_line,
+  #   aes(yintercept = predicted),
+  #   linetype = "dashed", color = "grey70", size = .5
+  # ) +
   geom_quasirandom(
     data = sites,
     aes(x = site.type, y = y, color = site.type),
@@ -115,19 +115,19 @@ graph_b <- ggplot() +
     data = sites, aes(x = site.type, y = y, fill = site.type),
     alpha = .5
   ) +
-  geom_errorbar(
-    data = data_model,
-    aes(
-      x = as.numeric(factor(group)) + 0.5, ymin = conf.low, ymax = conf.high,
-      color = group
-    ),
-    width = 0.0, linewidth = 0.4
-  ) +
-  geom_point(
-    data = data_model,
-    aes(x = as.numeric(factor(group)) + 0.5, y = predicted, color = group),
-    size = 1
-  ) +
+  # geom_errorbar(
+  #   data = data_model,
+  #   aes(
+  #     x = as.numeric(factor(group)) + 0.5, ymin = conf.low, ymax = conf.high,
+  #     color = group
+  #   ),
+  #   width = 0.0, linewidth = 0.4
+  # ) +
+  # geom_point(
+  #   data = data_model,
+  #   aes(x = as.numeric(factor(group)) + 0.5, y = predicted, color = group),
+  #   size = 1
+  # ) +
   geom_text(
     data = data_text,
     aes(x = site.type, y = y, label = label, group = esy4),

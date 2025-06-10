@@ -65,8 +65,8 @@ sites <- read_csv(
   rename(y = cwm.abu.seedmass)
 
 ### * Model ####
-load(file = here("outputs", "models", "model_seedmass_esy4_2.Rdata"))
-m <- m2
+load(file = here("outputs", "models", "model_seedmass_esy4_3.Rdata"))
+m <- m3
 m@call
 
 
@@ -110,11 +110,11 @@ data_text <- tibble(
 ### * Plot ####
 
 graph_c <- ggplot() +
-  geom_hline(
-    data = data_line,
-    aes(yintercept = predicted),
-    linetype = "dashed", color = "grey70", size = .5
-  ) +
+  # geom_hline(
+  #   data = data_line,
+  #   aes(yintercept = predicted),
+  #   linetype = "dashed", color = "grey70", size = .5
+  # ) +
   geom_quasirandom(
     data = sites,
     aes(x = site.type, y = y, color = site.type),
@@ -124,19 +124,19 @@ graph_c <- ggplot() +
     data = sites, aes(x = site.type, y = y, fill = site.type),
     alpha = .5
   ) +
-  geom_errorbar(
-    data = data_model,
-    aes(
-      x = as.numeric(factor(group)) + 0.5, ymin = conf.low, ymax = conf.high,
-      color = group
-    ),
-    width = 0.0, linewidth = 0.4
-  ) +
-  geom_point(
-    data = data_model,
-    aes(x = as.numeric(factor(group)) + 0.5, y = predicted, color = group),
-    size = 1
-  ) +
+  # geom_errorbar(
+  #   data = data_model,
+  #   aes(
+  #     x = as.numeric(factor(group)) + 0.5, ymin = conf.low, ymax = conf.high,
+  #     color = group
+  #   ),
+  #   width = 0.0, linewidth = 0.4
+  # ) +
+  # geom_point(
+  #   data = data_model,
+  #   aes(x = as.numeric(factor(group)) + 0.5, y = predicted, color = group),
+  #   size = 1
+  # ) +
   geom_text(
     data = data_text,
     aes(x = site.type, y = y, label = label, group = esy4),
@@ -160,7 +160,7 @@ graph_c <- ggplot() +
   scale_y_continuous(limits = c(0, 6.2), breaks = seq(0, 10, .5)) +
   labs(
     x = "Restoration compared to references",
-    y = expression(CWM ~ seed ~ mass ~ "[" * g * "]"),
+    y = expression(CWM ~ seed ~ mass ~ "[" * mg * "]"),
     title = "Seed mass",
     tag = "C"
   ) +
