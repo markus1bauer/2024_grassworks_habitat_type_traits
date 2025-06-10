@@ -2,7 +2,7 @@ Analysis of Bauer et al. (submitted) Functional traits of grasslands:
 <br> Community weighted mean of seed mass per plot (esy4)
 ================
 <b>Markus Bauer</b> <br>
-<b>2025-05-05</b>
+<b>2025-06-10</b>
 
 - [Preparation](#preparation)
 - [Statistics](#statistics)
@@ -73,11 +73,9 @@ sites <- read_csv(
       levels = c("positive", "restored", "negative"), ordered = TRUE
       ),
     fertilized = "f",
-    freq.mow = "f",
     obs.year = "f"
   )
 ) %>%
-  filter(esy4 %in% c("R", "R22", "R1A") & !(eco.id == 647)) %>%
   mutate(
     esy4 = fct_relevel(esy4, "R", "R22", "R1A"),
     eco.id = factor(eco.id)
@@ -96,26 +94,26 @@ Rmisc::CI(sites$y, ci = .95)
 ```
 
     ##       upper        mean       lower 
-    ## 0.001590479 0.001507379 0.001424279
+    ## 0.001574195 0.001489662 0.001405129
 
 ``` r
 median(sites$y)
 ```
 
-    ## [1] 0.00125
+    ## [1] 0.00122
 
 ``` r
 sd(sites$y)
 ```
 
-    ## [1] 0.001071421
+    ## [1] 0.001072695
 
 ``` r
 quantile(sites$y, probs = c(0.05, 0.95), na.rm = TRUE)
 ```
 
     ##      5%     95% 
-    ## 0.00038 0.00350
+    ## 0.00038 0.00347
 
 ``` r
 sites %>% count(eco.id)
@@ -125,8 +123,8 @@ sites %>% count(eco.id)
     ##   eco.id     n
     ##   <fct>  <int>
     ## 1 654      203
-    ## 2 686      235
-    ## 3 664      203
+    ## 2 664      203
+    ## 3 686      215
 
 ``` r
 sites %>% count(site.type)
@@ -135,8 +133,8 @@ sites %>% count(site.type)
     ## # A tibble: 3 × 2
     ##   site.type     n
     ##   <ord>     <int>
-    ## 1 positive    114
-    ## 2 restored    409
+    ## 1 positive    102
+    ## 2 restored    401
     ## 3 negative    118
 
 ``` r
@@ -146,9 +144,9 @@ sites %>% count(esy4)
     ## # A tibble: 3 × 2
     ##   esy4      n
     ##   <fct> <int>
-    ## 1 R       337
-    ## 2 R22     220
-    ## 3 R1A      84
+    ## 1 R       330
+    ## 2 R22     210
+    ## 3 R1A      81
 
 ``` r
 sites %>% count(esy4, eco.id)
@@ -158,13 +156,13 @@ sites %>% count(esy4, eco.id)
     ##   esy4  eco.id     n
     ##   <fct> <fct>  <int>
     ## 1 R     654      102
-    ## 2 R     686      123
-    ## 3 R     664      112
+    ## 2 R     664      112
+    ## 3 R     686      116
     ## 4 R22   654       48
-    ## 5 R22   686       81
-    ## 6 R22   664       91
+    ## 5 R22   664       91
+    ## 6 R22   686       71
     ## 7 R1A   654       53
-    ## 8 R1A   686       31
+    ## 8 R1A   686       28
 
 ``` r
 sites %>% count(esy4, site.type)
@@ -173,19 +171,19 @@ sites %>% count(esy4, site.type)
     ## # A tibble: 9 × 3
     ##   esy4  site.type     n
     ##   <fct> <ord>     <int>
-    ## 1 R     positive     62
-    ## 2 R     restored    182
+    ## 1 R     positive     57
+    ## 2 R     restored    180
     ## 3 R     negative     93
-    ## 4 R22   positive     29
-    ## 5 R22   restored    175
+    ## 4 R22   positive     25
+    ## 5 R22   restored    169
     ## 6 R22   negative     16
-    ## 7 R1A   positive     23
+    ## 7 R1A   positive     20
     ## 8 R1A   restored     52
     ## 9 R1A   negative      9
 
 ### Graphs of raw data (Step 2, 6, 7)
 
-![](model_check_seedmass_esy4_files/figure-gfm/data-exploration-1.png)<!-- -->![](model_check_seedmass_esy4_files/figure-gfm/data-exploration-2.png)<!-- -->![](model_check_seedmass_esy4_files/figure-gfm/data-exploration-3.png)<!-- -->![](model_check_seedmass_esy4_files/figure-gfm/data-exploration-4.png)<!-- -->![](model_check_seedmass_esy4_files/figure-gfm/data-exploration-5.png)<!-- -->
+![](model_check_seedmass_esy4_files/figure-gfm/data-exploration-1.png)<!-- -->![](model_check_seedmass_esy4_files/figure-gfm/data-exploration-2.png)<!-- -->![](model_check_seedmass_esy4_files/figure-gfm/data-exploration-3.png)<!-- -->![](model_check_seedmass_esy4_files/figure-gfm/data-exploration-4.png)<!-- -->
 
 ### Outliers, zero-inflation, transformations? (Step 1, 3, 4)
 
@@ -281,18 +279,6 @@ plotResiduals(simulation_output_2$scaledResiduals, sites$obs.year)
 ![](model_check_seedmass_esy4_files/figure-gfm/dharma_single-6.png)<!-- -->
 
 ``` r
-plotResiduals(simulation_output_1$scaledResiduals, sites$history)
-```
-
-![](model_check_seedmass_esy4_files/figure-gfm/dharma_single-7.png)<!-- -->
-
-``` r
-plotResiduals(simulation_output_2$scaledResiduals, sites$history)
-```
-
-![](model_check_seedmass_esy4_files/figure-gfm/dharma_single-8.png)<!-- -->
-
-``` r
 plotResiduals(simulation_output_1$scaledResiduals, sites$hydrology)
 ## Warning in ensurePredictor(simulationOutput, form): DHARMa:::ensurePredictor:
 ## character string was provided as predictor. DHARMa has converted to factor
@@ -300,7 +286,7 @@ plotResiduals(simulation_output_1$scaledResiduals, sites$hydrology)
 ## attempting to plot with DHARMa.
 ```
 
-![](model_check_seedmass_esy4_files/figure-gfm/dharma_single-9.png)<!-- -->
+![](model_check_seedmass_esy4_files/figure-gfm/dharma_single-7.png)<!-- -->
 
 ``` r
 plotResiduals(simulation_output_2$scaledResiduals, sites$hydrology)
@@ -310,51 +296,19 @@ plotResiduals(simulation_output_2$scaledResiduals, sites$hydrology)
 ## attempting to plot with DHARMa.
 ```
 
-![](model_check_seedmass_esy4_files/figure-gfm/dharma_single-10.png)<!-- -->
-
-``` r
-plotResiduals(simulation_output_1$scaledResiduals, sites$land.use.hist)
-## Warning in ensurePredictor(simulationOutput, form): DHARMa:::ensurePredictor:
-## character string was provided as predictor. DHARMa has converted to factor
-## automatically. To remove this warning, please convert to factor before
-## attempting to plot with DHARMa.
-```
-
-![](model_check_seedmass_esy4_files/figure-gfm/dharma_single-11.png)<!-- -->
-
-``` r
-plotResiduals(simulation_output_2$scaledResiduals, sites$land.use.hist)
-## Warning in ensurePredictor(simulationOutput, form): DHARMa:::ensurePredictor:
-## character string was provided as predictor. DHARMa has converted to factor
-## automatically. To remove this warning, please convert to factor before
-## attempting to plot with DHARMa.
-```
-
-![](model_check_seedmass_esy4_files/figure-gfm/dharma_single-12.png)<!-- -->
+![](model_check_seedmass_esy4_files/figure-gfm/dharma_single-8.png)<!-- -->
 
 ``` r
 plotResiduals(simulation_output_1$scaledResiduals, sites$fertilized)
 ```
 
-![](model_check_seedmass_esy4_files/figure-gfm/dharma_single-13.png)<!-- -->
+![](model_check_seedmass_esy4_files/figure-gfm/dharma_single-9.png)<!-- -->
 
 ``` r
 plotResiduals(simulation_output_2$scaledResiduals, sites$fertilized)
 ```
 
-![](model_check_seedmass_esy4_files/figure-gfm/dharma_single-14.png)<!-- -->
-
-``` r
-plotResiduals(simulation_output_1$scaledResiduals, sites$freq.mow)
-```
-
-![](model_check_seedmass_esy4_files/figure-gfm/dharma_single-15.png)<!-- -->
-
-``` r
-plotResiduals(simulation_output_2$scaledResiduals, sites$freq.mow)
-```
-
-![](model_check_seedmass_esy4_files/figure-gfm/dharma_single-16.png)<!-- -->
+![](model_check_seedmass_esy4_files/figure-gfm/dharma_single-10.png)<!-- -->
 
 ### Check collinearity part 2 (Step 5)
 
@@ -366,23 +320,23 @@ car::vif(m_1)
 ```
 
     ##                     GVIF Df GVIF^(1/(2*Df))
-    ## esy4           12.098961  2        1.865035
-    ## site.type       1.413389  2        1.090349
-    ## eco.id          1.578127  2        1.120819
-    ## obs.year        1.019161  1        1.009535
-    ## esy4:site.type  5.094832  4        1.225720
-    ## esy4:eco.id     9.713098  3        1.460695
+    ## esy4           11.330679  2        1.834695
+    ## site.type       1.418765  2        1.091384
+    ## eco.id          1.594355  2        1.123689
+    ## obs.year        1.022266  1        1.011072
+    ## esy4:site.type  4.999271  4        1.222822
+    ## esy4:eco.id     9.139388  3        1.445949
 
 ``` r
 car::vif(m_2)
 ```
 
     ##                    GVIF Df GVIF^(1/(2*Df))
-    ## esy4           3.657125  2        1.382881
-    ## site.type      1.403941  2        1.088522
-    ## eco.id         1.065502  2        1.015988
-    ## obs.year       1.018405  1        1.009161
-    ## esy4:site.type 4.684841  4        1.212933
+    ## esy4           3.562976  2        1.373894
+    ## site.type      1.407477  2        1.089207
+    ## eco.id         1.068299  2        1.016654
+    ## obs.year       1.020872  1        1.010382
+    ## esy4:site.type 4.572230  4        1.209250
 
 ## Model comparison
 
@@ -391,10 +345,10 @@ car::vif(m_2)
 ``` r
 MuMIn::r.squaredGLMM(m_1)
 ##            R2m       R2c
-## [1,] 0.1239411 0.6898262
+## [1,] 0.1409498 0.6805522
 MuMIn::r.squaredGLMM(m_2)
-##           R2m       R2c
-## [1,] 0.120883 0.6926789
+##            R2m       R2c
+## [1,] 0.1349357 0.6835346
 ```
 
 ### AICc
@@ -406,8 +360,8 @@ p. 66 ISBN: 978-0-387-95364-9
 MuMIn::AICc(m_1, m_2) %>%
   arrange(AICc)
 ##     df     AICc
-## m_2 14 981.0276
-## m_1 17 985.3667
+## m_2 14 953.1135
+## m_1 17 955.5114
 ```
 
 ## Predicted values
@@ -422,12 +376,12 @@ car::Anova(m_2, type = 3)
     ## 
     ## Response: log(y)
     ##                    Chisq Df Pr(>Chisq)    
-    ## (Intercept)    4734.1921  1  < 2.2e-16 ***
-    ## esy4              3.4230  2    0.18060    
-    ## site.type         0.4292  2    0.80685    
-    ## eco.id           21.0676  2  2.662e-05 ***
-    ## obs.year          3.5200  1    0.06063 .  
-    ## esy4:site.type    1.6945  4    0.79172    
+    ## (Intercept)    4855.0423  1  < 2.2e-16 ***
+    ## esy4              2.5312  2     0.2821    
+    ## site.type         0.4092  2     0.8150    
+    ## eco.id           23.5376  2  7.742e-06 ***
+    ## obs.year          5.6460  1     0.0175 *  
+    ## esy4:site.type    2.4268  4     0.6578    
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -440,58 +394,58 @@ summary(m_2)
     ##    Data: sites
     ## 
     ##       AIC       BIC    logLik -2*log(L)  df.resid 
-    ##     980.4    1042.8    -476.2     952.4       627 
+    ##     952.4    1014.5    -462.2     924.4       607 
     ## 
     ## Scaled residuals: 
     ##     Min      1Q  Median      3Q     Max 
-    ## -3.9841 -0.4787  0.0065  0.4760  2.9436 
+    ## -3.9281 -0.4932  0.0268  0.4490  2.9340 
     ## 
     ## Random effects:
     ##  Groups   Name        Variance Std.Dev.
-    ##  id.site  (Intercept) 0.2734   0.5229  
-    ##  Residual             0.1469   0.3833  
-    ## Number of obs: 641, groups:  id.site, 182
+    ##  id.site  (Intercept) 0.2596   0.5095  
+    ##  Residual             0.1498   0.3870  
+    ## Number of obs: 621, groups:  id.site, 177
     ## 
     ## Fixed effects:
     ##                     Estimate Std. Error t value
-    ## (Intercept)         -6.54090    0.09506 -68.805
-    ## esy4R22             -0.04229    0.06261  -0.675
-    ## esy4R1A              0.19970    0.12022   1.661
-    ## site.type.L         -0.05518    0.10591  -0.521
-    ## site.type.Q         -0.02915    0.07827  -0.372
-    ## eco.id686           -0.33799    0.10318  -3.276
-    ## eco.id664           -0.47788    0.10722  -4.457
-    ## obs.year2023         0.15851    0.08448   1.876
-    ## esy4R22:site.type.L  0.13571    0.12659   1.072
-    ## esy4R1A:site.type.L  0.10215    0.23903   0.427
-    ## esy4R22:site.type.Q  0.02918    0.08623   0.338
-    ## esy4R1A:site.type.Q  0.11581    0.16342   0.709
+    ## (Intercept)         -6.55188    0.09403 -69.678
+    ## esy4R22             -0.04901    0.06340  -0.773
+    ## esy4R1A              0.16056    0.12175   1.319
+    ## site.type.L         -0.05962    0.10646  -0.560
+    ## site.type.Q         -0.02049    0.07834  -0.262
+    ## eco.id664           -0.48605    0.10524  -4.618
+    ## eco.id686           -0.37553    0.10291  -3.649
+    ## obs.year2023         0.19970    0.08404   2.376
+    ## esy4R22:site.type.L  0.15397    0.12818   1.201
+    ## esy4R1A:site.type.L  0.26317    0.24206   1.087
+    ## esy4R22:site.type.Q  0.01948    0.08740   0.223
+    ## esy4R1A:site.type.Q  0.06442    0.16493   0.391
     ## 
     ## Correlation of Fixed Effects:
-    ##             (Intr) es4R22 es4R1A st.t.L st.t.Q ec.686 ec.664 o.2023 e4R22:..L
-    ## esy4R22     -0.148                                                           
-    ## esy4R1A     -0.293  0.082                                                    
-    ## site.type.L -0.077  0.043 -0.011                                             
-    ## site.type.Q  0.311 -0.123 -0.124 -0.047                                      
-    ## eco.id686   -0.591 -0.020  0.124  0.062 -0.006                               
-    ## eco.id664   -0.588 -0.056  0.171  0.040  0.008  0.526                        
-    ## obs.yer2023 -0.491  0.035  0.104  0.016 -0.070  0.014  0.029                 
-    ## esy4R22:..L -0.006  0.130 -0.011 -0.265  0.036  0.016  0.045  0.015          
-    ## esy4R1A:..L -0.089 -0.021  0.550 -0.228 -0.022  0.079  0.058  0.052  0.084   
-    ## esy4R22:..Q -0.088  0.650  0.040  0.040 -0.319  0.011 -0.011  0.035  0.117   
-    ## esy4R1A:..Q -0.121  0.038  0.634 -0.016 -0.253  0.054  0.031  0.036 -0.016   
+    ##             (Intr) es4R22 es4R1A st.t.L st.t.Q ec.664 ec.686 o.2023 e4R22:..L
+    ## esy4R22     -0.147                                                           
+    ## esy4R1A     -0.302  0.086                                                    
+    ## site.type.L -0.096  0.044  0.003                                             
+    ## site.type.Q  0.318 -0.122 -0.130 -0.083                                      
+    ## eco.id664   -0.587 -0.058  0.178  0.043  0.004                               
+    ## eco.id686   -0.562 -0.015  0.125  0.034  0.008  0.514                        
+    ## obs.yer2023 -0.495  0.025  0.101  0.023 -0.070  0.033 -0.008                 
+    ## esy4R22:..L -0.009  0.115 -0.014 -0.265  0.036  0.047  0.012  0.025          
+    ## esy4R1A:..L -0.077 -0.025  0.491 -0.237 -0.009  0.050  0.073  0.056  0.090   
+    ## esy4R22:..Q -0.087  0.647  0.044  0.041 -0.321 -0.011  0.011  0.030  0.104   
+    ## esy4R1A:..Q -0.127  0.042  0.642 -0.003 -0.259  0.036  0.061  0.030 -0.020   
     ##             e4R1A:..L e4R22:..Q
     ## esy4R22                        
     ## esy4R1A                        
     ## site.type.L                    
     ## site.type.Q                    
-    ## eco.id686                      
     ## eco.id664                      
+    ## eco.id686                      
     ## obs.yer2023                    
     ## esy4R22:..L                    
     ## esy4R1A:..L                    
-    ## esy4R22:..Q -0.015             
-    ## esy4R1A:..Q  0.486     0.108
+    ## esy4R22:..Q -0.020             
+    ## esy4R1A:..Q  0.435     0.113
 
 ### Forest plot
 
@@ -503,6 +457,11 @@ dotwhisker::dwplot(
   vline = geom_vline(xintercept = 0, colour = "grey60", linetype = 2)) +
   theme_classic()
 ```
+
+    ## Package 'merDeriv' needs to be installed to compute confidence intervals
+    ##   for random effect parameters.
+    ## Package 'merDeriv' needs to be installed to compute confidence intervals
+    ##   for random effect parameters.
 
 ![](model_check_seedmass_esy4_files/figure-gfm/predicted_values-1.png)<!-- -->
 
@@ -523,9 +482,9 @@ necessary.
 
     ## $emmeans
     ##  esy4 response       SE  df lower.CL upper.CL
-    ##  R     0.00119 6.53e-05 243 0.001068  0.00133
-    ##  R22   0.00114 8.11e-05 466 0.000992  0.00131
-    ##  R1A   0.00145 1.76e-04 474 0.001145  0.00184
+    ##  R     0.00118 6.52e-05 237 0.001062  0.00132
+    ##  R22   0.00113 8.09e-05 460 0.000979  0.00130
+    ##  R1A   0.00139 1.70e-04 454 0.001093  0.00177
     ## 
     ## Results are averaged over the levels of: site.type, eco.id, obs.year 
     ## Degrees-of-freedom method: kenward-roger 
@@ -534,9 +493,9 @@ necessary.
     ## 
     ## $contrasts
     ##  contrast  ratio     SE  df null t.ratio p.value
-    ##  R22 / R   0.959 0.0605 586    1  -0.669  0.7813
-    ##  R1A / R   1.221 0.1490 577    1   1.635  0.2319
-    ##  R1A / R22 1.274 0.1690 601    1   1.820  0.1638
+    ##  R22 / R   0.952 0.0609 565    1  -0.766  0.7239
+    ##  R1A / R   1.174 0.1450 552    1   1.297  0.3976
+    ##  R1A / R22 1.233 0.1660 579    1   1.559  0.2646
     ## 
     ## Results are averaged over the levels of: site.type, eco.id, obs.year 
     ## Degrees-of-freedom method: kenward-roger 
@@ -560,9 +519,9 @@ plot(emm, comparison = TRUE)
 
     ## $emmeans
     ##  eco.id response       SE  df lower.CL upper.CL
-    ##  654     0.00165 1.37e-04 208 0.001397  0.00194
-    ##  686     0.00117 9.85e-05 222 0.000995  0.00139
-    ##  664     0.00102 9.10e-05 238 0.000857  0.00122
+    ##  654     0.00164 1.34e-04 203 0.001393  0.00192
+    ##  664     0.00101 8.87e-05 233 0.000847  0.00120
+    ##  686     0.00112 9.66e-05 214 0.000949  0.00133
     ## 
     ## Results are averaged over the levels of: esy4, site.type, obs.year 
     ## Degrees-of-freedom method: kenward-roger 
@@ -571,9 +530,9 @@ plot(emm, comparison = TRUE)
     ## 
     ## $contrasts
     ##  contrast              ratio     SE  df null t.ratio p.value
-    ##  eco.id686 / eco.id654 0.713 0.0752 192    1  -3.206  0.0045
-    ##  eco.id664 / eco.id654 0.620 0.0679 204    1  -4.364  0.0001
-    ##  eco.id664 / eco.id686 0.869 0.0911 191    1  -1.335  0.3773
+    ##  eco.id664 / eco.id654 0.615 0.0662 199    1  -4.519  <.0001
+    ##  eco.id686 / eco.id654 0.687 0.0723 187    1  -3.569  0.0013
+    ##  eco.id686 / eco.id664 1.117 0.1170 187    1   1.053  0.5442
     ## 
     ## Results are averaged over the levels of: esy4, site.type, obs.year 
     ## Degrees-of-freedom method: kenward-roger 
@@ -599,12 +558,12 @@ plot(emm, comparison = TRUE)
 
 # Session info
 
-    ## R version 4.4.2 (2024-10-31 ucrt)
+    ## R version 4.5.0 (2025-04-11 ucrt)
     ## Platform: x86_64-w64-mingw32/x64
     ## Running under: Windows 11 x64 (build 26100)
     ## 
     ## Matrix products: default
-    ## 
+    ##   LAPACK version 3.12.1
     ## 
     ## locale:
     ## [1] LC_COLLATE=German_Germany.utf8  LC_CTYPE=German_Germany.utf8   
@@ -618,44 +577,40 @@ plot(emm, comparison = TRUE)
     ## [1] stats     graphics  grDevices utils     datasets  methods   base     
     ## 
     ## other attached packages:
-    ##  [1] emmeans_1.11.0   DHARMa_0.4.7     patchwork_1.2.0  ggbeeswarm_0.7.2
-    ##  [5] lubridate_1.9.3  forcats_1.0.0    stringr_1.5.1    dplyr_1.1.4     
-    ##  [9] purrr_1.0.2      readr_2.1.5      tidyr_1.3.1      tibble_3.2.1    
-    ## [13] ggplot2_3.5.1    tidyverse_2.0.0  here_1.0.1      
+    ##  [1] emmeans_1.11.1   DHARMa_0.4.7     patchwork_1.3.0  ggbeeswarm_0.7.2
+    ##  [5] lubridate_1.9.4  forcats_1.0.0    stringr_1.5.1    dplyr_1.1.4     
+    ##  [9] purrr_1.0.4      readr_2.1.5      tidyr_1.3.1      tibble_3.2.1    
+    ## [13] ggplot2_3.5.2    tidyverse_2.0.0  here_1.0.1      
     ## 
     ## loaded via a namespace (and not attached):
-    ##   [1] mnormt_2.1.1        Rdpack_2.6.3        gridExtra_2.3      
-    ##   [4] sandwich_3.1-1      rlang_1.1.4         magrittr_2.0.3     
-    ##   [7] compiler_4.4.2      mgcv_1.9-1          vctrs_0.6.5        
-    ##  [10] quadprog_1.5-8      pkgconfig_2.0.3     crayon_1.5.3       
-    ##  [13] fastmap_1.2.0       backports_1.5.0     labeling_0.4.3     
-    ##  [16] pbivnorm_0.6.0      utf8_1.2.4          ggstance_0.3.7     
-    ##  [19] promises_1.3.2      rmarkdown_2.27      tzdb_0.4.0         
-    ##  [22] nloptr_2.2.1        bit_4.0.5           xfun_0.45          
-    ##  [25] highr_0.11          later_1.4.1         broom_1.0.6        
-    ##  [28] lavaan_0.6-19       parallel_4.4.2      R6_2.5.1           
-    ##  [31] gap.datasets_0.0.6  stringi_1.8.4       qgam_1.3.4         
-    ##  [34] car_3.1-3           boot_1.3-31         numDeriv_2016.8-1.1
-    ##  [37] estimability_1.5.1  Rcpp_1.0.14         iterators_1.0.14   
-    ##  [40] knitr_1.48          zoo_1.8-13          parameters_0.24.2  
-    ##  [43] httpuv_1.6.15       Matrix_1.7-0        splines_4.4.2      
-    ##  [46] timechange_0.3.0    tidyselect_1.2.1    rstudioapi_0.16.0  
-    ##  [49] abind_1.4-8         yaml_2.3.9          MuMIn_1.48.11      
-    ##  [52] doParallel_1.0.17   codetools_0.2-20    nonnest2_0.5-8     
-    ##  [55] lattice_0.22-6      plyr_1.8.9          shiny_1.10.0       
-    ##  [58] withr_3.0.0         bayestestR_0.15.2   coda_0.19-4.1      
-    ##  [61] evaluate_0.24.0     CompQuadForm_1.4.3  pillar_1.9.0       
-    ##  [64] gap_1.6             carData_3.0-5       foreach_1.5.2      
-    ##  [67] stats4_4.4.2        reformulas_0.4.0    insight_1.1.0      
-    ##  [70] generics_0.1.3      vroom_1.6.5         rprojroot_2.0.4    
-    ##  [73] hms_1.1.3           munsell_0.5.1       scales_1.3.0       
-    ##  [76] minqa_1.2.8         xtable_1.8-4        glue_1.7.0         
-    ##  [79] tools_4.4.2         lme4_1.1-37         mvtnorm_1.3-3      
-    ##  [82] grid_4.4.2          rbibutils_2.3       datawizard_1.0.2   
-    ##  [85] colorspace_2.1-0    nlme_3.1-164        Rmisc_1.5.1        
-    ##  [88] performance_0.13.0  beeswarm_0.4.0      vipor_0.4.7        
-    ##  [91] Formula_1.2-5       cli_3.6.3           fansi_1.0.6        
-    ##  [94] gtable_0.3.5        digest_0.6.36       pbkrtest_0.5.3     
-    ##  [97] farver_2.1.2        htmltools_0.5.8.1   lifecycle_1.0.4    
-    ## [100] mime_0.12           bit64_4.0.5         dotwhisker_0.8.3   
-    ## [103] MASS_7.3-60.2
+    ##  [1] Rdpack_2.6.4           gridExtra_2.3          rlang_1.1.6           
+    ##  [4] magrittr_2.0.3         compiler_4.5.0         mgcv_1.9-1            
+    ##  [7] vctrs_0.6.5            pkgconfig_2.0.3        crayon_1.5.3          
+    ## [10] fastmap_1.2.0          backports_1.5.0        labeling_0.4.3        
+    ## [13] utf8_1.2.5             ggstance_0.3.7         promises_1.3.2        
+    ## [16] rmarkdown_2.29         tzdb_0.5.0             nloptr_2.2.1          
+    ## [19] bit_4.6.0              xfun_0.52              later_1.4.2           
+    ## [22] broom_1.0.8            parallel_4.5.0         R6_2.6.1              
+    ## [25] gap.datasets_0.0.6     stringi_1.8.7          qgam_2.0.0            
+    ## [28] RColorBrewer_1.1-3     car_3.1-3              boot_1.3-31           
+    ## [31] estimability_1.5.1     Rcpp_1.0.14            iterators_1.0.14      
+    ## [34] knitr_1.50             parameters_0.25.0      httpuv_1.6.16         
+    ## [37] Matrix_1.7-3           splines_4.5.0          timechange_0.3.0      
+    ## [40] tidyselect_1.2.1       rstudioapi_0.17.1      abind_1.4-8           
+    ## [43] yaml_2.3.10            MuMIn_1.48.11          doParallel_1.0.17     
+    ## [46] codetools_0.2-20       lattice_0.22-6         plyr_1.8.9            
+    ## [49] shiny_1.10.0           withr_3.0.2            bayestestR_0.15.3     
+    ## [52] evaluate_1.0.3         marginaleffects_0.25.1 pillar_1.10.2         
+    ## [55] gap_1.6                carData_3.0-5          foreach_1.5.2         
+    ## [58] stats4_4.5.0           reformulas_0.4.1       insight_1.2.0         
+    ## [61] generics_0.1.4         vroom_1.6.5            rprojroot_2.0.4       
+    ## [64] hms_1.1.3              scales_1.4.0           minqa_1.2.8           
+    ## [67] xtable_1.8-4           glue_1.8.0             tools_4.5.0           
+    ## [70] data.table_1.17.2      lme4_1.1-37            mvtnorm_1.3-3         
+    ## [73] grid_4.5.0             rbibutils_2.3          datawizard_1.1.0      
+    ## [76] nlme_3.1-168           Rmisc_1.5.1            performance_0.13.0    
+    ## [79] beeswarm_0.4.0         vipor_0.4.7            Formula_1.2-5         
+    ## [82] cli_3.6.5              gtable_0.3.6           digest_0.6.37         
+    ## [85] pbkrtest_0.5.4         farver_2.1.2           htmltools_0.5.8.1     
+    ## [88] lifecycle_1.0.4        mime_0.13              bit64_4.6.0-1         
+    ## [91] dotwhisker_0.8.4       MASS_7.3-65
