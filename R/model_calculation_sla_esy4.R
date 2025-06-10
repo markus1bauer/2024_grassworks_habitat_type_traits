@@ -4,7 +4,7 @@
 # Specific leaf area (SLA) for ESY4
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Markus Bauer
-# 2025-06-03
+# 2025-06-10
 
 
 
@@ -123,9 +123,16 @@ m2 <- lmer(
   data = sites
   )
 simulateResiduals(m2, plot = TRUE)
+m3 <- lmer(
+  y ~ esy4 * site.type + eco.id + obs.year + hydrology + (1|id.site),
+  REML = FALSE,
+  data = sites
+)
+simulateResiduals(m3, plot = TRUE)
 
 
 ### b Save ---------------------------------------------------------------------
 
 save(m1, file = here("outputs", "models", "model_sla_esy4_1.Rdata"))
 save(m2, file = here("outputs", "models", "model_sla_esy4_2.Rdata"))
+save(m3, file = here("outputs", "models", "model_sla_esy4_3.Rdata"))
