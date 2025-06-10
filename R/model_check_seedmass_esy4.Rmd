@@ -158,9 +158,9 @@ Dormann et al. 2013 Ecography [DOI: 10.1111/j.1600-0587.2012.07348.x](https://do
 
 ```{r load-models, collapse = TRUE}
 load(file = here("outputs", "models", "model_seedmass_esy4_1.Rdata"))
-load(file = here("outputs", "models", "model_seedmass_esy4_2.Rdata"))
+load(file = here("outputs", "models", "model_seedmass_esy4_3.Rdata"))
 m_1 <- m1
-m_2 <- m2
+m_2 <- m3
 ```
 
 ```{r formulas, collapse = TRUE}
@@ -250,19 +250,16 @@ necessary.
 #### ESy EUNIS Habitat type
 
 ```{r effect-sizes-1, message = FALSE}
-(emm <- emmeans(
-  m_2,
-  revpairwise ~ esy4,
-  type = "response"
-  ))
-plot(emm, comparison = TRUE)
+(emm <- emmeans(m_2, "esy4", type = "response"))
+plot(emm, comparison = FALSE)
 ```
+
 #### Habiat type x Region
 
 ```{r effect-sizes-2, message = FALSE}
 (emm <- emmeans(
   m_2,
-  revpairwise ~ eco.id,
+  revpairwise ~ eco.id + esy4,
   type = "response"
   ))
 plot(emm, comparison = TRUE)
