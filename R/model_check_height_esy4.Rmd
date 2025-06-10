@@ -254,7 +254,7 @@ necessary.
 
 ```{r effect-sizes-1, message = FALSE}
 (emm <- emmeans(
-  m_1,
+  m_2,
   revpairwise ~ esy4,
   type = "response"
   ))
@@ -264,20 +264,20 @@ plot(emm, comparison = TRUE)
 #### Habiat type x Region
 
 ```{r effect-sizes-2, message = FALSE}
-# (emm <- emmeans(
-#   m_1,
-#   revpairwise ~ eco.id | esy4,
-#   type = "response"
-#   ))
-# plot(emm, comparison = TRUE)
+(emm <- emmeans(
+  m_2,
+  revpairwise ~ eco.id | esy4,
+  type = "response"
+  ))
+plot(emm, comparison = TRUE)
 ```
 
 #### Habiat type x Site type
 
 ```{r effect-sizes-3, message = FALSE}
 (emm <- emmeans(
-  m_1,
-  revpairwise ~ site.type,
+  m_2,
+  revpairwise ~ site.type | esy4,
   type = "response"
   ))
 plot(emm, comparison = TRUE)

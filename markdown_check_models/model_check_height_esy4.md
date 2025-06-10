@@ -467,7 +467,7 @@ necessary.
 
 ``` r
 (emm <- emmeans(
-  m_1,
+  m_2,
   revpairwise ~ esy4,
   type = "response"
   ))
@@ -475,74 +475,181 @@ necessary.
 
     ## $emmeans
     ##  esy4 emmean      SE  df lower.CL upper.CL
-    ##  R     0.479 0.00956 239    0.460    0.498
-    ##  R22   0.490 0.01260 465    0.466    0.515
-    ##  R1A   0.374 0.02140 442    0.332    0.416
+    ##  R     0.469 0.00918 257    0.451    0.487
+    ##  R22   0.484 0.01240 495    0.460    0.508
+    ##  R1A  nonEst      NA  NA       NA       NA
     ## 
-    ## Results are averaged over the levels of: site.type, eco.id, obs.year 
+    ## Results are averaged over the levels of: site.type, eco.id, obs.year, hydrology 
     ## Degrees-of-freedom method: kenward-roger 
     ## Confidence level used: 0.95 
     ## 
     ## $contrasts
     ##  contrast  estimate     SE  df t.ratio p.value
-    ##  R22 - R     0.0115 0.0114 565   1.008  0.5720
-    ##  R1A - R    -0.1051 0.0217 537  -4.835  <.0001
-    ##  R1A - R22  -0.1165 0.0236 566  -4.932  <.0001
+    ##  R22 - R     0.0145 0.0113 589   1.275  0.2028
+    ##  R1A - R     nonEst     NA  NA      NA      NA
+    ##  R1A - R22   nonEst     NA  NA      NA      NA
     ## 
-    ## Results are averaged over the levels of: site.type, eco.id, obs.year 
+    ## Results are averaged over the levels of: site.type, eco.id, obs.year, hydrology 
     ## Degrees-of-freedom method: kenward-roger 
-    ## P value adjustment: tukey method for comparing a family of 3 estimates
+    ## P value adjustment: tukey method for comparing a family of 2 estimates
 
 ``` r
 plot(emm, comparison = TRUE)
 ```
+
+    ## Warning: Removed 1 row containing missing values or values outside the scale range
+    ## (`geom_point()`).
+
+    ## Warning: Removed 1 row containing missing values or values outside the scale range
+    ## (`geom_segment()`).
+
+    ## Warning: Removed 1 row containing missing values or values outside the scale range
+    ## (`geom_point()`).
 
 ![](model_check_height_esy4_files/figure-gfm/effect-sizes-1-1.png)<!-- -->
 
 #### Habiat type x Region
 
 ``` r
-# (emm <- emmeans(
-#   m_1,
-#   revpairwise ~ eco.id | esy4,
-#   type = "response"
-#   ))
-# plot(emm, comparison = TRUE)
-```
-
-#### Habiat type x Site type
-
-``` r
 (emm <- emmeans(
-  m_1,
-  revpairwise ~ site.type,
+  m_2,
+  revpairwise ~ eco.id | esy4,
   type = "response"
   ))
 ```
 
     ## $emmeans
-    ##  site.type emmean     SE  df lower.CL upper.CL
-    ##  positive   0.410 0.0187 207    0.373    0.447
-    ##  restored   0.440 0.0100 224    0.420    0.460
-    ##  negative   0.493 0.0226 284    0.449    0.538
+    ## esy4 = R:
+    ##  eco.id emmean     SE  df lower.CL upper.CL
+    ##  654     0.481 0.0144 277    0.453    0.509
+    ##  664     0.461 0.0144 268    0.432    0.489
+    ##  686     0.467 0.0139 249    0.439    0.494
     ## 
-    ## Results are averaged over the levels of: esy4, eco.id, obs.year 
+    ## esy4 = R22:
+    ##  eco.id emmean     SE  df lower.CL upper.CL
+    ##  654     0.512 0.0194 498    0.474    0.550
+    ##  664     0.464 0.0166 373    0.431    0.497
+    ##  686     0.476 0.0170 423    0.442    0.509
+    ## 
+    ## esy4 = R1A:
+    ##  eco.id emmean     SE  df lower.CL upper.CL
+    ##  654     0.411 0.0229 407    0.366    0.456
+    ##  664    nonEst     NA  NA       NA       NA
+    ##  686     0.413 0.0298 482    0.354    0.472
+    ## 
+    ## Results are averaged over the levels of: site.type, obs.year, hydrology 
     ## Degrees-of-freedom method: kenward-roger 
     ## Confidence level used: 0.95 
     ## 
     ## $contrasts
-    ##  contrast            estimate     SE  df t.ratio p.value
-    ##  restored - positive   0.0299 0.0212 211   1.407  0.3390
-    ##  negative - positive   0.0834 0.0294 250   2.837  0.0136
-    ##  negative - restored   0.0536 0.0247 270   2.169  0.0783
+    ## esy4 = R:
+    ##  contrast              estimate     SE  df t.ratio p.value
+    ##  eco.id664 - eco.id654 -0.02049 0.0193 276  -1.063  0.5377
+    ##  eco.id686 - eco.id654 -0.01454 0.0186 268  -0.782  0.7146
+    ##  eco.id686 - eco.id664  0.00595 0.0187 266   0.318  0.9458
     ## 
-    ## Results are averaged over the levels of: esy4, eco.id, obs.year 
+    ## esy4 = R22:
+    ##  contrast              estimate     SE  df t.ratio p.value
+    ##  eco.id664 - eco.id654 -0.04791 0.0226 398  -2.118  0.0876
+    ##  eco.id686 - eco.id654 -0.03625 0.0224 410  -1.619  0.2386
+    ##  eco.id686 - eco.id664  0.01166 0.0207 340   0.565  0.8390
+    ## 
+    ## esy4 = R1A:
+    ##  contrast              estimate     SE  df t.ratio p.value
+    ##  eco.id664 - eco.id654   nonEst     NA  NA      NA      NA
+    ##  eco.id686 - eco.id654  0.00198 0.0310 457   0.064  0.9491
+    ##  eco.id686 - eco.id664   nonEst     NA  NA      NA      NA
+    ## 
+    ## Results are averaged over the levels of: site.type, obs.year, hydrology 
+    ## Degrees-of-freedom method: kenward-roger 
+    ## P value adjustment: tukey method for varying family sizes
+
+``` r
+plot(emm, comparison = TRUE)
+```
+
+    ## Warning: Comparison discrepancy in group "R1A", eco.id654 - eco.id686:
+    ##     Target overlap = 0.9675, overlap on graph = -0.7433
+
+    ## Warning: Removed 1 row containing missing values or values outside the scale range
+    ## (`geom_point()`).
+
+    ## Warning: Removed 1 row containing missing values or values outside the scale range
+    ## (`geom_segment()`).
+
+    ## Warning: Removed 1 row containing missing values or values outside the scale range
+    ## (`geom_point()`).
+
+![](model_check_height_esy4_files/figure-gfm/effect-sizes-2-1.png)<!-- -->
+
+#### Habiat type x Site type
+
+``` r
+(emm <- emmeans(
+  m_2,
+  revpairwise ~ site.type | esy4,
+  type = "response"
+  ))
+```
+
+    ## $emmeans
+    ## esy4 = R:
+    ##  site.type emmean     SE  df lower.CL upper.CL
+    ##  positive   0.444 0.0184 271    0.407    0.480
+    ##  restored   0.458 0.0102 294    0.438    0.478
+    ##  negative   0.506 0.0170 213    0.473    0.540
+    ## 
+    ## esy4 = R22:
+    ##  site.type emmean     SE  df lower.CL upper.CL
+    ##  positive   0.460 0.0230 453    0.415    0.505
+    ##  restored   0.485 0.0110 336    0.464    0.507
+    ##  negative   0.506 0.0261 541    0.455    0.558
+    ## 
+    ## esy4 = R1A:
+    ##  site.type emmean     SE  df lower.CL upper.CL
+    ##  positive  nonEst     NA  NA       NA       NA
+    ##  restored  nonEst     NA  NA       NA       NA
+    ##  negative  nonEst     NA  NA       NA       NA
+    ## 
+    ## Results are averaged over the levels of: eco.id, obs.year, hydrology 
+    ## Degrees-of-freedom method: kenward-roger 
+    ## Confidence level used: 0.95 
+    ## 
+    ## $contrasts
+    ## esy4 = R:
+    ##  contrast            estimate     SE  df t.ratio p.value
+    ##  restored - positive   0.0148 0.0210 273   0.706  0.7599
+    ##  negative - positive   0.0627 0.0250 236   2.509  0.0340
+    ##  negative - restored   0.0479 0.0192 228   2.491  0.0357
+    ## 
+    ## esy4 = R22:
+    ##  contrast            estimate     SE  df t.ratio p.value
+    ##  restored - positive   0.0253 0.0254 416   0.996  0.5796
+    ##  negative - positive   0.0463 0.0348 499   1.331  0.3785
+    ##  negative - restored   0.0210 0.0277 515   0.758  0.7288
+    ## 
+    ## esy4 = R1A:
+    ##  contrast            estimate     SE  df t.ratio p.value
+    ##  restored - positive   0.0378 0.0340 450   1.113  0.5068
+    ##  negative - positive   0.1115 0.0579 392   1.925  0.1329
+    ##  negative - restored   0.0737 0.0538 375   1.371  0.3574
+    ## 
+    ## Results are averaged over the levels of: eco.id, obs.year, hydrology 
     ## Degrees-of-freedom method: kenward-roger 
     ## P value adjustment: tukey method for comparing a family of 3 estimates
 
 ``` r
 plot(emm, comparison = TRUE)
 ```
+
+    ## Warning: Removed 3 rows containing missing values or values outside the scale range
+    ## (`geom_point()`).
+
+    ## Warning: Removed 3 rows containing missing values or values outside the scale range
+    ## (`geom_segment()`).
+
+    ## Warning: Removed 3 rows containing missing values or values outside the scale range
+    ## (`geom_point()`).
 
 ![](model_check_height_esy4_files/figure-gfm/effect-sizes-3-1.png)<!-- -->
 
@@ -573,34 +680,36 @@ plot(emm, comparison = TRUE)
     ## [13] ggplot2_3.5.2    tidyverse_2.0.0  here_1.0.1      
     ## 
     ## loaded via a namespace (and not attached):
-    ##  [1] Rdpack_2.6.4           gridExtra_2.3          rlang_1.1.6           
-    ##  [4] magrittr_2.0.3         compiler_4.5.0         mgcv_1.9-1            
-    ##  [7] vctrs_0.6.5            pkgconfig_2.0.3        crayon_1.5.3          
-    ## [10] fastmap_1.2.0          backports_1.5.0        labeling_0.4.3        
-    ## [13] utf8_1.2.5             ggstance_0.3.7         promises_1.3.2        
-    ## [16] rmarkdown_2.29         tzdb_0.5.0             nloptr_2.2.1          
-    ## [19] bit_4.6.0              xfun_0.52              later_1.4.2           
-    ## [22] broom_1.0.8            parallel_4.5.0         R6_2.6.1              
-    ## [25] gap.datasets_0.0.6     stringi_1.8.7          qgam_2.0.0            
-    ## [28] RColorBrewer_1.1-3     car_3.1-3              boot_1.3-31           
-    ## [31] estimability_1.5.1     Rcpp_1.0.14            iterators_1.0.14      
-    ## [34] knitr_1.50             parameters_0.25.0      httpuv_1.6.16         
-    ## [37] Matrix_1.7-3           splines_4.5.0          timechange_0.3.0      
-    ## [40] tidyselect_1.2.1       rstudioapi_0.17.1      abind_1.4-8           
-    ## [43] yaml_2.3.10            MuMIn_1.48.11          doParallel_1.0.17     
-    ## [46] codetools_0.2-20       lattice_0.22-6         plyr_1.8.9            
-    ## [49] shiny_1.10.0           withr_3.0.2            bayestestR_0.15.3     
-    ## [52] evaluate_1.0.3         marginaleffects_0.25.1 pillar_1.10.2         
-    ## [55] gap_1.6                carData_3.0-5          foreach_1.5.2         
-    ## [58] stats4_4.5.0           reformulas_0.4.1       insight_1.2.0         
-    ## [61] generics_0.1.4         vroom_1.6.5            rprojroot_2.0.4       
-    ## [64] hms_1.1.3              scales_1.4.0           minqa_1.2.8           
-    ## [67] xtable_1.8-4           glue_1.8.0             tools_4.5.0           
-    ## [70] data.table_1.17.2      lme4_1.1-37            mvtnorm_1.3-3         
-    ## [73] grid_4.5.0             rbibutils_2.3          datawizard_1.1.0      
-    ## [76] nlme_3.1-168           Rmisc_1.5.1            performance_0.13.0    
-    ## [79] beeswarm_0.4.0         vipor_0.4.7            Formula_1.2-5         
-    ## [82] cli_3.6.5              gtable_0.3.6           digest_0.6.37         
-    ## [85] pbkrtest_0.5.4         farver_2.1.2           htmltools_0.5.8.1     
-    ## [88] lifecycle_1.0.4        mime_0.13              bit64_4.6.0-1         
-    ## [91] dotwhisker_0.8.4       MASS_7.3-65
+    ##  [1] Rdpack_2.6.4           gridExtra_2.3          sandwich_3.1-1        
+    ##  [4] rlang_1.1.6            magrittr_2.0.3         multcomp_1.4-28       
+    ##  [7] compiler_4.5.0         mgcv_1.9-1             vctrs_0.6.5           
+    ## [10] pkgconfig_2.0.3        crayon_1.5.3           fastmap_1.2.0         
+    ## [13] backports_1.5.0        labeling_0.4.3         utf8_1.2.5            
+    ## [16] ggstance_0.3.7         promises_1.3.2         rmarkdown_2.29        
+    ## [19] tzdb_0.5.0             nloptr_2.2.1           bit_4.6.0             
+    ## [22] xfun_0.52              later_1.4.2            broom_1.0.8           
+    ## [25] parallel_4.5.0         R6_2.6.1               gap.datasets_0.0.6    
+    ## [28] stringi_1.8.7          qgam_2.0.0             RColorBrewer_1.1-3    
+    ## [31] car_3.1-3              boot_1.3-31            estimability_1.5.1    
+    ## [34] Rcpp_1.0.14            iterators_1.0.14       knitr_1.50            
+    ## [37] zoo_1.8-14             parameters_0.25.0      httpuv_1.6.16         
+    ## [40] Matrix_1.7-3           splines_4.5.0          timechange_0.3.0      
+    ## [43] tidyselect_1.2.1       rstudioapi_0.17.1      abind_1.4-8           
+    ## [46] yaml_2.3.10            MuMIn_1.48.11          doParallel_1.0.17     
+    ## [49] codetools_0.2-20       lattice_0.22-6         plyr_1.8.9            
+    ## [52] bayestestR_0.15.3      shiny_1.10.0           withr_3.0.2           
+    ## [55] evaluate_1.0.3         marginaleffects_0.25.1 survival_3.8-3        
+    ## [58] pillar_1.10.2          gap_1.6                carData_3.0-5         
+    ## [61] foreach_1.5.2          stats4_4.5.0           reformulas_0.4.1      
+    ## [64] insight_1.2.0          generics_0.1.4         vroom_1.6.5           
+    ## [67] rprojroot_2.0.4        hms_1.1.3              scales_1.4.0          
+    ## [70] minqa_1.2.8            xtable_1.8-4           glue_1.8.0            
+    ## [73] tools_4.5.0            data.table_1.17.2      lme4_1.1-37           
+    ## [76] mvtnorm_1.3-3          grid_4.5.0             rbibutils_2.3         
+    ## [79] datawizard_1.1.0       nlme_3.1-168           Rmisc_1.5.1           
+    ## [82] performance_0.13.0     beeswarm_0.4.0         vipor_0.4.7           
+    ## [85] Formula_1.2-5          cli_3.6.5              gtable_0.3.6          
+    ## [88] digest_0.6.37          pbkrtest_0.5.4         TH.data_1.1-3         
+    ## [91] farver_2.1.2           htmltools_0.5.8.1      lifecycle_1.0.4       
+    ## [94] mime_0.13              bit64_4.6.0-1          dotwhisker_0.8.4      
+    ## [97] MASS_7.3-65
