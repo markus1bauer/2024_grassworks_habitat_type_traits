@@ -100,19 +100,19 @@ graph_a <- ggplot() +
     data = sites, aes(x = esy4, y = y, fill = esy4),
     alpha = .5
   ) +
-  geom_errorbar(
-    data = data_model,
-    aes(
-      x = as.numeric(factor(x)) + 0.45, ymin = conf.low, ymax = conf.high,
-      color = x
-    ),
-    width = 0.0, linewidth = 0.4
-  ) +
-  geom_point(
-    data = data_model,
-    aes(x = as.numeric(factor(x)) + 0.45, y = predicted, color = x),
-    size = 1.5
-  ) +
+  # geom_errorbar(
+  #   data = data_model,
+  #   aes(
+  #     x = as.numeric(factor(x)) + 0.45, ymin = conf.low, ymax = conf.high,
+  #     color = x
+  #   ),
+  #   width = 0.0, linewidth = 0.4
+  # ) +
+  # geom_point(
+  #   data = data_model,
+  #   aes(x = as.numeric(factor(x)) + 0.45, y = predicted, color = x),
+  #   size = 1.5
+  # ) +
   annotate("text", label = "a", y = 339, x = 1) +
   annotate("text", label = "a", y = 339, x = 2) +
   annotate("text", label = "b", y = 339, x = 3) +

@@ -53,7 +53,6 @@ sites <- read_csv(
       levels = c("positive", "restored", "negative"), ordered = TRUE
     ),
     fertilized = "f",
-    freq.mow = "f",
     obs.year = "f"
   )
 ) %>%
@@ -68,8 +67,8 @@ sites <- read_csv(
   rename(y = cwm.abu.seedmass)
 
 ### * Model ####
-load(file = here("outputs", "models", "model_seedmass_esy4_2.Rdata"))
-m <- m2
+load(file = here("outputs", "models", "model_seedmass_esy4_3.Rdata"))
+m <- m3
 m@call
 
 
@@ -86,7 +85,7 @@ data_summary <- sites %>%
   group_by(esy4) %>%
   summarize(median = median(y), sd = sd(y, na.rm = TRUE))
 
-data_model <- ggemmeans(
+data_model <- ggpredict(
   m, terms = c("esy4"), back.transform = TRUE, ci_level = .95
 ) %>%
   as_tibble() %>%
@@ -113,19 +112,19 @@ graph_c <- ggplot() +
     data = sites, aes(x = esy4, y = y, fill = esy4),
     alpha = .5
   ) +
-  geom_errorbar(
-    data = data_model,
-    aes(
-      x = as.numeric(factor(x)) + 0.45, ymin = conf.low, ymax = conf.high,
-      color = x
-    ),
-    width = 0.0, linewidth = 0.4
-  ) +
-  geom_point(
-    data = data_model,
-    aes(x = as.numeric(factor(x)) + 0.45, y = predicted, color = x),
-    size = 1.5
-  ) +
+  # geom_errorbar(
+  #   data = data_model,
+  #   aes(
+  #     x = as.numeric(factor(x)) + 0.45, ymin = conf.low, ymax = conf.high,
+  #     color = x
+  #   ),
+  #   width = 0.0, linewidth = 0.4
+  # ) +
+  # geom_point(
+  #   data = data_model,
+  #   aes(x = as.numeric(factor(x)) + 0.45, y = predicted, color = x),
+  #   size = 1.5
+  # ) +
     annotate("text", label = "n.s.", y = 6.2, x = 3.4) +
     scale_y_continuous(limits = c(0, 6.2), breaks = seq(0, 10, .5)) +
     scale_fill_manual(
