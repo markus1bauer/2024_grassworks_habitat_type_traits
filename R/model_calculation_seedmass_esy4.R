@@ -4,7 +4,7 @@
 # Seed mass for ESY4
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Markus Bauer
-# 2025-04-29
+# 2025-06-03
 
 
 
@@ -36,12 +36,12 @@ sites <- read_csv(
       levels = c("positive", "restored", "negative"), ordered = TRUE
     ),
     fertilized = "f",
-    freq.mow = "f",
     obs.year = "f"
   )
 ) %>%
   mutate(esy4 = fct_relevel(esy4, "R", "R22", "R1A")) %>%
-  rename(y = cwm.abu.seedmass)
+  rename(y = cwm.abu.seedmass) #%>%
+  # filter(y < 1.11) # see section Outliers: Exclude site M_KAP_A1 (20% of Vicium cracca with extremely heavy seeds)
 
 
 
@@ -77,15 +77,6 @@ ggplot(sites, aes(y = y, x = obs.year)) +
   geom_boxplot(fill = "transparent") +
   facet_grid(~ esy4) +
   labs(y = "CWM seed mass (abu) [g]", x = "Survey year")
-
-sites %>%
-  filter(site.type == "restored") %>%
-  mutate(history = as.numeric(history)) %>%
-  ggplot(aes(y = y, x = history)) +
-  geom_quasirandom(color = "grey") +
-  geom_smooth() +
-  facet_grid(~ esy4) +
-  labs(y = "CWM seed mass (abu) [g]")
 
 
 ### b Outliers, zero-inflation, transformations? ------------------------------
@@ -133,6 +124,7 @@ m2 <- lmer(
   data = sites
 )
 simulateResiduals(m2, plot = TRUE)
+
 
 ### b Save ---------------------------------------------------------------------
 

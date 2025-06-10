@@ -4,7 +4,7 @@
 # Canopy height for ESY4
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Markus Bauer
-# 2025-04-29
+# 2025-06-03
 
 
 
@@ -36,7 +36,6 @@ sites <- read_csv(
       levels = c("positive", "restored", "negative"), ordered = TRUE
       ),
     fertilized = "f",
-    freq.mow = "f",
     obs.year = "f"
   )
 ) %>%
@@ -78,15 +77,6 @@ ggplot(sites, aes(y = y, x = obs.year)) +
   geom_boxplot(fill = "transparent") +
   facet_grid(~ esy4) +
   labs(y = "CWM Canopy height (abu) [m]", x = "Survey year")
-
-sites %>%
-  filter(site.type == "restored") %>%
-  mutate(history = as.numeric(history)) %>%
-  ggplot(aes(y = y, x = history)) +
-  geom_quasirandom(color = "grey") +
-  geom_smooth() +
-  facet_grid(~ esy4) +
-  labs(y = "CWM Canopy height (abu) [m]")
 
 
 ### b Outliers, zero-inflation, transformations? ------------------------------
@@ -144,6 +134,5 @@ simulateResiduals(m3, plot = TRUE)
 
 ### b Save ---------------------------------------------------------------------
 
-save(m1, file = here("outputs", "models", "model_height_esy4_1.Rdata"))
 save(m2, file = here("outputs", "models", "model_height_esy4_2.Rdata"))
 save(m3, file = here("outputs", "models", "model_height_esy4_3.Rdata"))
