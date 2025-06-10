@@ -53,7 +53,6 @@ sites <- read_csv(
       levels = c("positive", "restored", "negative"), ordered = TRUE
     ),
     fertilized = "f",
-    freq.mow = "f",
     obs.year = "f"
   )
 ) %>%
@@ -61,8 +60,8 @@ sites <- read_csv(
   rename(y = cwm.abu.sla)
 
 ### * Model ####
-load(file = here("outputs", "models", "model_sla_esy4_2.Rdata"))
-m <- m2
+load(file = here("outputs", "models", "model_sla_esy4_3.Rdata"))
+m <- m3
 m@call
 
 
