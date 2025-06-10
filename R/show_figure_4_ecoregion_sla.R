@@ -61,8 +61,8 @@ sites <- read_csv(
   rename(y = cwm.abu.sla)
 
 ### * Model ####
-load(file = here("outputs", "models", "model_sla_esy4_2.Rdata"))
-m <- m2
+load(file = here("outputs", "models", "model_sla_esy4_3.Rdata"))
+m <- m3
 m@call
 
 
@@ -125,7 +125,6 @@ graph_a <- ggplot() +
     hjust = .8, size = 3.1
   ) +
   facet_grid(~ esy4) +
-  scale_fill_viridis_d(guide = "none") +
   scale_y_continuous(limits = c(140, 340), breaks = seq(0, 400, 20)) +
   scale_color_manual(
     values = c(

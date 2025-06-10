@@ -62,8 +62,8 @@ sites <- read_csv(
   filter(y < 1)
 
 ### * Model ####
-load(file = here("outputs", "models", "model_height_esy4_2.Rdata"))
-m <- m2
+load(file = here("outputs", "models", "model_height_esy4_3.Rdata"))
+m <- m3
 m@call
 
 
@@ -88,10 +88,10 @@ data_model <- ggemmeans(
   mutate(group = fct_relevel(group, "664", "654", "686"))
 
 data_text <- tibble(
-  y = c(1, 1, 1),
-  eco.id = c("664", "654", "686"),
-  label = c("", "", "Ecoregion n.s."),
-  esy4 = c("R", "R22", "R1A")
+  y = c(1, 1, 0.9),
+  eco.id = c("664", "686", "686"),
+  label = c("", "Ecoregion n.s.", "Interaction n.s."),
+  esy4 = c("R", "R1A", "R1A")
 ) %>%
   mutate(esy4 = fct_relevel(esy4, "R", "R22", "R1A"))
 

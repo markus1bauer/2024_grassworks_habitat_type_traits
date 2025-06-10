@@ -64,8 +64,8 @@ sites <- read_csv(
   rename(y = cwm.abu.seedmass)
 
 ### * Model ####
-load(file = here("outputs", "models", "model_seedmass_esy4_1.Rdata"))
-m <- m1
+load(file = here("outputs", "models", "model_seedmass_esy4_3.Rdata"))
+m <- m3
 m@call
 
 
@@ -114,19 +114,19 @@ graph_c <- ggplot() +
     data = sites, aes(x = eco.id, y = y, fill = eco.id),
     alpha = .5
   ) +
-  geom_errorbar(
-    data = data_model,
-    aes(
-      x = as.numeric(factor(group)) + 0.5, ymin = conf.low, ymax = conf.high,
-      color = group
-    ),
-    width = 0.0, linewidth = 0.4
-  ) +
-  geom_point(
-    data = data_model,
-    aes(x = as.numeric(factor(group)) + 0.5, y = predicted, color = group),
-    size = 1
-  ) +
+  # geom_errorbar(
+  #   data = data_model,
+  #   aes(
+  #     x = as.numeric(factor(group)) + 0.5, ymin = conf.low, ymax = conf.high,
+  #     color = group
+  #   ),
+  #   width = 0.0, linewidth = 0.4
+  # ) +
+  # geom_point(
+  #   data = data_model,
+  #   aes(x = as.numeric(factor(group)) + 0.5, y = predicted, color = group),
+  #   size = 1
+  # ) +
   geom_text(
     data = data_text,
     aes(x = eco.id, y = y, label = label, group = esy4),
