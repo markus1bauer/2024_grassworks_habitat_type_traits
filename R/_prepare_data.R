@@ -51,30 +51,6 @@ sites <- read_csv(
   )
 )
 
-### sPlotOpen: Sabatini et al. (2021) Global Ecol Biogeogr:
-### https://doi.org/10.1111/geb.13346
-
-sites_splot <- read_delim(
-  here("data", "raw", "database_splotopen", "sPlotOpen_header.txt"),
-  col_names = TRUE, na = c("", "NA", "na"),
-  col_types = cols(
-    .default = "?",
-    Cover_algae_layer = "d"
-  )
-) %>%
-  filter(!(ESY %in% c(NA, "?"))) %>%
-  filter(ESY %in% c("E12a", "E22") & Country == "Germany")
-
-species_splot <- read_delim(
-  here("data", "raw", "database_splotopen", "sPlotOpen_DT.txt"),
-  col_names = TRUE, na = c("", "NA", "na"), col_types =
-    cols(
-      .default = "?"
-    )
-) %>%
-  filter(Abundance_scale == "CoverPerc") %>%
-  semi_join(sites_splot, by = "PlotObservationID")
-
 
 rm(list = setdiff(ls(), c(
   "sites", "sites_splot", "species", "species_splot")))
