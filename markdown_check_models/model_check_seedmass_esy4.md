@@ -2,7 +2,7 @@ Analysis of Bauer et al. (submitted) Functional traits of grasslands:
 <br> Community weighted mean of seed mass per plot (esy4)
 ================
 <b>Markus Bauer</b> <br>
-<b>2025-06-10</b>
+<b>2025-06-20</b>
 
 - [Preparation](#preparation)
 - [Statistics](#statistics)
@@ -73,7 +73,9 @@ sites <- read_csv(
       levels = c("positive", "restored", "negative"), ordered = TRUE
       ),
     fertilized = "f",
-    obs.year = "f"
+    obs.year = "f",
+    hydrology = "f",
+    mngm.type = "f"
   )
 ) %>%
   mutate(
@@ -243,72 +245,88 @@ simulation_output_2 <- simulateResiduals(m_2, plot = TRUE)
 ![](model_check_seedmass_esy4_files/figure-gfm/dharma_all-2.png)<!-- -->
 
 ``` r
-plotResiduals(simulation_output_1$scaledResiduals, sites$eco.id)
+plotResiduals(simulation_output_1$scaledResiduals, sites$esy4)
 ```
 
 ![](model_check_seedmass_esy4_files/figure-gfm/dharma_single-1.png)<!-- -->
 
 ``` r
-plotResiduals(simulation_output_2$scaledResiduals, sites$eco.id)
+plotResiduals(simulation_output_2$scaledResiduals, sites$esy4)
 ```
 
 ![](model_check_seedmass_esy4_files/figure-gfm/dharma_single-2.png)<!-- -->
 
 ``` r
-plotResiduals(simulation_output_1$scaledResiduals, sites$site.type)
+plotResiduals(simulation_output_1$scaledResiduals, sites$eco.id)
 ```
 
 ![](model_check_seedmass_esy4_files/figure-gfm/dharma_single-3.png)<!-- -->
 
 ``` r
-plotResiduals(simulation_output_2$scaledResiduals, sites$site.type)
+plotResiduals(simulation_output_2$scaledResiduals, sites$eco.id)
 ```
 
 ![](model_check_seedmass_esy4_files/figure-gfm/dharma_single-4.png)<!-- -->
 
 ``` r
-plotResiduals(simulation_output_1$scaledResiduals, sites$obs.year)
+plotResiduals(simulation_output_1$scaledResiduals, sites$site.type)
 ```
 
 ![](model_check_seedmass_esy4_files/figure-gfm/dharma_single-5.png)<!-- -->
 
 ``` r
-plotResiduals(simulation_output_2$scaledResiduals, sites$obs.year)
+plotResiduals(simulation_output_2$scaledResiduals, sites$site.type)
 ```
 
 ![](model_check_seedmass_esy4_files/figure-gfm/dharma_single-6.png)<!-- -->
 
 ``` r
-plotResiduals(simulation_output_1$scaledResiduals, sites$hydrology)
-## Warning in ensurePredictor(simulationOutput, form): DHARMa:::ensurePredictor:
-## character string was provided as predictor. DHARMa has converted to factor
-## automatically. To remove this warning, please convert to factor before
-## attempting to plot with DHARMa.
+plotResiduals(simulation_output_1$scaledResiduals, sites$obs.year)
 ```
 
 ![](model_check_seedmass_esy4_files/figure-gfm/dharma_single-7.png)<!-- -->
 
 ``` r
-plotResiduals(simulation_output_2$scaledResiduals, sites$hydrology)
-## Warning in ensurePredictor(simulationOutput, form): DHARMa:::ensurePredictor:
-## character string was provided as predictor. DHARMa has converted to factor
-## automatically. To remove this warning, please convert to factor before
-## attempting to plot with DHARMa.
+plotResiduals(simulation_output_2$scaledResiduals, sites$obs.year)
 ```
 
 ![](model_check_seedmass_esy4_files/figure-gfm/dharma_single-8.png)<!-- -->
 
 ``` r
-plotResiduals(simulation_output_1$scaledResiduals, sites$fertilized)
+plotResiduals(simulation_output_1$scaledResiduals, sites$hydrology)
 ```
 
 ![](model_check_seedmass_esy4_files/figure-gfm/dharma_single-9.png)<!-- -->
 
 ``` r
-plotResiduals(simulation_output_2$scaledResiduals, sites$fertilized)
+plotResiduals(simulation_output_2$scaledResiduals, sites$hydrology)
 ```
 
 ![](model_check_seedmass_esy4_files/figure-gfm/dharma_single-10.png)<!-- -->
+
+``` r
+plotResiduals(simulation_output_1$scaledResiduals, sites$fertilized)
+```
+
+![](model_check_seedmass_esy4_files/figure-gfm/dharma_single-11.png)<!-- -->
+
+``` r
+plotResiduals(simulation_output_2$scaledResiduals, sites$fertilized)
+```
+
+![](model_check_seedmass_esy4_files/figure-gfm/dharma_single-12.png)<!-- -->
+
+``` r
+plotResiduals(simulation_output_1$scaledResiduals, sites$mngm.type)
+```
+
+![](model_check_seedmass_esy4_files/figure-gfm/dharma_single-13.png)<!-- -->
+
+``` r
+plotResiduals(simulation_output_2$scaledResiduals, sites$mngm.type)
+```
+
+![](model_check_seedmass_esy4_files/figure-gfm/dharma_single-14.png)<!-- -->
 
 ### Check collinearity part 2 (Step 5)
 
@@ -469,8 +487,8 @@ necessary.
 ```
 
     ##  esy4 response       SE  df lower.CL upper.CL
-    ##  R     0.00116 6.58e-05 249 0.001036  0.00130
-    ##  R22   0.00110 8.19e-05 475 0.000954  0.00128
+    ##  R     0.00116 6.58e-05 156 0.001036  0.00130
+    ##  R22   0.00110 8.19e-05 289 0.000954  0.00128
     ##  R1A    nonEst       NA  NA       NA       NA
     ## 
     ## Results are averaged over the levels of: site.type, eco.id, obs.year, hydrology 
@@ -505,15 +523,15 @@ plot(emm, comparison = FALSE)
 
     ## $emmeans
     ##  eco.id esy4 response       SE  df lower.CL upper.CL
-    ##  654    R    0.001583 1.41e-04 267 0.001329  0.00189
-    ##  664    R    0.000939 8.30e-05 261 0.000789  0.00112
-    ##  686    R    0.001046 8.99e-05 241 0.000883  0.00124
-    ##  654    R22  0.001510 1.75e-04 484 0.001202  0.00190
-    ##  664    R22  0.000927 9.27e-05 360 0.000761  0.00113
-    ##  686    R22  0.000961 9.86e-05 398 0.000785  0.00118
-    ##  654    R1A  0.001699 2.35e-04 427 0.001295  0.00223
+    ##  654    R    0.001583 1.41e-04 200 0.001329  0.00189
+    ##  664    R    0.000939 8.30e-05 215 0.000789  0.00112
+    ##  686    R    0.001046 8.99e-05 183 0.000883  0.00124
+    ##  654    R22  0.001510 1.75e-04 374 0.001202  0.00190
+    ##  664    R22  0.000927 9.27e-05 298 0.000761  0.00113
+    ##  686    R22  0.000961 9.86e-05 296 0.000785  0.00118
+    ##  654    R1A  0.001699 2.35e-04 220 0.001294  0.00223
     ##  664    R1A    nonEst       NA  NA       NA       NA
-    ##  686    R1A  0.001554 2.77e-04 509 0.001095  0.00221
+    ##  686    R1A  0.001554 2.77e-04 452 0.001095  0.00221
     ## 
     ## Results are averaged over the levels of: site.type, obs.year, hydrology 
     ## Degrees-of-freedom method: kenward-roger 
@@ -522,27 +540,27 @@ plot(emm, comparison = FALSE)
     ## 
     ## $contrasts
     ##  contrast                       ratio     SE  df null t.ratio p.value
-    ##  eco.id664 R / eco.id654 R      0.593 0.0699 268    1  -4.431  0.0004
-    ##  eco.id686 R / eco.id654 R      0.660 0.0759 258    1  -3.612  0.0086
-    ##  eco.id686 R / eco.id664 R      1.114 0.1280 259    1   0.938  0.9820
-    ##  eco.id654 R22 / eco.id654 R    0.954 0.0985 574    1  -0.458  0.9998
-    ##  eco.id654 R22 / eco.id664 R    1.609 0.2250 411    1   3.394  0.0171
-    ##  eco.id654 R22 / eco.id686 R    1.444 0.1980 404    1   2.681  0.1315
-    ##  eco.id664 R22 / eco.id654 R    0.585 0.0749 338    1  -4.183  0.0010
-    ##  eco.id664 R22 / eco.id664 R    0.987 0.0954 624    1  -0.132  1.0000
-    ##  eco.id664 R22 / eco.id686 R    0.887 0.1100 329    1  -0.970  0.9784
-    ##  eco.id664 R22 / eco.id654 R22  0.614 0.0835 385    1  -3.589  0.0089
-    ##  eco.id686 R22 / eco.id654 R    0.607 0.0783 360    1  -3.874  0.0032
-    ##  eco.id686 R22 / eco.id664 R    1.023 0.1310 362    1   0.177  1.0000
-    ##  eco.id686 R22 / eco.id686 R    0.919 0.0786 539    1  -0.992  0.9755
+    ##  eco.id664 R / eco.id654 R      0.593 0.0699 233    1  -4.431  0.0004
+    ##  eco.id686 R / eco.id654 R      0.660 0.0759 247    1  -3.612  0.0087
+    ##  eco.id686 R / eco.id664 R      1.114 0.1280 248    1   0.938  0.9820
+    ##  eco.id654 R22 / eco.id654 R    0.954 0.0985 565    1  -0.458  0.9998
+    ##  eco.id654 R22 / eco.id664 R    1.609 0.2250 385    1   3.394  0.0172
+    ##  eco.id654 R22 / eco.id686 R    1.444 0.1980 402    1   2.681  0.1315
+    ##  eco.id664 R22 / eco.id654 R    0.585 0.0749 332    1  -4.183  0.0010
+    ##  eco.id664 R22 / eco.id664 R    0.987 0.0954 587    1  -0.132  1.0000
+    ##  eco.id664 R22 / eco.id686 R    0.887 0.1100 326    1  -0.970  0.9784
+    ##  eco.id664 R22 / eco.id654 R22  0.614 0.0835 381    1  -3.589  0.0089
+    ##  eco.id686 R22 / eco.id654 R    0.607 0.0783 352    1  -3.874  0.0032
+    ##  eco.id686 R22 / eco.id664 R    1.023 0.1310 334    1   0.177  1.0000
+    ##  eco.id686 R22 / eco.id686 R    0.919 0.0786 537    1  -0.992  0.9755
     ##  eco.id686 R22 / eco.id654 R22  0.636 0.0861 393    1  -3.343  0.0203
-    ##  eco.id686 R22 / eco.id664 R22  1.036 0.1300 327    1   0.284  1.0000
-    ##  eco.id654 R1A / eco.id654 R    1.073 0.1540 612    1   0.488  0.9997
-    ##  eco.id654 R1A / eco.id664 R    1.809 0.2980 408    1   3.598  0.0085
-    ##  eco.id654 R1A / eco.id686 R    1.625 0.2650 405    1   2.977  0.0609
-    ##  eco.id654 R1A / eco.id654 R22  1.125 0.1890 630    1   0.701  0.9970
-    ##  eco.id654 R1A / eco.id664 R22  1.833 0.3120 424    1   3.558  0.0098
-    ##  eco.id654 R1A / eco.id686 R22  1.769 0.3050 451    1   3.310  0.0223
+    ##  eco.id686 R22 / eco.id664 R22  1.036 0.1300 324    1   0.284  1.0000
+    ##  eco.id654 R1A / eco.id654 R    1.073 0.1540 309    1   0.488  0.9997
+    ##  eco.id654 R1A / eco.id664 R    1.809 0.2980 189    1   3.598  0.0096
+    ##  eco.id654 R1A / eco.id686 R    1.625 0.2650 199    1   2.977  0.0635
+    ##  eco.id654 R1A / eco.id654 R22  1.125 0.1890 325    1   0.701  0.9969
+    ##  eco.id654 R1A / eco.id664 R22  1.833 0.3120 237    1   3.558  0.0105
+    ##  eco.id654 R1A / eco.id686 R22  1.769 0.3050 237    1   3.310  0.0236
     ##  eco.id664 R1A / eco.id654 R   nonEst     NA  NA    1      NA      NA
     ##  eco.id664 R1A / eco.id664 R   nonEst     NA  NA    1      NA      NA
     ##  eco.id664 R1A / eco.id686 R   nonEst     NA  NA    1      NA      NA
@@ -550,13 +568,13 @@ plot(emm, comparison = FALSE)
     ##  eco.id664 R1A / eco.id664 R22 nonEst     NA  NA    1      NA      NA
     ##  eco.id664 R1A / eco.id686 R22 nonEst     NA  NA    1      NA      NA
     ##  eco.id664 R1A / eco.id654 R1A nonEst     NA  NA    1      NA      NA
-    ##  eco.id686 R1A / eco.id654 R    0.982 0.1940 480    1  -0.093  1.0000
-    ##  eco.id686 R1A / eco.id664 R    1.656 0.3290 480    1   2.537  0.1825
-    ##  eco.id686 R1A / eco.id686 R    1.487 0.2660 618    1   2.213  0.3453
-    ##  eco.id686 R1A / eco.id654 R22  1.029 0.2190 528    1   0.136  1.0000
-    ##  eco.id686 R1A / eco.id664 R22  1.677 0.3410 492    1   2.544  0.1797
-    ##  eco.id686 R1A / eco.id686 R22  1.618 0.3060 626    1   2.546  0.1784
-    ##  eco.id686 R1A / eco.id654 R1A  0.915 0.1700 477    1  -0.477  0.9998
+    ##  eco.id686 R1A / eco.id654 R    0.982 0.1940 418    1  -0.093  1.0000
+    ##  eco.id686 R1A / eco.id664 R    1.656 0.3290 378    1   2.537  0.1832
+    ##  eco.id686 R1A / eco.id686 R    1.487 0.2660 490    1   2.213  0.3457
+    ##  eco.id686 R1A / eco.id654 R22  1.029 0.2190 436    1   0.136  1.0000
+    ##  eco.id686 R1A / eco.id664 R22  1.677 0.3410 420    1   2.544  0.1801
+    ##  eco.id686 R1A / eco.id686 R22  1.618 0.3060 515    1   2.546  0.1789
+    ##  eco.id686 R1A / eco.id654 R1A  0.915 0.1700 431    1  -0.477  0.9998
     ##  eco.id686 R1A / eco.id664 R1A nonEst     NA  NA    1      NA      NA
     ## 
     ## Results are averaged over the levels of: site.type, obs.year, hydrology 
@@ -604,7 +622,7 @@ plot(emm, comparison = TRUE)
     ## [3] LC_MONETARY=German_Germany.utf8 LC_NUMERIC=C                   
     ## [5] LC_TIME=German_Germany.utf8    
     ## 
-    ## time zone: Europe/Berlin
+    ## time zone: America/New_York
     ## tzcode source: internal
     ## 
     ## attached base packages:

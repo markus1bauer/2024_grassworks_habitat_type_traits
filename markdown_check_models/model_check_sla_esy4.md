@@ -2,7 +2,7 @@ Analysis of Bauer et al. (submitted) Functional traits of grasslands:
 <br> Community weighted mean of specific leaf area (SLA) per plot (esy4)
 ================
 <b>Markus Bauer</b> <br>
-<b>2025-06-10</b>
+<b>2025-06-20</b>
 
 - [Preparation](#preparation)
 - [Statistics](#statistics)
@@ -73,7 +73,9 @@ sites <- read_csv(
       levels = c("positive", "restored", "negative"), ordered = TRUE
       ),
     fertilized = "f",
-    obs.year = "f"
+    obs.year = "f",
+    hydrology = "f",
+    mngm.type = "f"
   )
 ) %>%
   mutate(
@@ -243,72 +245,88 @@ simulation_output_2 <- simulateResiduals(m_2, plot = TRUE)
 ![](model_check_sla_esy4_files/figure-gfm/dharma_all-2.png)<!-- -->
 
 ``` r
-plotResiduals(simulation_output_1$scaledResiduals, sites$eco.id)
+plotResiduals(simulation_output_1$scaledResiduals, sites$esy4)
 ```
 
 ![](model_check_sla_esy4_files/figure-gfm/dharma_single-1.png)<!-- -->
 
 ``` r
-plotResiduals(simulation_output_2$scaledResiduals, sites$eco.id)
+plotResiduals(simulation_output_2$scaledResiduals, sites$esy4)
 ```
 
 ![](model_check_sla_esy4_files/figure-gfm/dharma_single-2.png)<!-- -->
 
 ``` r
-plotResiduals(simulation_output_1$scaledResiduals, sites$site.type)
+plotResiduals(simulation_output_1$scaledResiduals, sites$eco.id)
 ```
 
 ![](model_check_sla_esy4_files/figure-gfm/dharma_single-3.png)<!-- -->
 
 ``` r
-plotResiduals(simulation_output_2$scaledResiduals, sites$site.type)
+plotResiduals(simulation_output_2$scaledResiduals, sites$eco.id)
 ```
 
 ![](model_check_sla_esy4_files/figure-gfm/dharma_single-4.png)<!-- -->
 
 ``` r
-plotResiduals(simulation_output_1$scaledResiduals, sites$obs.year)
+plotResiduals(simulation_output_1$scaledResiduals, sites$site.type)
 ```
 
 ![](model_check_sla_esy4_files/figure-gfm/dharma_single-5.png)<!-- -->
 
 ``` r
-plotResiduals(simulation_output_2$scaledResiduals, sites$obs.year)
+plotResiduals(simulation_output_2$scaledResiduals, sites$site.type)
 ```
 
 ![](model_check_sla_esy4_files/figure-gfm/dharma_single-6.png)<!-- -->
 
 ``` r
-plotResiduals(simulation_output_1$scaledResiduals, sites$hydrology)
-## Warning in ensurePredictor(simulationOutput, form): DHARMa:::ensurePredictor:
-## character string was provided as predictor. DHARMa has converted to factor
-## automatically. To remove this warning, please convert to factor before
-## attempting to plot with DHARMa.
+plotResiduals(simulation_output_1$scaledResiduals, sites$obs.year)
 ```
 
 ![](model_check_sla_esy4_files/figure-gfm/dharma_single-7.png)<!-- -->
 
 ``` r
-plotResiduals(simulation_output_2$scaledResiduals, sites$hydrology)
-## Warning in ensurePredictor(simulationOutput, form): DHARMa:::ensurePredictor:
-## character string was provided as predictor. DHARMa has converted to factor
-## automatically. To remove this warning, please convert to factor before
-## attempting to plot with DHARMa.
+plotResiduals(simulation_output_2$scaledResiduals, sites$obs.year)
 ```
 
 ![](model_check_sla_esy4_files/figure-gfm/dharma_single-8.png)<!-- -->
 
 ``` r
-plotResiduals(simulation_output_1$scaledResiduals, sites$fertilized)
+plotResiduals(simulation_output_1$scaledResiduals, sites$hydrology)
 ```
 
 ![](model_check_sla_esy4_files/figure-gfm/dharma_single-9.png)<!-- -->
 
 ``` r
-plotResiduals(simulation_output_2$scaledResiduals, sites$fertilized)
+plotResiduals(simulation_output_2$scaledResiduals, sites$hydrology)
 ```
 
 ![](model_check_sla_esy4_files/figure-gfm/dharma_single-10.png)<!-- -->
+
+``` r
+plotResiduals(simulation_output_1$scaledResiduals, sites$fertilized)
+```
+
+![](model_check_sla_esy4_files/figure-gfm/dharma_single-11.png)<!-- -->
+
+``` r
+plotResiduals(simulation_output_2$scaledResiduals, sites$fertilized)
+```
+
+![](model_check_sla_esy4_files/figure-gfm/dharma_single-12.png)<!-- -->
+
+``` r
+plotResiduals(simulation_output_1$scaledResiduals, sites$mngm.type)
+```
+
+![](model_check_sla_esy4_files/figure-gfm/dharma_single-13.png)<!-- -->
+
+``` r
+plotResiduals(simulation_output_2$scaledResiduals, sites$mngm.type)
+```
+
+![](model_check_sla_esy4_files/figure-gfm/dharma_single-14.png)<!-- -->
 
 ### Check collinearity part 2 (Step 5)
 
@@ -466,9 +484,9 @@ necessary.
 
     ## $emmeans
     ##  esy4 emmean   SE  df lower.CL upper.CL
-    ##  R       239 2.31 246      234      243
-    ##  R22     242 2.97 463      236      248
-    ##  R1A     225 5.04 508      216      235
+    ##  R       239 2.31 155      234      243
+    ##  R22     242 2.97 282      236      248
+    ##  R1A     225 5.04 316      216      235
     ## 
     ## Results are averaged over the levels of: site.type, eco.id, obs.year, hydrology 
     ## Degrees-of-freedom method: kenward-roger 
@@ -476,9 +494,9 @@ necessary.
     ## 
     ## $contrasts
     ##  contrast  estimate   SE  df t.ratio p.value
-    ##  R22 - R       2.93 2.56 563   1.143  0.4880
-    ##  R1A - R     -13.39 5.20 606  -2.574  0.0277
-    ##  R1A - R22   -16.32 5.62 618  -2.906  0.0106
+    ##  R22 - R       2.93 2.56 556   1.143  0.4880
+    ##  R1A - R     -13.39 5.20 306  -2.574  0.0283
+    ##  R1A - R22   -16.32 5.62 344  -2.906  0.0108
     ## 
     ## Results are averaged over the levels of: site.type, eco.id, obs.year, hydrology 
     ## Degrees-of-freedom method: kenward-roger 
@@ -502,9 +520,9 @@ plot(emm, comparison = TRUE)
 
     ## $emmeans
     ##  eco.id emmean   SE  df lower.CL upper.CL
-    ##  654       221 3.37 207      214      227
-    ##  664       246 3.56 236      239      253
-    ##  686       239 3.50 215      232      246
+    ##  654       221 3.37 153      214      227
+    ##  664       246 3.56 226      239      253
+    ##  686       239 3.50 186      232      246
     ## 
     ## Results are averaged over the levels of: esy4, site.type, obs.year, hydrology 
     ## Degrees-of-freedom method: kenward-roger 
@@ -512,9 +530,9 @@ plot(emm, comparison = TRUE)
     ## 
     ## $contrasts
     ##  contrast              estimate   SE  df t.ratio p.value
-    ##  eco.id664 - eco.id654    25.87 4.36 200   5.933  <.0001
-    ##  eco.id686 - eco.id654    18.32 4.26 188   4.302  0.0001
-    ##  eco.id686 - eco.id664    -7.55 4.24 190  -1.779  0.1793
+    ##  eco.id664 - eco.id654    25.87 4.36 186   5.933  <.0001
+    ##  eco.id686 - eco.id654    18.32 4.26 181   4.302  0.0001
+    ##  eco.id686 - eco.id664    -7.55 4.24 185  -1.779  0.1794
     ## 
     ## Results are averaged over the levels of: esy4, site.type, obs.year, hydrology 
     ## Degrees-of-freedom method: kenward-roger 
@@ -538,9 +556,9 @@ plot(emm, comparison = TRUE)
 
     ## $emmeans
     ##  site.type emmean   SE  df lower.CL upper.CL
-    ##  positive     226 4.37 211      217      234
-    ##  restored     232 2.41 226      227      237
-    ##  negative     248 5.30 284      238      259
+    ##  positive     226 4.37 204      217      234
+    ##  restored     232 2.41 128      227      237
+    ##  negative     248 5.30 241      238      259
     ## 
     ## Results are averaged over the levels of: esy4, eco.id, obs.year, hydrology 
     ## Degrees-of-freedom method: kenward-roger 
@@ -548,9 +566,9 @@ plot(emm, comparison = TRUE)
     ## 
     ## $contrasts
     ##  contrast            estimate   SE  df t.ratio p.value
-    ##  restored - positive     6.26 4.99 211   1.254  0.4231
-    ##  negative - positive    22.68 6.90 249   3.288  0.0033
-    ##  negative - restored    16.42 5.74 274   2.859  0.0127
+    ##  restored - positive     6.26 4.99 184   1.254  0.4233
+    ##  negative - positive    22.68 6.90 221   3.288  0.0034
+    ##  negative - restored    16.42 5.74 266   2.859  0.0127
     ## 
     ## Results are averaged over the levels of: esy4, eco.id, obs.year, hydrology 
     ## Degrees-of-freedom method: kenward-roger 
@@ -576,7 +594,7 @@ plot(emm, comparison = TRUE)
     ## [3] LC_MONETARY=German_Germany.utf8 LC_NUMERIC=C                   
     ## [5] LC_TIME=German_Germany.utf8    
     ## 
-    ## time zone: Europe/Berlin
+    ## time zone: America/New_York
     ## tzcode source: internal
     ## 
     ## attached base packages:
@@ -589,34 +607,36 @@ plot(emm, comparison = TRUE)
     ## [13] ggplot2_3.5.2    tidyverse_2.0.0  here_1.0.1      
     ## 
     ## loaded via a namespace (and not attached):
-    ##  [1] Rdpack_2.6.4           gridExtra_2.3          rlang_1.1.6           
-    ##  [4] magrittr_2.0.3         compiler_4.5.0         mgcv_1.9-1            
-    ##  [7] vctrs_0.6.5            pkgconfig_2.0.3        crayon_1.5.3          
-    ## [10] fastmap_1.2.0          backports_1.5.0        labeling_0.4.3        
-    ## [13] utf8_1.2.5             ggstance_0.3.7         promises_1.3.2        
-    ## [16] rmarkdown_2.29         tzdb_0.5.0             nloptr_2.2.1          
-    ## [19] bit_4.6.0              xfun_0.52              later_1.4.2           
-    ## [22] broom_1.0.8            parallel_4.5.0         R6_2.6.1              
-    ## [25] gap.datasets_0.0.6     stringi_1.8.7          qgam_2.0.0            
-    ## [28] RColorBrewer_1.1-3     car_3.1-3              boot_1.3-31           
-    ## [31] estimability_1.5.1     Rcpp_1.0.14            iterators_1.0.14      
-    ## [34] knitr_1.50             parameters_0.25.0      httpuv_1.6.16         
-    ## [37] Matrix_1.7-3           splines_4.5.0          timechange_0.3.0      
-    ## [40] tidyselect_1.2.1       rstudioapi_0.17.1      abind_1.4-8           
-    ## [43] yaml_2.3.10            MuMIn_1.48.11          doParallel_1.0.17     
-    ## [46] codetools_0.2-20       lattice_0.22-6         plyr_1.8.9            
-    ## [49] shiny_1.10.0           withr_3.0.2            bayestestR_0.15.3     
-    ## [52] evaluate_1.0.3         marginaleffects_0.25.1 pillar_1.10.2         
-    ## [55] gap_1.6                carData_3.0-5          foreach_1.5.2         
-    ## [58] stats4_4.5.0           reformulas_0.4.1       insight_1.2.0         
-    ## [61] generics_0.1.4         vroom_1.6.5            rprojroot_2.0.4       
-    ## [64] hms_1.1.3              scales_1.4.0           minqa_1.2.8           
-    ## [67] xtable_1.8-4           glue_1.8.0             tools_4.5.0           
-    ## [70] data.table_1.17.2      lme4_1.1-37            mvtnorm_1.3-3         
-    ## [73] grid_4.5.0             rbibutils_2.3          datawizard_1.1.0      
-    ## [76] nlme_3.1-168           Rmisc_1.5.1            performance_0.13.0    
-    ## [79] beeswarm_0.4.0         vipor_0.4.7            Formula_1.2-5         
-    ## [82] cli_3.6.5              gtable_0.3.6           digest_0.6.37         
-    ## [85] pbkrtest_0.5.4         farver_2.1.2           htmltools_0.5.8.1     
-    ## [88] lifecycle_1.0.4        mime_0.13              bit64_4.6.0-1         
-    ## [91] dotwhisker_0.8.4       MASS_7.3-65
+    ##  [1] Rdpack_2.6.4           gridExtra_2.3          sandwich_3.1-1        
+    ##  [4] rlang_1.1.6            magrittr_2.0.3         multcomp_1.4-28       
+    ##  [7] compiler_4.5.0         mgcv_1.9-1             vctrs_0.6.5           
+    ## [10] pkgconfig_2.0.3        crayon_1.5.3           fastmap_1.2.0         
+    ## [13] backports_1.5.0        labeling_0.4.3         utf8_1.2.5            
+    ## [16] ggstance_0.3.7         promises_1.3.2         rmarkdown_2.29        
+    ## [19] tzdb_0.5.0             nloptr_2.2.1           bit_4.6.0             
+    ## [22] xfun_0.52              later_1.4.2            broom_1.0.8           
+    ## [25] parallel_4.5.0         R6_2.6.1               gap.datasets_0.0.6    
+    ## [28] stringi_1.8.7          qgam_2.0.0             RColorBrewer_1.1-3    
+    ## [31] car_3.1-3              boot_1.3-31            estimability_1.5.1    
+    ## [34] Rcpp_1.0.14            iterators_1.0.14       knitr_1.50            
+    ## [37] zoo_1.8-14             parameters_0.25.0      httpuv_1.6.16         
+    ## [40] Matrix_1.7-3           splines_4.5.0          timechange_0.3.0      
+    ## [43] tidyselect_1.2.1       rstudioapi_0.17.1      abind_1.4-8           
+    ## [46] yaml_2.3.10            MuMIn_1.48.11          doParallel_1.0.17     
+    ## [49] codetools_0.2-20       lattice_0.22-6         plyr_1.8.9            
+    ## [52] bayestestR_0.15.3      shiny_1.10.0           withr_3.0.2           
+    ## [55] evaluate_1.0.3         marginaleffects_0.25.1 survival_3.8-3        
+    ## [58] pillar_1.10.2          gap_1.6                carData_3.0-5         
+    ## [61] foreach_1.5.2          stats4_4.5.0           reformulas_0.4.1      
+    ## [64] insight_1.2.0          generics_0.1.4         vroom_1.6.5           
+    ## [67] rprojroot_2.0.4        hms_1.1.3              scales_1.4.0          
+    ## [70] minqa_1.2.8            xtable_1.8-4           glue_1.8.0            
+    ## [73] tools_4.5.0            data.table_1.17.2      lme4_1.1-37           
+    ## [76] mvtnorm_1.3-3          grid_4.5.0             rbibutils_2.3         
+    ## [79] datawizard_1.1.0       nlme_3.1-168           Rmisc_1.5.1           
+    ## [82] performance_0.13.0     beeswarm_0.4.0         vipor_0.4.7           
+    ## [85] Formula_1.2-5          cli_3.6.5              gtable_0.3.6          
+    ## [88] digest_0.6.37          pbkrtest_0.5.4         TH.data_1.1-3         
+    ## [91] farver_2.1.2           htmltools_0.5.8.1      lifecycle_1.0.4       
+    ## [94] mime_0.13              bit64_4.6.0-1          dotwhisker_0.8.4      
+    ## [97] MASS_7.3-65

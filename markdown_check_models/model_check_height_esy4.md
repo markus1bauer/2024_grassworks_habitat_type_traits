@@ -2,7 +2,7 @@ Analysis of Bauer et al. (submitted) Functional traits of grasslands:
 <br> Community weighted mean of canopy height per plot (esy4)
 ================
 <b>Markus Bauer</b> <br>
-<b>2025-06-10</b>
+<b>2025-06-20</b>
 
 - [Preparation](#preparation)
 - [Statistics](#statistics)
@@ -73,7 +73,9 @@ sites <- read_csv(
       levels = c("positive", "restored", "negative"), ordered = TRUE
       ),
     fertilized = "f",
-    obs.year = "f"
+    obs.year = "f",
+    hydrology = "f",
+    mngm.type = "f"
   )
 ) %>%
   mutate(
@@ -244,72 +246,88 @@ simulation_output_2 <- simulateResiduals(m_2, plot = TRUE)
 ![](model_check_height_esy4_files/figure-gfm/dharma_all-2.png)<!-- -->
 
 ``` r
-plotResiduals(simulation_output_1$scaledResiduals, sites$eco.id)
+plotResiduals(simulation_output_1$scaledResiduals, sites$esy4)
 ```
 
 ![](model_check_height_esy4_files/figure-gfm/dharma_single-1.png)<!-- -->
 
 ``` r
-plotResiduals(simulation_output_2$scaledResiduals, sites$eco.id)
+plotResiduals(simulation_output_2$scaledResiduals, sites$esy4)
 ```
 
 ![](model_check_height_esy4_files/figure-gfm/dharma_single-2.png)<!-- -->
 
 ``` r
-plotResiduals(simulation_output_1$scaledResiduals, sites$site.type)
+plotResiduals(simulation_output_1$scaledResiduals, sites$eco.id)
 ```
 
 ![](model_check_height_esy4_files/figure-gfm/dharma_single-3.png)<!-- -->
 
 ``` r
-plotResiduals(simulation_output_2$scaledResiduals, sites$site.type)
+plotResiduals(simulation_output_2$scaledResiduals, sites$eco.id)
 ```
 
 ![](model_check_height_esy4_files/figure-gfm/dharma_single-4.png)<!-- -->
 
 ``` r
-plotResiduals(simulation_output_1$scaledResiduals, sites$obs.year)
+plotResiduals(simulation_output_1$scaledResiduals, sites$site.type)
 ```
 
 ![](model_check_height_esy4_files/figure-gfm/dharma_single-5.png)<!-- -->
 
 ``` r
-plotResiduals(simulation_output_2$scaledResiduals, sites$obs.year)
+plotResiduals(simulation_output_2$scaledResiduals, sites$site.type)
 ```
 
 ![](model_check_height_esy4_files/figure-gfm/dharma_single-6.png)<!-- -->
 
 ``` r
-plotResiduals(simulation_output_1$scaledResiduals, sites$hydrology)
-## Warning in ensurePredictor(simulationOutput, form): DHARMa:::ensurePredictor:
-## character string was provided as predictor. DHARMa has converted to factor
-## automatically. To remove this warning, please convert to factor before
-## attempting to plot with DHARMa.
+plotResiduals(simulation_output_1$scaledResiduals, sites$obs.year)
 ```
 
 ![](model_check_height_esy4_files/figure-gfm/dharma_single-7.png)<!-- -->
 
 ``` r
-plotResiduals(simulation_output_2$scaledResiduals, sites$hydrology)
-## Warning in ensurePredictor(simulationOutput, form): DHARMa:::ensurePredictor:
-## character string was provided as predictor. DHARMa has converted to factor
-## automatically. To remove this warning, please convert to factor before
-## attempting to plot with DHARMa.
+plotResiduals(simulation_output_2$scaledResiduals, sites$obs.year)
 ```
 
 ![](model_check_height_esy4_files/figure-gfm/dharma_single-8.png)<!-- -->
 
 ``` r
-plotResiduals(simulation_output_1$scaledResiduals, sites$fertilized)
+plotResiduals(simulation_output_1$scaledResiduals, sites$hydrology)
 ```
 
 ![](model_check_height_esy4_files/figure-gfm/dharma_single-9.png)<!-- -->
 
 ``` r
-plotResiduals(simulation_output_2$scaledResiduals, sites$fertilized)
+plotResiduals(simulation_output_2$scaledResiduals, sites$hydrology)
 ```
 
 ![](model_check_height_esy4_files/figure-gfm/dharma_single-10.png)<!-- -->
+
+``` r
+plotResiduals(simulation_output_1$scaledResiduals, sites$fertilized)
+```
+
+![](model_check_height_esy4_files/figure-gfm/dharma_single-11.png)<!-- -->
+
+``` r
+plotResiduals(simulation_output_2$scaledResiduals, sites$fertilized)
+```
+
+![](model_check_height_esy4_files/figure-gfm/dharma_single-12.png)<!-- -->
+
+``` r
+plotResiduals(simulation_output_1$scaledResiduals, sites$mngm.type)
+```
+
+![](model_check_height_esy4_files/figure-gfm/dharma_single-13.png)<!-- -->
+
+``` r
+plotResiduals(simulation_output_2$scaledResiduals, sites$mngm.type)
+```
+
+![](model_check_height_esy4_files/figure-gfm/dharma_single-14.png)<!-- -->
 
 ### Check collinearity part 2 (Step 5)
 
@@ -475,8 +493,8 @@ necessary.
 
     ## $emmeans
     ##  esy4 emmean      SE  df lower.CL upper.CL
-    ##  R     0.469 0.00918 257    0.451    0.487
-    ##  R22   0.484 0.01240 495    0.460    0.508
+    ##  R     0.469 0.00918 157    0.451    0.488
+    ##  R22   0.484 0.01240 299    0.459    0.508
     ##  R1A  nonEst      NA  NA       NA       NA
     ## 
     ## Results are averaged over the levels of: site.type, eco.id, obs.year, hydrology 
@@ -485,7 +503,7 @@ necessary.
     ## 
     ## $contrasts
     ##  contrast  estimate     SE  df t.ratio p.value
-    ##  R22 - R     0.0145 0.0113 589   1.275  0.2028
+    ##  R22 - R     0.0145 0.0113 580   1.275  0.2028
     ##  R1A - R     nonEst     NA  NA      NA      NA
     ##  R1A - R22   nonEst     NA  NA      NA      NA
     ## 
@@ -521,21 +539,21 @@ plot(emm, comparison = TRUE)
     ## $emmeans
     ## esy4 = R:
     ##  eco.id emmean     SE  df lower.CL upper.CL
-    ##  654     0.481 0.0144 277    0.453    0.509
-    ##  664     0.461 0.0144 268    0.432    0.489
-    ##  686     0.467 0.0139 249    0.439    0.494
+    ##  654     0.481 0.0144 204    0.453    0.510
+    ##  664     0.461 0.0144 219    0.432    0.489
+    ##  686     0.467 0.0139 185    0.439    0.494
     ## 
     ## esy4 = R22:
     ##  eco.id emmean     SE  df lower.CL upper.CL
-    ##  654     0.512 0.0194 498    0.474    0.550
-    ##  664     0.464 0.0166 373    0.431    0.497
-    ##  686     0.476 0.0170 423    0.442    0.509
+    ##  654     0.512 0.0194 376    0.474    0.550
+    ##  664     0.464 0.0166 311    0.431    0.497
+    ##  686     0.476 0.0170 310    0.442    0.509
     ## 
     ## esy4 = R1A:
     ##  eco.id emmean     SE  df lower.CL upper.CL
-    ##  654     0.411 0.0229 407    0.366    0.456
+    ##  654     0.411 0.0229 194    0.366    0.456
     ##  664    nonEst     NA  NA       NA       NA
-    ##  686     0.413 0.0298 482    0.354    0.472
+    ##  686     0.413 0.0298 414    0.354    0.472
     ## 
     ## Results are averaged over the levels of: site.type, obs.year, hydrology 
     ## Degrees-of-freedom method: kenward-roger 
@@ -544,20 +562,20 @@ plot(emm, comparison = TRUE)
     ## $contrasts
     ## esy4 = R:
     ##  contrast              estimate     SE  df t.ratio p.value
-    ##  eco.id664 - eco.id654 -0.02049 0.0193 276  -1.063  0.5377
-    ##  eco.id686 - eco.id654 -0.01454 0.0186 268  -0.782  0.7146
-    ##  eco.id686 - eco.id664  0.00595 0.0187 266   0.318  0.9458
+    ##  eco.id664 - eco.id654 -0.02049 0.0193 236  -1.063  0.5378
+    ##  eco.id686 - eco.id654 -0.01454 0.0186 257  -0.782  0.7146
+    ##  eco.id686 - eco.id664  0.00595 0.0187 251   0.318  0.9458
     ## 
     ## esy4 = R22:
     ##  contrast              estimate     SE  df t.ratio p.value
-    ##  eco.id664 - eco.id654 -0.04791 0.0226 398  -2.118  0.0876
-    ##  eco.id686 - eco.id654 -0.03625 0.0224 410  -1.619  0.2386
-    ##  eco.id686 - eco.id664  0.01166 0.0207 340   0.565  0.8390
+    ##  eco.id664 - eco.id654 -0.04791 0.0226 387  -2.118  0.0876
+    ##  eco.id686 - eco.id654 -0.03625 0.0224 408  -1.619  0.2386
+    ##  eco.id686 - eco.id664  0.01166 0.0207 335   0.565  0.8390
     ## 
     ## esy4 = R1A:
     ##  contrast              estimate     SE  df t.ratio p.value
     ##  eco.id664 - eco.id654   nonEst     NA  NA      NA      NA
-    ##  eco.id686 - eco.id654  0.00198 0.0310 457   0.064  0.9491
+    ##  eco.id686 - eco.id654  0.00198 0.0310 413   0.064  0.9491
     ##  eco.id686 - eco.id664   nonEst     NA  NA      NA      NA
     ## 
     ## Results are averaged over the levels of: site.type, obs.year, hydrology 
@@ -569,7 +587,7 @@ plot(emm, comparison = TRUE)
 ```
 
     ## Warning: Comparison discrepancy in group "R1A", eco.id654 - eco.id686:
-    ##     Target overlap = 0.9675, overlap on graph = -0.7433
+    ##     Target overlap = 0.9675, overlap on graph = -0.7438
 
     ## Warning: Removed 1 row containing missing values or values outside the scale range
     ## (`geom_point()`).
@@ -595,15 +613,15 @@ plot(emm, comparison = TRUE)
     ## $emmeans
     ## esy4 = R:
     ##  site.type emmean     SE  df lower.CL upper.CL
-    ##  positive   0.444 0.0184 271    0.407    0.480
-    ##  restored   0.458 0.0102 294    0.438    0.478
-    ##  negative   0.506 0.0170 213    0.473    0.540
+    ##  positive   0.444 0.0184 262    0.407    0.480
+    ##  restored   0.458 0.0102 173    0.438    0.479
+    ##  negative   0.506 0.0170 127    0.473    0.540
     ## 
     ## esy4 = R22:
     ##  site.type emmean     SE  df lower.CL upper.CL
-    ##  positive   0.460 0.0230 453    0.415    0.505
-    ##  restored   0.485 0.0110 336    0.464    0.507
-    ##  negative   0.506 0.0261 541    0.455    0.558
+    ##  positive   0.460 0.0230 449    0.415    0.505
+    ##  restored   0.485 0.0110 143    0.464    0.507
+    ##  negative   0.506 0.0261 381    0.455    0.558
     ## 
     ## esy4 = R1A:
     ##  site.type emmean     SE  df lower.CL upper.CL
@@ -618,20 +636,20 @@ plot(emm, comparison = TRUE)
     ## $contrasts
     ## esy4 = R:
     ##  contrast            estimate     SE  df t.ratio p.value
-    ##  restored - positive   0.0148 0.0210 273   0.706  0.7599
-    ##  negative - positive   0.0627 0.0250 236   2.509  0.0340
-    ##  negative - restored   0.0479 0.0192 228   2.491  0.0357
+    ##  restored - positive   0.0148 0.0210 223   0.706  0.7599
+    ##  negative - positive   0.0627 0.0250 177   2.509  0.0346
+    ##  negative - restored   0.0479 0.0192 198   2.491  0.0360
     ## 
     ## esy4 = R22:
     ##  contrast            estimate     SE  df t.ratio p.value
-    ##  restored - positive   0.0253 0.0254 416   0.996  0.5796
-    ##  negative - positive   0.0463 0.0348 499   1.331  0.3785
-    ##  negative - restored   0.0210 0.0277 515   0.758  0.7288
+    ##  restored - positive   0.0253 0.0254 339   0.996  0.5797
+    ##  negative - positive   0.0463 0.0348 417   1.331  0.3786
+    ##  negative - restored   0.0210 0.0277 472   0.758  0.7288
     ## 
     ## esy4 = R1A:
     ##  contrast            estimate     SE  df t.ratio p.value
-    ##  restored - positive   0.0378 0.0340 450   1.113  0.5068
-    ##  negative - positive   0.1115 0.0579 392   1.925  0.1329
+    ##  restored - positive   0.0378 0.0340 446   1.113  0.5068
+    ##  negative - positive   0.1115 0.0579 390   1.925  0.1329
     ##  negative - restored   0.0737 0.0538 375   1.371  0.3574
     ## 
     ## Results are averaged over the levels of: eco.id, obs.year, hydrology 
@@ -667,7 +685,7 @@ plot(emm, comparison = TRUE)
     ## [3] LC_MONETARY=German_Germany.utf8 LC_NUMERIC=C                   
     ## [5] LC_TIME=German_Germany.utf8    
     ## 
-    ## time zone: Europe/Berlin
+    ## time zone: America/New_York
     ## tzcode source: internal
     ## 
     ## attached base packages:

@@ -71,7 +71,9 @@ sites <- read_csv(
       levels = c("positive", "restored", "negative"), ordered = TRUE
       ),
     fertilized = "f",
-    obs.year = "f"
+    obs.year = "f",
+    hydrology = "f",
+    mngm.type = "f"
   )
 ) %>%
   mutate(
@@ -180,6 +182,8 @@ simulation_output_2 <- simulateResiduals(m_2, plot = TRUE)
 ```
 
 ```{r dharma_single, collapse = TRUE, fig.height = 3, fig.width = 4.5}
+plotResiduals(simulation_output_1$scaledResiduals, sites$esy4)
+plotResiduals(simulation_output_2$scaledResiduals, sites$esy4)
 plotResiduals(simulation_output_1$scaledResiduals, sites$eco.id)
 plotResiduals(simulation_output_2$scaledResiduals, sites$eco.id)
 plotResiduals(simulation_output_1$scaledResiduals, sites$site.type)
@@ -190,6 +194,8 @@ plotResiduals(simulation_output_1$scaledResiduals, sites$hydrology)
 plotResiduals(simulation_output_2$scaledResiduals, sites$hydrology)
 plotResiduals(simulation_output_1$scaledResiduals, sites$fertilized)
 plotResiduals(simulation_output_2$scaledResiduals, sites$fertilized)
+plotResiduals(simulation_output_1$scaledResiduals, sites$mngm.type)
+plotResiduals(simulation_output_2$scaledResiduals, sites$mngm.type)
 ```
 
 ### Check collinearity part 2 (Step 5)
