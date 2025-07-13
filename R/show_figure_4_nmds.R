@@ -1,7 +1,7 @@
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # GRASSWORKS Project: Bauer et al. (submitted) Habitat type traits
 # CWMs of EUNIS habitat types ####
-# Show figure of ordination: Non-metric multidimensional scaling (NMDS)
+# Show figure 4
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Markus Bauer
 # 2025-05-22
@@ -56,7 +56,10 @@ sites <- read_csv(
     obs.year = "f"
   )
 ) %>%
-  mutate(esy4 = fct_relevel(esy4, "R", "R22", "R1A")) %>%
+  mutate(
+    esy4 = fct_recode(esy4, "Unspecified grassland (R)" = "R", "Low altitude hay meadow (R22)" = "R22", "Semi-dry calcareous grassland (R1A)" = "R1A"),
+    esy4 = fct_relevel(esy4, "Unspecified grassland (R)", "Low altitude hay meadow (R22)", "Semi-dry calcareous grassland (R1A)")
+    ) %>%
   select(id.plot, id.site, region, eco.id, eco.name, site.type, obs.year, esy4)
 
 sites %>%
@@ -168,7 +171,7 @@ graph_a <- ggplot() +
   scale_x_continuous(breaks = seq(-1, 1, .5)) +
   scale_color_manual(
     values = c(
-      positive = "#21918c", restored = "#FFA500", negative = "#440154"
+      positive = "#2a788e", restored = "#7ad151", negative = "#440154"
     )
   ) +
   labs(
@@ -180,6 +183,6 @@ graph_a <- ggplot() +
 #### * Save ####
 
 ggsave(
-  here("outputs", "figures", "figure_2_300dpi_10x18cm.tiff"),
+  here("outputs", "figures", "figure_4_300dpi_10x18cm.tiff"),
   dpi = 300, width = 10, height = 18, units = "cm"
 )

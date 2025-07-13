@@ -1,7 +1,7 @@
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # GRASSWORKS Project
 # CWMs of EUNIS habitat types x Ecoregion ####
-# Show figure of canopy height
+# Show figure 3C
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Markus Bauer
 # 2025-05-22
@@ -35,7 +35,7 @@ theme_mb <- function() {
                               color = "black"),
     axis.line = element_line(),
     legend.key = element_rect(fill = "white"),
-    legend.position = "none",
+    legend.position = "bottom",
     legend.text = element_text(size = 9),
     legend.margin = margin(0, 0, 0, 0, "cm"),
     plot.margin = margin(0, 0, 0, 0, "cm"),
@@ -48,21 +48,25 @@ sites <- read_csv(
   here("data", "processed", "data_processed_sites_esy4.csv"),
   col_names = TRUE, na = c("na", "NA", ""), col_types = cols(
     .default = "?",
-    eco.id = col_factor(levels = c("664", "654", "686"), ordered = TRUE),
+    eco.id = "f",
     site.type = col_factor(
       levels = c("positive", "restored", "negative"), ordered = TRUE
     ),
     fertilized = "f",
-    freq.mow = "f",
     obs.year = "f"
   )
 ) %>%
-  mutate(esy4 = fct_relevel(esy4, "R", "R22", "R1A")) %>%
-  rename(y = cwm.abu.height) %>%
-  filter(y < 1)
+  mutate(
+    esy4 = fct_recode(esy4, "Unspecified" = "R", "Meadow" = "R22", "Dry grassland" = "R1A"),
+    esy4 = fct_relevel(esy4, "Unspecified", "Meadow", "Dry grassland"),
+    eco.id = fct_recode(eco.id, "North" = "664", "C" = "654", "South" = "686"),
+    eco.id = fct_relevel(eco.id, "North", "C", "South"),
+    cwm.abu.seedmass = cwm.abu.seedmass * 1000
+  ) %>%
+  rename(y = cwm.abu.seedmass)
 
 ### * Model ####
-load(file = here("outputs", "models", "model_height_esy4_3.Rdata"))
+load(file = here("outputs", "models", "model_seedmass_esy4_3.Rdata"))
 m <- m3
 m@call
 
@@ -77,27 +81,33 @@ m@call
 ### * Preparation ####
 
 data_summary <- sites %>%
-  group_by(esy4, eco.id) %>%
-  summarize(mean = mean(y), sd = sd(y, na.rm = TRUE))
+  group_by(esy4) %>%
+  summarize(median = median(y), sd = sd(y, na.rm = TRUE))
 
 data_model <- ggemmeans(
-  m, terms = c("esy4", "eco.id"), back.transform = FALSE, ci_level = .95
+  m, terms = c("esy4", "eco.id"), back.transform = TRUE, ci_level = .95
 ) %>%
   as_tibble() %>%
   rename(esy4 = x) %>%
-  mutate(group = fct_relevel(group, "664", "654", "686"))
+  mutate(
+    predicted = predicted * 1000,
+    conf.low = conf.low * 1000,
+    conf.high = conf.high * 1000,
+    group = fct_recode(group, "North" = "664", "C" = "654", "South" = "686"),
+    group = fct_relevel(group, "North", "C", "South")
+  )
 
 data_text <- tibble(
-  y = c(1, 1, 0.9),
-  eco.id = c("664", "686", "686"),
-  label = c("", "Ecoregion n.s.", "Interaction n.s."),
-  esy4 = c("R", "R1A", "R1A")
+  y = c(1, 1, 6.2, 5.6),
+  eco.id = c("North", "C", "South", "South"),
+  label = c("", "", "Ecoregion ***", "Interaction n.s."),
+  esy4 = c("Unspecified", "Meadow", "Dry grassland", "Dry grassland")
 ) %>%
-  mutate(esy4 = fct_relevel(esy4, "R", "R22", "R1A"))
+  mutate(esy4 = fct_relevel(esy4, "Unspecified", "Meadow", "Dry grassland"))
 
 ### * Plot ####
 
-graph_b <- ggplot() +
+graph <- ggplot() +
   geom_quasirandom(
     data = sites,
     aes(x = eco.id, y = y, color = eco.id),
@@ -126,40 +136,35 @@ graph_b <- ggplot() +
     hjust = .8, size = 3.1
   ) +
   facet_grid(~ esy4) +
-  scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, .1)) +
   scale_color_manual(
     values = c(
-      "664" = "#440154",
-      "654" = "#21918c",
-      "686" = "#FFA500"
+      "North" = "#414487",
+      "C" = "#22a884",
+      "South" = "#FFA500"
     ), guide = "none"
   ) +
   scale_fill_manual(
     values = c(
-      "664" = "#440154",
-      "654" = "#21918c",
-      "686" = "#FFA500"
+      "North" = "#414487",
+      "C" = "#22a884",
+      "South" = "#FFA500"
     ), guide = "none"
   ) +
+  scale_y_continuous(limits = c(0, 6.2), breaks = seq(0, 10, .5)) +
   labs(
-    y = expression(CWM ~ Canopy ~ height ~ "[" * m * "]"),
-    title = "Canopy height",
-    tag = "B",
-    x = ""
+    x = "Ecoregion",
+    y = expression( CWM ~ Seed ~ mass ~ "[" * mg * "]"),
+    title = "Seed mass",
+    tag = "C"
   ) +
-  theme_mb() +
-  theme(
-    axis.text.x = element_blank(),
-    axis.ticks.x = element_blank(),
-    axis.line.x = element_blank(),
-    strip.text = element_blank()
-  ); graph_b
-
-
+  theme_mb(); graph
 
 #### * Save ####
 
 ggsave(
-  here("outputs", "figures", "figure_4_ecoregion_height_300dpi_9x6cm.tiff"),
+  here("outputs", "figures", "figure_3_ecoregion_seedmass_300dpi_9x6cm.tiff"),
   dpi = 300, width = 9, height = 6, units = "cm"
 )
+
+graph_c <- graph +
+  theme(strip.text = element_blank())

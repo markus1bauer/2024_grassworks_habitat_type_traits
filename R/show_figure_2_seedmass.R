@@ -1,10 +1,10 @@
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # GRASSWORKS Project
-# CWMs of EUNIS habitat types x Ecoregion ####
+# CWMs of EUNIS habitat types ####
 # Show figure of seed mass
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Markus Bauer
-# 2025-05-22
+# 2025-05-14
 
 
 
@@ -53,12 +53,15 @@ sites <- read_csv(
       levels = c("positive", "restored", "negative"), ordered = TRUE
     ),
     fertilized = "f",
-    freq.mow = "f",
     obs.year = "f"
   )
 ) %>%
   mutate(
     esy4 = fct_relevel(esy4, "R", "R22", "R1A"),
+    esy4 = fct_recode(
+      esy4, "Dry grassland\nR1A" = "R1A", "Hay meadow\nR22" = "R22",
+      "Unspecified\nR" = "R"
+    ),
     cwm.abu.seedmass = cwm.abu.seedmass * 1000
   ) %>%
   rename(y = cwm.abu.seedmass)
@@ -76,90 +79,68 @@ m@call
 
 
 
-### * Preparation ####
+## * Preparation ####
 
 data_summary <- sites %>%
   group_by(esy4) %>%
   summarize(median = median(y), sd = sd(y, na.rm = TRUE))
 
-data_model <- ggemmeans(
-  m, terms = c("esy4", "eco.id"), back.transform = TRUE, ci_level = .95
+data_model <- ggpredict(
+  m, terms = c("esy4"), back.transform = TRUE, ci_level = .95
 ) %>%
   as_tibble() %>%
-  rename(esy4 = x) %>%
   mutate(
     predicted = predicted * 1000,
     conf.low = conf.low * 1000,
-    conf.high = conf.high * 1000,
-    group = fct_relevel(group, "664", "654", "686")
-  )
-
-data_text <- tibble(
-  y = c(1, 1, 6.2, 5.6),
-  eco.id = c("664", "654", "686", "686"),
-  label = c("", "", "Ecoregion ***", "Interaction n.s."),
-  esy4 = c("R", "R22", "R1A", "R1A")
-) %>%
-  mutate(esy4 = fct_relevel(esy4, "R", "R22", "R1A"))
+    conf.high = conf.high * 1000
+    )
 
 ### * Plot ####
 
-graph_c <- ggplot() +
+graph <- ggplot() +
+  geom_hline(
+    yintercept = data_model %>%
+      filter(x == "R") %>% select(predicted) %>% pull(),
+    linetype = "dashed", color = "grey70", linewidth = .2
+  ) +
   geom_quasirandom(
     data = sites,
-    aes(x = eco.id, y = y, color = eco.id),
+    aes(x = esy4, y = y),
     alpha = .2, shape = 16, size = 1
   ) +
   geom_boxplot(
-    data = sites, aes(x = eco.id, y = y, fill = eco.id),
-    alpha = .5
+    data = sites, aes(x = esy4, y = y),
+    fill = "transparent"
   ) +
   # geom_errorbar(
   #   data = data_model,
   #   aes(
-  #     x = as.numeric(factor(group)) + 0.5, ymin = conf.low, ymax = conf.high,
-  #     color = group
+  #     x = as.numeric(factor(x)) + 0.45, ymin = conf.low, ymax = conf.high,
+  #     color = x
   #   ),
   #   width = 0.0, linewidth = 0.4
   # ) +
   # geom_point(
   #   data = data_model,
-  #   aes(x = as.numeric(factor(group)) + 0.5, y = predicted, color = group),
-  #   size = 1
+  #   aes(x = as.numeric(factor(x)) + 0.45, y = predicted, color = x),
+  #   size = 1.5
   # ) +
-  geom_text(
-    data = data_text,
-    aes(x = eco.id, y = y, label = label, group = esy4),
-    hjust = .8, size = 3.1
-  ) +
-  facet_grid(~ esy4) +
-  scale_color_manual(
-    values = c(
-      "664" = "#440154",
-      "654" = "#21918c",
-      "686" = "#FFA500"
-    ), guide = "none"
-  ) +
-  scale_fill_manual(
-    values = c(
-      "664" = "#440154",
-      "654" = "#21918c",
-      "686" = "#FFA500"
-    ), guide = "none"
-  ) +
-  scale_y_continuous(limits = c(0, 6.2), breaks = seq(0, 10, .5)) +
-  labs(
-    x = "Ecoregion",
-    y = expression( CWM ~ Seed ~ mass ~ "[" * mg * "]"),
-    title = "Seed mass",
-    tag = "C"
-  ) +
-  theme_mb() +
-  theme(strip.text = element_blank()); graph_c
+    annotate("text", label = "n.s.", y = 6.2, x = 3.4) +
+    scale_y_continuous(limits = c(0, 6.2), breaks = seq(0, 10, .5)) +
+    labs(
+      x = "",
+      y = expression(CWM ~ seed ~ mass ~ "[" * mg * "]"),
+      title = "Seed mass",
+      tag = "C"
+    ) +
+    theme_mb(); graph
+
 
 #### * Save ####
 
 ggsave(
-  here("outputs", "figures", "figure_4_ecoregion_seedmass_300dpi_9x6cm.tiff"),
+  here("outputs", "figures", "figure_2_seedmass_300dpi_9x6cm.tiff"),
   dpi = 300, width = 9, height = 6, units = "cm"
 )
+
+graph_c <- graph

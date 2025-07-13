@@ -1,10 +1,10 @@
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # GRASSWORKS Project
-# CWMs of EUNIS habitat types ####
-# Show figure of seed mass
+# CWMs of EUNIS habitat types x Ecoregion ####
+# Show figure 3A
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Markus Bauer
-# 2025-05-14
+# 2025-05-22
 
 
 
@@ -35,7 +35,7 @@ theme_mb <- function() {
                               color = "black"),
     axis.line = element_line(),
     legend.key = element_rect(fill = "white"),
-    legend.position = "bottom",
+    legend.position = "none",
     legend.text = element_text(size = 9),
     legend.margin = margin(0, 0, 0, 0, "cm"),
     plot.margin = margin(0, 0, 0, 0, "cm"),
@@ -53,21 +53,18 @@ sites <- read_csv(
       levels = c("positive", "restored", "negative"), ordered = TRUE
     ),
     fertilized = "f",
+    freq.mow = "f",
     obs.year = "f"
   )
 ) %>%
   mutate(
-    esy4 = fct_relevel(esy4, "R", "R22", "R1A"),
-    esy4 = fct_recode(
-      esy4, "Dry grassland\nR1A" = "R1A", "Hay meadow\nR22" = "R22",
-      "Undefined\nR" = "R"
-    ),
-    cwm.abu.seedmass = cwm.abu.seedmass * 1000
+    esy4 = fct_recode(esy4, "Unspecified" = "R", "Meadow" = "R22", "Dry grassland" = "R1A"),
+    esy4 = fct_relevel(esy4, "Unspecified", "Meadow", "Dry grassland"),
   ) %>%
-  rename(y = cwm.abu.seedmass)
+  rename(y = cwm.abu.sla)
 
 ### * Model ####
-load(file = here("outputs", "models", "model_seedmass_esy4_3.Rdata"))
+load(file = here("outputs", "models", "model_sla_esy4_3.Rdata"))
 m <- m3
 m@call
 
@@ -79,83 +76,91 @@ m@call
 
 
 
-## * Preparation ####
+### * Preparation ####
 
 data_summary <- sites %>%
   group_by(esy4) %>%
-  summarize(median = median(y), sd = sd(y, na.rm = TRUE))
+  summarize(mean = mean(y), sd = sd(y, na.rm = TRUE))
 
-data_model <- ggpredict(
-  m, terms = c("esy4"), back.transform = TRUE, ci_level = .95
+data_model <- ggemmeans(
+  m, terms = c("esy4", "eco.id"), back.transform = FALSE, ci_level = .95
 ) %>%
   as_tibble() %>%
-  mutate(
-    predicted = predicted * 1000,
-    conf.low = conf.low * 1000,
-    conf.high = conf.high * 1000
-    )
+  rename(esy4 = x) %>%
+  mutate(group = fct_relevel(group, "664", "654", "686"))
+
+data_text <- tibble(
+  y = c(340, 340, 340),
+  eco.id = c("664", "654", "686"),
+  label = c("", "", "Ecoregion ***"),
+  esy4 = c("Unspecified", "Meadow", "Dry grassland")
+) %>%
+  mutate(esy4 = fct_relevel(esy4, "Unspecified", "Meadow", "Dry grassland"))
 
 ### * Plot ####
 
-graph_c <- ggplot() +
-  geom_hline(
-    yintercept = data_model %>%
-      filter(x == "R") %>% select(predicted) %>% pull(),
-    linetype = "dashed", color = "grey70", linewidth = .2
-  ) +
+graph <- ggplot() +
   geom_quasirandom(
     data = sites,
-    aes(x = esy4, y = y, color = esy4),
+    aes(x = eco.id, y = y, color = eco.id),
     alpha = .2, shape = 16, size = 1
   ) +
   geom_boxplot(
-    data = sites, aes(x = esy4, y = y, fill = esy4),
+    data = sites, aes(x = eco.id, y = y, fill = eco.id),
     alpha = .5
   ) +
   # geom_errorbar(
   #   data = data_model,
   #   aes(
-  #     x = as.numeric(factor(x)) + 0.45, ymin = conf.low, ymax = conf.high,
-  #     color = x
+  #     x = as.numeric(factor(group)) + 0.5, ymin = conf.low, ymax = conf.high,
+  #     color = group
   #   ),
   #   width = 0.0, linewidth = 0.4
   # ) +
   # geom_point(
   #   data = data_model,
-  #   aes(x = as.numeric(factor(x)) + 0.45, y = predicted, color = x),
-  #   size = 1.5
+  #   aes(x = as.numeric(factor(group)) + 0.5, y = predicted, color = group),
+  #   size = 1
   # ) +
-    annotate("text", label = "n.s.", y = 6.2, x = 3.4) +
-    scale_y_continuous(limits = c(0, 6.2), breaks = seq(0, 10, .5)) +
-    scale_fill_manual(
-      values = c(
-        "Undefined\nR" = "#440154",
-        "Hay meadow\nR22" = "#21918c",
-        "Dry grassland\nR1A" = "#FFA500"
-      ), guide = "none"
+  geom_text(
+    data = data_text,
+    aes(x = eco.id, y = y, label = label, group = esy4),
+    hjust = .8, size = 3.1
+  ) +
+  facet_grid(~ esy4) +
+  scale_y_continuous(limits = c(140, 340), breaks = seq(0, 400, 20)) +
+  scale_color_manual(
+    values = c(
+      "664" = "#414487",
+      "654" = "#22a884",
+      "686" = "#FFA500"
+    ), guide = "none"
+  ) +
+  scale_fill_manual(
+    values = c(
+      "664" = "#414487",
+      "654" = "#22a884",
+      "686" = "#FFA500"
+    ), guide = "none"
+  ) +
+  labs(
+    y = expression(CWM ~ Specific ~ leaf ~ area ~ "[" * cm^2 ~ g^-1 * "]"),
+    title = "Specific leaf area",
+    tag = "A",
+    x = ""
     ) +
-    scale_color_manual(
-      values = c(
-        "Undefined\nR" = "#440154",
-        "Hay meadow\nR22" = "#21918c",
-        "Dry grassland\nR1A" = "#FFA500",
-        "R" = "#440154",
-        "R22" = "#21918c",
-        "R1A" = "#FFA500"
-      ), guide = "none"
-    ) +
-    labs(
-      x = "",
-      y = expression(CWM ~ seed ~ mass ~ "[" * mg * "]"),
-      title = "Seed mass",
-      tag = "C"
-    ) +
-    theme_mb(); graph_c
+  theme_mb(); graph
 
 
 #### * Save ####
-
 ggsave(
-  here("outputs", "figures", "figure_3_seedmass_300dpi_9x6cm.tiff"),
+  here("outputs", "figures", "figure_3_ecoregion_sla_300dpi_9x6cm.tiff"),
   dpi = 300, width = 9, height = 6, units = "cm"
 )
+
+graph_a <- graph +
+  theme(
+    axis.text.x = element_blank(),
+    axis.ticks.x = element_blank(),
+    axis.line.x = element_blank()
+  )

@@ -1,7 +1,7 @@
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # GRASSWORKS Project
 # CWMs of EUNIS habitat types x Ecoregion ####
-# Show figure of specific leaf area
+# Show figure 3B
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Markus Bauer
 # 2025-05-22
@@ -53,15 +53,18 @@ sites <- read_csv(
       levels = c("positive", "restored", "negative"), ordered = TRUE
     ),
     fertilized = "f",
-    freq.mow = "f",
     obs.year = "f"
   )
 ) %>%
-  mutate(esy4 = fct_relevel(esy4, "R", "R22", "R1A")) %>%
-  rename(y = cwm.abu.sla)
+  mutate(
+    esy4 = fct_recode(esy4, "Unspecified" = "R", "Meadow" = "R22", "Dry grassland" = "R1A"),
+    esy4 = fct_relevel(esy4, "Unspecified", "Meadow", "Dry grassland"),
+  ) %>%
+  rename(y = cwm.abu.height) %>%
+  filter(y < 1)
 
 ### * Model ####
-load(file = here("outputs", "models", "model_sla_esy4_3.Rdata"))
+load(file = here("outputs", "models", "model_height_esy4_3.Rdata"))
 m <- m3
 m@call
 
@@ -76,7 +79,7 @@ m@call
 ### * Preparation ####
 
 data_summary <- sites %>%
-  group_by(esy4) %>%
+  group_by(esy4, eco.id) %>%
   summarize(mean = mean(y), sd = sd(y, na.rm = TRUE))
 
 data_model <- ggemmeans(
@@ -87,16 +90,16 @@ data_model <- ggemmeans(
   mutate(group = fct_relevel(group, "664", "654", "686"))
 
 data_text <- tibble(
-  y = c(340, 340, 340),
-  eco.id = c("664", "654", "686"),
-  label = c("", "", "Ecoregion ***"),
-  esy4 = c("R", "R22", "R1A")
+  y = c(1, 1, 0.9, 0.8),
+  eco.id = c("664", "686", "686", "686"),
+  label = c("", "", "Ecoregion n.s.", "Interaction n.s."),
+  esy4 = c("Unspecified", "Meadow", "Dry grassland", "Dry grassland")
 ) %>%
-  mutate(esy4 = fct_relevel(esy4, "R", "R22", "R1A"))
+  mutate(esy4 = fct_relevel(esy4, "Unspecified", "Meadow", "Dry grassland"))
 
 ### * Plot ####
 
-graph_a <- ggplot() +
+graph <- ggplot() +
   geom_quasirandom(
     data = sites,
     aes(x = eco.id, y = y, color = eco.id),
@@ -125,37 +128,42 @@ graph_a <- ggplot() +
     hjust = .8, size = 3.1
   ) +
   facet_grid(~ esy4) +
-  scale_y_continuous(limits = c(140, 340), breaks = seq(0, 400, 20)) +
+  scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, .1)) +
   scale_color_manual(
     values = c(
-      "664" = "#440154",
-      "654" = "#21918c",
+      "664" = "#414487",
+      "654" = "#22a884",
       "686" = "#FFA500"
     ), guide = "none"
   ) +
   scale_fill_manual(
     values = c(
-      "664" = "#440154",
-      "654" = "#21918c",
+      "664" = "#414487",
+      "654" = "#22a884",
       "686" = "#FFA500"
     ), guide = "none"
   ) +
   labs(
-    y = expression(CWM ~ Specific ~ leaf ~ area ~ "[" * cm^2 ~ g^-1 * "]"),
-    title = "Specific leaf area",
-    tag = "A",
+    y = expression(CWM ~ Canopy ~ height ~ "[" * m * "]"),
+    title = "Canopy height",
+    tag = "B",
     x = ""
-    ) +
-  theme_mb() +
-  theme(
-    axis.text.x = element_blank(),
-    axis.ticks.x = element_blank(),
-    axis.line.x = element_blank()
-  ); graph_a
+  ) +
+  theme_mb(); graph
+
 
 
 #### * Save ####
+
 ggsave(
-  here("outputs", "figures", "figure_4_ecoregion_sla_300dpi_9x6cm.tiff"),
+  here("outputs", "figures", "figure_3_ecoregion_height_300dpi_9x6cm.tiff"),
   dpi = 300, width = 9, height = 6, units = "cm"
 )
+
+graph_b <- graph +
+  theme(
+    axis.text.x = element_blank(),
+    axis.ticks.x = element_blank(),
+    axis.line.x = element_blank(),
+    strip.text = element_blank()
+  )

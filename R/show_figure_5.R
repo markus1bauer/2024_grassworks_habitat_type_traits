@@ -36,6 +36,6 @@ graph_a / graph_b / graph_c +
 
 ### Save ###
 ggsave(
-  here("outputs", "figures", "figure_5_300dpi_9x18cm.tiff"),
-  dpi = 300, width = 9, height = 18, units = "cm"
+  here("outputs", "figures", "figure_5_300dpi_10x18cm.tiff"),
+  dpi = 300, width = 10, height = 18, units = "cm"
 )

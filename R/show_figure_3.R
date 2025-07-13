@@ -1,7 +1,7 @@
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # GRASSWORKS Project
 # CWMs of EUNIS habitat types ####
-# Show figure
+# Show figure 3
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Markus Bauer
 # 2025-05-05
@@ -30,13 +30,13 @@ rm(list = setdiff(ls(), c("graph_a", "graph_b", "graph_c", "graph_d")))
 
 
 
-p <- graph_a / graph_b / graph_c +
+graph_a / graph_b / graph_c +
   plot_annotation(tag_levels = "A") &
   theme(plot.tag = element_text(face = "bold"))
 
 ### Save ###
 
 ggsave(
-  here("outputs", "figures", "figure_3_300dpi_9x18cm.tiff"),
-  dpi = 300, width = 9, height = 18, units = "cm"
+  here("outputs", "figures", "figure_3_300dpi_10x18cm.tiff"),
+  dpi = 300, width = 10, height = 18, units = "cm"
 )

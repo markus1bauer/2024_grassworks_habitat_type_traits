@@ -53,12 +53,12 @@ sites <- read_csv(
       levels = c("positive", "restored", "negative"), ordered = TRUE
     ),
     fertilized = "f",
-    freq.mow = "f",
     obs.year = "f"
   )
 ) %>%
   mutate(
-    esy4 = fct_relevel(esy4, "R", "R22", "R1A"),
+    esy4 = fct_recode(esy4, "Unspecified" = "R", "Meadow" = "R22", "Dry grassland" = "R1A"),
+    esy4 = fct_relevel(esy4, "Unspecified", "Meadow", "Dry grassland"),
     cwm.abu.seedmass = cwm.abu.seedmass * 1000,
     site.type = fct_recode(site.type, "+" = "positive", "−" = "negative")
     ) %>%
@@ -103,13 +103,13 @@ data_text <- tibble(
   y = c(10, 10, 6.2, 5.7),
   site.type = c("+", "restored", "−", "−"),
   label = c("", "", "Site type n.s.", "Interaction n.s."),
-  esy4 = c("R", "R22", "R1A", "R1A")
+  esy4 = c("Unspecified", "Meadow", "Dry grassland", "Dry grassland")
 ) %>%
-  mutate(esy4 = fct_relevel(esy4, "R", "R22", "R1A"))
+  mutate(esy4 = fct_relevel(esy4, "Unspecified", "Meadow", "Dry grassland"))
 
 ### * Plot ####
 
-graph_c <- ggplot() +
+graph <- ggplot() +
   # geom_hline(
   #   data = data_line,
   #   aes(yintercept = predicted),
@@ -145,15 +145,15 @@ graph_c <- ggplot() +
   facet_grid(~ esy4) +
   scale_color_manual(
     values = c(
-      "+" = "#21918c",
-      "restored" = "#FFA500",
+      "+" = "#2a788e",
+      "restored" = "#7ad151",
       "−" = "#440154"
     ), guide = "none"
   ) +
   scale_fill_manual(
     values = c(
-      "+" = "#21918c",
-      "restored" = "#FFA500",
+      "+" = "#2a788e",
+      "restored" = "#7ad151",
       "−" = "#440154"
     ), guide = "none"
   ) +
@@ -164,8 +164,7 @@ graph_c <- ggplot() +
     title = "Seed mass",
     tag = "C"
   ) +
-  theme_mb() +
-  theme(strip.text = element_blank()); graph_c
+  theme_mb(); graph
 
 
 #### * Save ####
@@ -174,3 +173,6 @@ ggsave(
   here("outputs", "figures", "figure_5_site.type_seedmass_300dpi_9x6cm.tiff"),
   dpi = 300, width = 9, height = 6, units = "cm"
 )
+
+graph_c <- graph +
+  theme(strip.text = element_blank())

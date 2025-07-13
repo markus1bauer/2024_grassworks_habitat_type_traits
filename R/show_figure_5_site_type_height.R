@@ -57,7 +57,10 @@ sites <- read_csv(
     obs.year = "f"
   )
 ) %>%
-  mutate(esy4 = fct_relevel(esy4, "R", "R22", "R1A")) %>%
+  mutate(
+    esy4 = fct_recode(esy4, "Unspecified" = "R", "Meadow" = "R22", "Dry grassland" = "R1A"),
+    esy4 = fct_relevel(esy4, "Unspecified", "Meadow", "Dry grassland")
+  ) %>%
   rename(y = cwm.abu.height) %>%
   filter(y < 1)
 
@@ -94,13 +97,13 @@ data_text <- tibble(
   y = c(1, 1, 1, .93),
   site.type = c("positive", "restored", "negative", "negative"),
   label = c("", "", "Site type *", "Interaction n.s."),
-  esy4 = c("R", "R22", "R1A", "R1A")
+  esy4 = c("Unspecified", "Meadow", "Dry grassland", "Dry grassland")
 ) %>%
-  mutate(esy4 = fct_relevel(esy4, "R", "R22", "R1A"))
+  mutate(esy4 = fct_relevel(esy4, "Unspecified", "Meadow", "Dry grassland"))
 
 ### * Plot ####
 
-graph_b <- ggplot() +
+graph <- ggplot() +
   # geom_hline(
   #   data = data_line,
   #   aes(yintercept = predicted),
@@ -136,15 +139,15 @@ graph_b <- ggplot() +
   facet_grid(~ esy4) +
   scale_color_manual(
     values = c(
-      "positive" = "#21918c",
-      "restored" = "#FFA500",
+      "positive" = "#2a788e",
+      "restored" = "#7ad151",
       "negative" = "#440154"
     ), guide = "none"
   ) +
   scale_fill_manual(
     values = c(
-      "positive" = "#21918c",
-      "restored" = "#FFA500",
+      "positive" = "#2a788e",
+      "restored" = "#7ad151",
       "negative" = "#440154"
     ), guide = "none"
   ) +
@@ -155,13 +158,7 @@ graph_b <- ggplot() +
     title = "Canopy height",
     tag = "B"
   ) +
-  theme_mb() +
-  theme(
-    axis.text.x = element_blank(),
-    axis.ticks.x = element_blank(),
-    axis.line.x = element_blank(),
-    strip.text = element_blank()
-  ); graph_b
+  theme_mb(); graph
 
 #### * Save ####
 
@@ -169,3 +166,11 @@ ggsave(
   here("outputs", "figures", "figure_5_site.type_height_300dpi_9x6cm.tiff"),
   dpi = 300, width = 9, height = 6, units = "cm"
 )
+
+graph_b <- graph +
+  theme(
+    axis.text.x = element_blank(),
+    axis.ticks.x = element_blank(),
+    axis.line.x = element_blank(),
+    strip.text = element_blank()
+  )
