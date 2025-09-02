@@ -44,7 +44,6 @@ sites <- read_csv(
     site.type = col_factor(
       levels = c("positive", "restored", "negative"), ordered = TRUE
     ),
-    freq.mow = "f",
     fertilized = "f",
     obs.year = "f",
     land.use.hist = "f"
