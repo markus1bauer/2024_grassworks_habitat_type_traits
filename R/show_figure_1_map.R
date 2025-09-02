@@ -41,12 +41,32 @@ theme_mb <- function() {
 
 ### Load data ###
 
-sites <- st_read(
+coordinates <- st_read(
   here("data", "raw", "data_processed_sites_epsg4326.gpkg")
   ) %>%
   filter(
     eco.id %in% c(664, 654, 686) & !(eco.id == 686 & region == "centre")
     )
+
+sites <- read_csv(
+  here("data", "processed", "data_processed_sites_esy4.csv"),
+  col_names = TRUE, na = c("na", "NA", ""), col_types = cols(
+    .default = "?"
+  )
+) %>%
+   select(id.site, site.type) %>%
+  mutate(
+     site.type = fct_recode(
+       site.type, "Positive" = "positive", "Restored" = "restored",
+       "Negative" = "negative"
+     ),
+     site.type = fct_relevel(site.type, "Positive", "Restored", "Negative")
+   )
+ 
+sites <- coordinates %>%
+  right_join(sites, by = "id.site") %>%
+  select(id.site, site.type) %>%
+  unique()
 
 ecoregions <- st_read(here("data", "raw", "ecoregions2017.shp")) %>%
   st_transform(crs = 4326) %>%
@@ -86,7 +106,7 @@ rivers <- rnaturalearth::ne_download(
 
 clip <- st_intersection(ecoregions, germany)
 crop <- st_crop(ecoregions, xmin = 5.5, xmax = 15.5, ymin = 47, ymax = 55.4)
-mask <- mask(elevation, crop)
+mask <- raster::mask(elevation, crop)
 gradient_1 <- tidyterra::hypso.colors2(10, "dem_poster")
 
 
@@ -160,7 +180,7 @@ graph_sites <- ggplot() +
     x = c(13.5, 11.7), y = c(48.95, 53.25),
     angle = 333, color = "blue", size = 3.5
   ) +
-  geom_sf(data = sites, colour = "black", size = 1) +
+  geom_sf(aes(shape = site.type), data = sites, colour = "black", size = 2) +
   annotate(
     geom = "label", x = c(9.85, 14, 11), y = c(52.85, 51.7, 49.2),
     label = c("ID 664", "ID 654", "ID 686"), fill = "transparent", size = 3.5,
@@ -190,6 +210,14 @@ graph_sites <- ggplot() +
   scale_fill_gradientn(
     colours = gradient_1, na.value = NA, name = "Elevation [m]"
     ) +
+  scale_shape_manual(
+    values = c(
+      "Positive" = 3, 
+      "Restored" = 16, 
+      "Negative" = 4
+    ),
+    name = "Site type"
+  ) +
   theme_mb();graph_sites
 
 
