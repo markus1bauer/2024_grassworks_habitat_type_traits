@@ -1,12 +1,12 @@
 ---
-title: "Analysis of Bauer et al. (submitted) Functional traits of grasslands: <br> Community weighted mean of seed mass per plot (esy4)"
-author: "<b>Markus Bauer</b> <br>"
-date: "<b>`r format(Sys.time(), '%Y-%m-%d')`</b>"
+title: "GRASSWORKS: Analysis of Bauer et al. (submitted) Functional traits of grasslands: Community weighted mean of seed mass per plot (esy4)"
+author: "Markus Bauer"
+date: "`r format(Sys.time(), '%Y-%m-%d')`"
 output:
-  github_document:
+  pdf_document:
     toc: true
     toc_depth: 3
-    dev: png
+    dev: "png"
     fig_width: 7
     fig_height: 5
 editor_options: 
