@@ -1,7 +1,7 @@
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # GRASSWORKS Project: Bauer et al. (submitted) Habitat type traits
 # CWMs of EUNIS habitat types ####
-# Show figure 4
+# Show figure 5
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Markus Bauer
 # 2025-05-22
@@ -149,7 +149,7 @@ graph_a <- ggplot() +
   geom_point(
     aes(y = MDS2, x = MDS1, color = site.type),
     data = data_nmds,
-    cex = 2, alpha = .5, shape = 16
+    cex = 2, alpha = .5, shape = 16, show.legend = FALSE
   ) +
   
   #### * Ellipses ####
@@ -157,7 +157,7 @@ graph_a <- ggplot() +
   geom_path(
     aes(x = MDS1, y = MDS2, color = site.type),
     data = data_ellipses,
-    linewidth = 1, show.legend = FALSE
+    linewidth = 1, show.legend = TRUE
   ) +
   
   #### * Layout ####
@@ -171,18 +171,22 @@ graph_a <- ggplot() +
   scale_x_continuous(breaks = seq(-1, 1, .5)) +
   scale_color_manual(
     values = c(
-      positive = "#2a788e", restored = "#7ad151", negative = "#440154"
+      positive = "#7ad151", restored = "#2a788e", negative = "#440154"
     )
   ) +
   labs(
     x = "NMDS1", y = "NMDS2", fill = "", color = ""
   ) +
   theme_mb() +
-  theme(legend.position = "inside", legend.position.inside = c(.15, .08));graph_a
+  theme(
+    legend.position = "inside", legend.position.inside = c(0.15, .08),
+    legend.background = element_rect(fill = "transparent", color = NA),
+    legend.key = element_rect(fill = "transparent", color = NA)
+    );graph_a
 
 #### * Save ####
 
 ggsave(
-  here("outputs", "figures", "figure_4_300dpi_10x18cm.tiff"),
+  here("outputs", "figures", "figure_5_300dpi_10x18cm.tiff"),
   dpi = 300, width = 10, height = 18, units = "cm"
 )
