@@ -1,7 +1,7 @@
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # GRASSWORKS Project
 # CWMs of EUNIS habitat types x Site type ####
-# Show figure of specific leaf area
+# Show figure of canopy height
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Markus Bauer
 # 2025-05-22
@@ -61,10 +61,11 @@ sites <- read_csv(
     esy4 = fct_recode(esy4, "Unspecified" = "R", "Meadow" = "R22", "Dry grassland" = "R1A"),
     esy4 = fct_relevel(esy4, "Unspecified", "Meadow", "Dry grassland")
   ) %>%
-  rename(y = cwm.abu.sla)
+  rename(y = cwm.abu.height) %>%
+  filter(y < 1)
 
 ### * Model ####
-load(file = here("outputs", "models", "model_sla_esy4_3.Rdata"))
+load(file = here("outputs", "models", "model_height_esy4_3.Rdata"))
 m <- m3
 m@call
 
@@ -78,7 +79,7 @@ m@call
 
 ### * Preparation ####
 
-data <- sites %>%
+data_summary <- sites %>%
   group_by(esy4, site.type) %>%
   summarize(mean = mean(y), sd = sd(y, na.rm = TRUE))
 
@@ -93,9 +94,9 @@ data_line <- data_model %>%
   filter(group == "positive")
 
 data_text <- tibble(
-  y = c(340, 340, 340, 320),
+  y = c(1, 1, 1, .93),
   site.type = c("positive", "restored", "negative", "negative"),
-  label = c("", "", "Site type ***", "Interaction n.s."),
+  label = c("", "", "Site type *", "Interaction n.s."),
   esy4 = c("Unspecified", "Meadow", "Dry grassland", "Dry grassland")
 ) %>%
   mutate(esy4 = fct_relevel(esy4, "Unspecified", "Meadow", "Dry grassland"))
@@ -138,37 +139,38 @@ graph <- ggplot() +
   facet_grid(~ esy4) +
   scale_color_manual(
     values = c(
-      "positive" = "#2a788e",
-      "restored" = "#7ad151",
+      "positive" = "#7ad151",
+      "restored" = "#2a788e",
       "negative" = "#440154"
     ), guide = "none"
   ) +
   scale_fill_manual(
     values = c(
-      "positive" = "#2a788e",
-      "restored" = "#7ad151",
+      "positive" = "#7ad151",
+      "restored" = "#2a788e",
       "negative" = "#440154"
     ), guide = "none"
   ) +
-  scale_y_continuous(limits = c(140, 340), breaks = seq(0, 400, 20)) +
+  scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, .1)) +
   labs(
     x = "",
-    y = expression(CWM ~ specific ~ leaf ~ area ~ "[" * cm^2 ~ g^-1 * "]"),
-    title = "Specific leaf area",
-    tag = "A"
+    y = expression(CWM ~ canopy ~ height ~ "[" * m * "]"),
+    title = "Canopy height",
+    tag = "B"
   ) +
   theme_mb(); graph
 
 #### * Save ####
 
 ggsave(
-  here("outputs", "figures", "figure_5_site.type_sla_300dpi_9x6cm.tiff"),
+  here("outputs", "figures", "figure_4_site.type_height_300dpi_9x6cm.tiff"),
   dpi = 300, width = 9, height = 6, units = "cm"
 )
 
-graph_a <- graph +
+graph_b <- graph +
   theme(
     axis.text.x = element_blank(),
     axis.ticks.x = element_blank(),
-    axis.line.x = element_blank()
+    axis.line.x = element_blank(),
+    strip.text = element_blank()
   )

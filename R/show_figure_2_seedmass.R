@@ -98,11 +98,11 @@ data_model <- ggpredict(
 ### * Plot ####
 
 graph <- ggplot() +
-  geom_hline(
-    yintercept = data_model %>%
-      filter(x == "R") %>% select(predicted) %>% pull(),
-    linetype = "dashed", color = "grey70", linewidth = .2
-  ) +
+  # geom_hline(
+  #   yintercept = data_model %>%
+  #     filter(x == "R") %>% select(predicted) %>% pull(),
+  #   linetype = "dashed", color = "grey70", linewidth = .2
+  # ) +
   geom_quasirandom(
     data = sites,
     aes(x = esy4, y = y),

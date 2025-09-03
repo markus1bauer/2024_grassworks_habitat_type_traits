@@ -1,7 +1,7 @@
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # GRASSWORKS Project
 # CWMs of EUNIS habitat types x Site type ####
-# Show figure of seed mass
+# Show figure of specific leaf area
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Markus Bauer
 # 2025-05-22
@@ -53,19 +53,18 @@ sites <- read_csv(
       levels = c("positive", "restored", "negative"), ordered = TRUE
     ),
     fertilized = "f",
+    freq.mow = "f",
     obs.year = "f"
   )
 ) %>%
   mutate(
     esy4 = fct_recode(esy4, "Unspecified" = "R", "Meadow" = "R22", "Dry grassland" = "R1A"),
-    esy4 = fct_relevel(esy4, "Unspecified", "Meadow", "Dry grassland"),
-    cwm.abu.seedmass = cwm.abu.seedmass * 1000,
-    site.type = fct_recode(site.type, "+" = "positive", "−" = "negative")
-    ) %>%
-  rename(y = cwm.abu.seedmass)
+    esy4 = fct_relevel(esy4, "Unspecified", "Meadow", "Dry grassland")
+  ) %>%
+  rename(y = cwm.abu.sla)
 
 ### * Model ####
-load(file = here("outputs", "models", "model_seedmass_esy4_3.Rdata"))
+load(file = here("outputs", "models", "model_sla_esy4_3.Rdata"))
 m <- m3
 m@call
 
@@ -79,30 +78,24 @@ m@call
 
 ### * Preparation ####
 
-data_summary <- sites %>%
+data <- sites %>%
   group_by(esy4, site.type) %>%
-  summarize(median = median(y), sd = sd(y, na.rm = TRUE), mean = mean(y))
+  summarize(mean = mean(y), sd = sd(y, na.rm = TRUE))
 
 data_model <- ggemmeans(
   m, terms = c("esy4", "site.type"), back.transform = FALSE, ci_level = .95
 ) %>%
   as_tibble() %>%
   rename(esy4 = x) %>%
-  mutate(
-    predicted = predicted * 1000,
-    conf.low = conf.low * 1000,
-    conf.high = conf.high * 1000,
-    group = fct_recode(group, "+" = "positive", "−" = "negative"),
-    group = fct_relevel(group, "+", "restored", "−")
-  )
+  mutate(group = fct_relevel(group, "positive", "restored", "negative"))
 
 data_line <- data_model %>%
-  filter(group == "+")
+  filter(group == "positive")
 
 data_text <- tibble(
-  y = c(10, 10, 6.2, 5.7),
-  site.type = c("+", "restored", "−", "−"),
-  label = c("", "", "Site type n.s.", "Interaction n.s."),
+  y = c(340, 340, 340, 320),
+  site.type = c("positive", "restored", "negative", "negative"),
+  label = c("", "", "Site type ***", "Interaction n.s."),
   esy4 = c("Unspecified", "Meadow", "Dry grassland", "Dry grassland")
 ) %>%
   mutate(esy4 = fct_relevel(esy4, "Unspecified", "Meadow", "Dry grassland"))
@@ -145,34 +138,37 @@ graph <- ggplot() +
   facet_grid(~ esy4) +
   scale_color_manual(
     values = c(
-      "+" = "#2a788e",
-      "restored" = "#7ad151",
-      "−" = "#440154"
+      "positive" = "#7ad151",
+      "restored" = "#2a788e",
+      "negative" = "#440154"
     ), guide = "none"
   ) +
   scale_fill_manual(
     values = c(
-      "+" = "#2a788e",
-      "restored" = "#7ad151",
-      "−" = "#440154"
+      "positive" = "#7ad151",
+      "restored" = "#2a788e",
+      "negative" = "#440154"
     ), guide = "none"
   ) +
-  scale_y_continuous(limits = c(0, 6.2), breaks = seq(0, 10, .5)) +
+  scale_y_continuous(limits = c(140, 340), breaks = seq(0, 400, 20)) +
   labs(
-    x = "Restoration compared to references",
-    y = expression(CWM ~ seed ~ mass ~ "[" * mg * "]"),
-    title = "Seed mass",
-    tag = "C"
+    x = "",
+    y = expression(CWM ~ specific ~ leaf ~ area ~ "[" * cm^2 ~ g^-1 * "]"),
+    title = "Specific leaf area",
+    tag = "A"
   ) +
   theme_mb(); graph
-
 
 #### * Save ####
 
 ggsave(
-  here("outputs", "figures", "figure_5_site.type_seedmass_300dpi_9x6cm.tiff"),
+  here("outputs", "figures", "figure_4_site.type_sla_300dpi_9x6cm.tiff"),
   dpi = 300, width = 9, height = 6, units = "cm"
 )
 
-graph_c <- graph +
-  theme(strip.text = element_blank())
+graph_a <- graph +
+  theme(
+    axis.text.x = element_blank(),
+    axis.ticks.x = element_blank(),
+    axis.line.x = element_blank()
+  )

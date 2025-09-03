@@ -1,7 +1,7 @@
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # GRASSWORKS Project
 # CWMs of EUNIS habitat types x Site type ####
-# Show figure of canopy height
+# Show figure of seed mass
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Markus Bauer
 # 2025-05-22
@@ -53,19 +53,19 @@ sites <- read_csv(
       levels = c("positive", "restored", "negative"), ordered = TRUE
     ),
     fertilized = "f",
-    freq.mow = "f",
     obs.year = "f"
   )
 ) %>%
   mutate(
     esy4 = fct_recode(esy4, "Unspecified" = "R", "Meadow" = "R22", "Dry grassland" = "R1A"),
-    esy4 = fct_relevel(esy4, "Unspecified", "Meadow", "Dry grassland")
-  ) %>%
-  rename(y = cwm.abu.height) %>%
-  filter(y < 1)
+    esy4 = fct_relevel(esy4, "Unspecified", "Meadow", "Dry grassland"),
+    cwm.abu.seedmass = cwm.abu.seedmass * 1000,
+    site.type = fct_recode(site.type, "+" = "positive", "−" = "negative")
+    ) %>%
+  rename(y = cwm.abu.seedmass)
 
 ### * Model ####
-load(file = here("outputs", "models", "model_height_esy4_3.Rdata"))
+load(file = here("outputs", "models", "model_seedmass_esy4_3.Rdata"))
 m <- m3
 m@call
 
@@ -81,22 +81,28 @@ m@call
 
 data_summary <- sites %>%
   group_by(esy4, site.type) %>%
-  summarize(mean = mean(y), sd = sd(y, na.rm = TRUE))
+  summarize(median = median(y), sd = sd(y, na.rm = TRUE), mean = mean(y))
 
 data_model <- ggemmeans(
   m, terms = c("esy4", "site.type"), back.transform = FALSE, ci_level = .95
 ) %>%
   as_tibble() %>%
   rename(esy4 = x) %>%
-  mutate(group = fct_relevel(group, "positive", "restored", "negative"))
+  mutate(
+    predicted = predicted * 1000,
+    conf.low = conf.low * 1000,
+    conf.high = conf.high * 1000,
+    group = fct_recode(group, "+" = "positive", "−" = "negative"),
+    group = fct_relevel(group, "+", "restored", "−")
+  )
 
 data_line <- data_model %>%
-  filter(group == "positive")
+  filter(group == "+")
 
 data_text <- tibble(
-  y = c(1, 1, 1, .93),
-  site.type = c("positive", "restored", "negative", "negative"),
-  label = c("", "", "Site type *", "Interaction n.s."),
+  y = c(10, 10, 6.2, 5.7),
+  site.type = c("+", "restored", "−", "−"),
+  label = c("", "", "Site type n.s.", "Interaction n.s."),
   esy4 = c("Unspecified", "Meadow", "Dry grassland", "Dry grassland")
 ) %>%
   mutate(esy4 = fct_relevel(esy4, "Unspecified", "Meadow", "Dry grassland"))
@@ -139,38 +145,34 @@ graph <- ggplot() +
   facet_grid(~ esy4) +
   scale_color_manual(
     values = c(
-      "positive" = "#2a788e",
-      "restored" = "#7ad151",
-      "negative" = "#440154"
+      "+" = "#7ad151",
+      "restored" = "#2a788e",
+      "−" = "#440154"
     ), guide = "none"
   ) +
   scale_fill_manual(
     values = c(
-      "positive" = "#2a788e",
-      "restored" = "#7ad151",
-      "negative" = "#440154"
+      "+" = "#7ad151",
+      "restored" = "#2a788e",
+      "−" = "#440154"
     ), guide = "none"
   ) +
-  scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, .1)) +
+  scale_y_continuous(limits = c(0, 6.2), breaks = seq(0, 10, .5)) +
   labs(
-    x = "",
-    y = expression(CWM ~ canopy ~ height ~ "[" * m * "]"),
-    title = "Canopy height",
-    tag = "B"
+    x = "Restoration compared to references",
+    y = expression(CWM ~ seed ~ mass ~ "[" * mg * "]"),
+    title = "Seed mass",
+    tag = "C"
   ) +
   theme_mb(); graph
+
 
 #### * Save ####
 
 ggsave(
-  here("outputs", "figures", "figure_5_site.type_height_300dpi_9x6cm.tiff"),
+  here("outputs", "figures", "figure_4_site.type_seedmass_300dpi_9x6cm.tiff"),
   dpi = 300, width = 9, height = 6, units = "cm"
 )
 
-graph_b <- graph +
-  theme(
-    axis.text.x = element_blank(),
-    axis.ticks.x = element_blank(),
-    axis.line.x = element_blank(),
-    strip.text = element_blank()
-  )
+graph_c <- graph +
+  theme(strip.text = element_blank())
