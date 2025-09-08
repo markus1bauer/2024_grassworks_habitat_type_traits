@@ -50,7 +50,7 @@ sites <- read_csv(
     .default = "?",
     eco.id = col_factor(levels = c("664", "654", "686"), ordered = TRUE),
     site.type = col_factor(
-      levels = c("positive", "restored", "negative"), ordered = TRUE
+      levels = c("negative", "restored", "positive"), ordered = TRUE
     ),
     fertilized = "f",
     obs.year = "f"
@@ -101,7 +101,7 @@ data_line <- data_model %>%
 
 data_text <- tibble(
   y = c(10, 10, 6.2, 5.7),
-  site.type = c("+", "restored", "−", "−"),
+  site.type = c("−", "restored", "+", "+"),
   label = c("", "", "Site type n.s.", "Interaction n.s."),
   esy4 = c("Unspecified", "Meadow", "Dry grassland", "Dry grassland")
 ) %>%

@@ -50,7 +50,7 @@ sites <- read_csv(
     .default = "?",
     eco.id = col_factor(levels = c("664", "654", "686"), ordered = TRUE),
     site.type = col_factor(
-      levels = c("positive", "restored", "negative"), ordered = TRUE
+      levels = c("negative", "restored", "positive"), ordered = TRUE
     ),
     fertilized = "f",
     freq.mow = "f",
@@ -59,7 +59,8 @@ sites <- read_csv(
 ) %>%
   mutate(
     esy4 = fct_recode(esy4, "Unspecified" = "R", "Meadow" = "R22", "Dry grassland" = "R1A"),
-    esy4 = fct_relevel(esy4, "Unspecified", "Meadow", "Dry grassland")
+    esy4 = fct_relevel(esy4, "Unspecified", "Meadow", "Dry grassland"),
+    site.type = fct_recode(site.type, "+" = "positive", "−" = "negative")
   ) %>%
   rename(y = cwm.abu.height) %>%
   filter(y < 1)
@@ -88,14 +89,14 @@ data_model <- ggemmeans(
 ) %>%
   as_tibble() %>%
   rename(esy4 = x) %>%
-  mutate(group = fct_relevel(group, "positive", "restored", "negative"))
+  mutate(group = fct_relevel(group, "+", "restored", "−"))
 
 data_line <- data_model %>%
-  filter(group == "positive")
+  filter(group == "+")
 
 data_text <- tibble(
   y = c(1, 1, 1, .93),
-  site.type = c("positive", "restored", "negative", "negative"),
+  site.type = c("−", "restored", "+", "+"),
   label = c("", "", "Site type *", "Interaction n.s."),
   esy4 = c("Unspecified", "Meadow", "Dry grassland", "Dry grassland")
 ) %>%
@@ -139,16 +140,16 @@ graph <- ggplot() +
   facet_grid(~ esy4) +
   scale_color_manual(
     values = c(
-      "positive" = "#7ad151",
+      "+" = "#7ad151",
       "restored" = "#2a788e",
-      "negative" = "#440154"
+      "−" = "#440154"
     ), guide = "none"
   ) +
   scale_fill_manual(
     values = c(
-      "positive" = "#7ad151",
+      "+" = "#7ad151",
       "restored" = "#2a788e",
-      "negative" = "#440154"
+      "−" = "#440154"
     ), guide = "none"
   ) +
   scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, .1)) +
