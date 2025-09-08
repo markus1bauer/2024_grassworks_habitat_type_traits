@@ -54,7 +54,13 @@ sites <- read_csv(
     obs.year = "f"
   )
 ) %>%
-  mutate(esy4 = fct_relevel(esy4, "R", "R22", "R1A")) %>%
+  mutate(
+    esy4 = fct_relevel(esy4, "R", "R22", "R1A"),
+    esy4 = fct_recode(
+      esy4, "Dry grassland\nR1A" = "R1A", "Hay meadow\nR22" = "R22",
+      "Unspecified\nR" = "R"
+    )
+    ) %>%
   rename(y = cwm.abu.height) %>%
   filter(y < 1)
 
