@@ -1,7 +1,7 @@
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # GRASSWORKS Project
 # CWMs of EUNIS habitat types ####
-# Show figure A1 pH value
+# Show figure A1 total organic carbon
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Markus Bauer
 # 2025-09-08
@@ -58,7 +58,7 @@ sites <- read_csv(
     esy4 = fct_relevel(esy4, "Unspecified", "Meadow", "Dry grassland"),
     site.type = fct_recode(site.type, "+" = "positive", "−" = "negative")
   ) %>%
-  rename(y = ph.value)
+  rename(y = toc.perc)
 
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -92,19 +92,19 @@ graph <- ggplot() +
       "+" = "#7ad151"
     ), guide = "none"
   ) +
-  # scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, .1)) +
+  scale_y_continuous(limits = c(0, 10), breaks = seq(0, 15, 1)) +
   labs(
     x = "",
-    y = expression(pH),
-    title = "pH",
-    tag = "A"
+    y = expression(Total ~ organic ~ carbon ~ "[" * "%" * "]"),
+    title = "Total organic carbon [%]",
+    tag = "D"
   ) +
   theme_mb(); graph
 
 #### * Save ####
 
 ggsave(
-  here("outputs", "figures", "figure_a1a_ph_300dpi_9x6cm.tiff"),
+  here("outputs", "figures", "figure_a1d_toc_300dpi_9x6cm.tiff"),
   dpi = 300, width = 9, height = 6, units = "cm"
 )
 

@@ -1,7 +1,7 @@
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # GRASSWORKS Project
 # CWMs of EUNIS habitat types ####
-# Show figure A1 pH value
+# Show figure A1 clay ratio
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Markus Bauer
 # 2025-09-08
@@ -54,11 +54,13 @@ sites <- read_csv(
   )
 ) %>%
   mutate(
-    esy4 = fct_recode(esy4, "Unspecified" = "R", "Meadow" = "R22", "Dry grassland" = "R1A"),
+    esy4 = fct_recode(
+      esy4, "Unspecified" = "R", "Meadow" = "R22", "Dry grassland" = "R1A"
+      ),
     esy4 = fct_relevel(esy4, "Unspecified", "Meadow", "Dry grassland"),
     site.type = fct_recode(site.type, "+" = "positive", "−" = "negative")
   ) %>%
-  rename(y = ph.value)
+  rename(y = clay.perc)
 
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -95,16 +97,16 @@ graph <- ggplot() +
   # scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, .1)) +
   labs(
     x = "",
-    y = expression(pH),
-    title = "pH",
-    tag = "A"
+    y = expression(Clay ~ ratio),
+    title = "Clay ratio",
+    tag = "F"
   ) +
   theme_mb(); graph
 
 #### * Save ####
 
 ggsave(
-  here("outputs", "figures", "figure_a1a_ph_300dpi_9x6cm.tiff"),
+  here("outputs", "figures", "figure_a1f_clay_300dpi_9x6cm.tiff"),
   dpi = 300, width = 9, height = 6, units = "cm"
 )
 
