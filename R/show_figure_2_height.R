@@ -57,7 +57,7 @@ sites <- read_csv(
   mutate(
     esy4 = fct_relevel(esy4, "R", "R22", "R1A"),
     esy4 = fct_recode(
-      esy4, "Dry grassland\nR1A" = "R1A", "Hay meadow\nR22" = "R22",
+      esy4, "Calcareous\ngrassland\nR1A" = "R1A", "Hay meadow\nR22" = "R22",
       "Unspecified\nR" = "R"
     )
     ) %>%
@@ -132,8 +132,8 @@ graph <- ggplot() +
 #### * Save ####
 
 ggsave(
-  here("outputs", "figures", "figure_2_height_300dpi_9x6cm.tiff"),
-  dpi = 300, width = 9, height = 6, units = "cm"
+  here("outputs", "figures", "figure_2_height_300dpi_8x6cm.tiff"),
+  dpi = 300, width = 8, height = 6, units = "cm"
 )
 
 graph_b <- graph +
