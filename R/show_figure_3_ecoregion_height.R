@@ -57,8 +57,8 @@ sites <- read_csv(
   )
 ) %>%
   mutate(
-    esy4 = fct_recode(esy4, "Unspecified" = "R", "Hay meadow" = "R22", "Calcareous grassl." = "R1A"),
-    esy4 = fct_relevel(esy4, "Unspecified", "Hay meadow", "Calcareous grassl."),
+    esy4 = fct_recode(esy4, "Unspecified" = "R", "Hay meadow" = "R22", "Calcareous\ngrassland" = "R1A"),
+    esy4 = fct_relevel(esy4, "Unspecified", "Hay meadow", "Calcareous\ngrassland"),
   ) %>%
   rename(y = cwm.abu.height) %>%
   filter(y < 1)
@@ -93,9 +93,11 @@ data_text <- tibble(
   y = c(1, 1, 0.9, 0.8),
   eco.id = c("664", "686", "686", "686"),
   label = c("", "", "Ecoregion n.s.", "Interaction n.s."),
-  esy4 = c("Unspecified", "Hay meadow", "Calcareous grassl.", "Calcareous grassl.")
+  esy4 = c("Unspecified", "Hay meadow", "Calcareous\ngrassland",
+           "Calcareous\ngrassland")
 ) %>%
-  mutate(esy4 = fct_relevel(esy4, "Unspecified", "Hay meadow", "Calcareous grassl."))
+  mutate(esy4 = fct_relevel(esy4, "Unspecified", "Hay meadow",
+                            "Calcareous\ngrassland"))
 
 ### * Plot ####
 
@@ -156,8 +158,8 @@ graph <- ggplot() +
 #### * Save ####
 
 ggsave(
-  here("outputs", "figures", "figure_3_ecoregion_height_300dpi_9x6cm.tiff"),
-  dpi = 300, width = 9, height = 6, units = "cm"
+  here("outputs", "figures", "figure_3_ecoregion_height_300dpi_11x6cm.tiff"),
+  dpi = 300, width = 11, height = 6, units = "cm"
 )
 
 graph_b <- graph +

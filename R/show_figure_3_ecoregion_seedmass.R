@@ -58,9 +58,9 @@ sites <- read_csv(
 ) %>%
   mutate(
     esy4 = fct_recode(
-      esy4, "Unspecified" = "R", "Hay meadow" = "R22", "Calcareous grassl." = "R1A"
+      esy4, "Unspecified" = "R", "Hay meadow" = "R22", "Calcareous\ngrassland" = "R1A"
       ),
-    esy4 = fct_relevel(esy4, "Unspecified", "Hay meadow", "Calcareous grassl."),
+    esy4 = fct_relevel(esy4, "Unspecified", "Hay meadow", "Calcareous\ngrassland"),
     eco.id = fct_recode(
       eco.id, "North" = "664", "Centre" = "654", "South" = "686"
       ),
@@ -105,9 +105,11 @@ data_text <- tibble(
   y = c(1, 1, 6.2, 5.6),
   eco.id = c("North", "Centre", "South", "South"),
   label = c("", "", "Ecoregion ***", "Interaction n.s."),
-  esy4 = c("Unspecified", "Hay meadow", "Calcareous grassl.", "Calcareous grassl.")
+  esy4 = c("Unspecified", "Hay meadow", "Calcareous\ngrassland",
+           "Calcareous\ngrassland")
 ) %>%
-  mutate(esy4 = fct_relevel(esy4, "Unspecified", "Hay meadow", "Calcareous grassl."))
+  mutate(esy4 = fct_relevel(esy4, "Unspecified", "Hay meadow",
+                            "Calcareous\ngrassland"))
 
 ### * Plot ####
 
