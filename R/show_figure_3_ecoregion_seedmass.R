@@ -57,10 +57,14 @@ sites <- read_csv(
   )
 ) %>%
   mutate(
-    esy4 = fct_recode(esy4, "Unspecified" = "R", "Meadow" = "R22", "Dry grassland" = "R1A"),
-    esy4 = fct_relevel(esy4, "Unspecified", "Meadow", "Dry grassland"),
-    eco.id = fct_recode(eco.id, "North" = "664", "C" = "654", "South" = "686"),
-    eco.id = fct_relevel(eco.id, "North", "C", "South"),
+    esy4 = fct_recode(
+      esy4, "Unspecified" = "R", "Hay meadow" = "R22", "Calcareous grassl." = "R1A"
+      ),
+    esy4 = fct_relevel(esy4, "Unspecified", "Hay meadow", "Calcareous grassl."),
+    eco.id = fct_recode(
+      eco.id, "North" = "664", "Centre" = "654", "South" = "686"
+      ),
+    eco.id = fct_relevel(eco.id, "North", "Centre", "South"),
     cwm.abu.seedmass = cwm.abu.seedmass * 1000
   ) %>%
   rename(y = cwm.abu.seedmass)
@@ -93,17 +97,17 @@ data_model <- ggemmeans(
     predicted = predicted * 1000,
     conf.low = conf.low * 1000,
     conf.high = conf.high * 1000,
-    group = fct_recode(group, "North" = "664", "C" = "654", "South" = "686"),
-    group = fct_relevel(group, "North", "C", "South")
+    group = fct_recode(group, "North" = "664", "Centre" = "654", "South" = "686"),
+    group = fct_relevel(group, "North", "Centre", "South")
   )
 
 data_text <- tibble(
   y = c(1, 1, 6.2, 5.6),
-  eco.id = c("North", "C", "South", "South"),
+  eco.id = c("North", "Centre", "South", "South"),
   label = c("", "", "Ecoregion ***", "Interaction n.s."),
-  esy4 = c("Unspecified", "Meadow", "Dry grassland", "Dry grassland")
+  esy4 = c("Unspecified", "Hay meadow", "Calcareous grassl.", "Calcareous grassl.")
 ) %>%
-  mutate(esy4 = fct_relevel(esy4, "Unspecified", "Meadow", "Dry grassland"))
+  mutate(esy4 = fct_relevel(esy4, "Unspecified", "Hay meadow", "Calcareous grassl."))
 
 ### * Plot ####
 
@@ -117,19 +121,6 @@ graph <- ggplot() +
     data = sites, aes(x = eco.id, y = y, fill = eco.id),
     alpha = .5
   ) +
-  # geom_errorbar(
-  #   data = data_model,
-  #   aes(
-  #     x = as.numeric(factor(group)) + 0.5, ymin = conf.low, ymax = conf.high,
-  #     color = group
-  #   ),
-  #   width = 0.0, linewidth = 0.4
-  # ) +
-  # geom_point(
-  #   data = data_model,
-  #   aes(x = as.numeric(factor(group)) + 0.5, y = predicted, color = group),
-  #   size = 1
-  # ) +
   geom_text(
     data = data_text,
     aes(x = eco.id, y = y, label = label, group = esy4),
@@ -139,18 +130,18 @@ graph <- ggplot() +
   scale_color_manual(
     values = c(
       "North" = "#414487",
-      "C" = "#22a884",
+      "Centre" = "#22a884",
       "South" = "#FFA500"
     ), guide = "none"
   ) +
   scale_fill_manual(
     values = c(
       "North" = "#414487",
-      "C" = "#22a884",
+      "Centre" = "#22a884",
       "South" = "#FFA500"
     ), guide = "none"
   ) +
-  scale_y_continuous(limits = c(0, 6.2), breaks = seq(0, 10, .5)) +
+  scale_y_continuous(limits = c(0, 6.2), breaks = seq(0, 10, 1)) +
   labs(
     x = "Ecoregion",
     y = expression( CWM ~ Seed ~ mass ~ "[" * mg * "]"),
@@ -162,8 +153,8 @@ graph <- ggplot() +
 #### * Save ####
 
 ggsave(
-  here("outputs", "figures", "figure_3_ecoregion_seedmass_300dpi_9x6cm.tiff"),
-  dpi = 300, width = 9, height = 6, units = "cm"
+  here("outputs", "figures", "figure_3_ecoregion_seedmass_300dpi_11x6cm.tiff"),
+  dpi = 300, width = 11, height = 6, units = "cm"
 )
 
 graph_c <- graph +

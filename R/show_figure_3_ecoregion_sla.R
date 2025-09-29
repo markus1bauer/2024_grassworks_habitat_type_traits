@@ -58,8 +58,8 @@ sites <- read_csv(
   )
 ) %>%
   mutate(
-    esy4 = fct_recode(esy4, "Unspecified" = "R", "Meadow" = "R22", "Dry grassland" = "R1A"),
-    esy4 = fct_relevel(esy4, "Unspecified", "Meadow", "Dry grassland"),
+    esy4 = fct_recode(esy4, "Unspecified" = "R", "Hay meadow" = "R22", "Calcareous grassl." = "R1A"),
+    esy4 = fct_relevel(esy4, "Unspecified", "Hay meadow", "Calcareous grassl."),
   ) %>%
   rename(y = cwm.abu.sla)
 
@@ -93,9 +93,9 @@ data_text <- tibble(
   y = c(340, 340, 340),
   eco.id = c("664", "654", "686"),
   label = c("", "", "Ecoregion ***"),
-  esy4 = c("Unspecified", "Meadow", "Dry grassland")
+  esy4 = c("Unspecified", "Hay meadow", "Calcareous grassl.")
 ) %>%
-  mutate(esy4 = fct_relevel(esy4, "Unspecified", "Meadow", "Dry grassland"))
+  mutate(esy4 = fct_relevel(esy4, "Unspecified", "Hay meadow", "Calcareous grassl."))
 
 ### * Plot ####
 
@@ -109,19 +109,6 @@ graph <- ggplot() +
     data = sites, aes(x = eco.id, y = y, fill = eco.id),
     alpha = .5
   ) +
-  # geom_errorbar(
-  #   data = data_model,
-  #   aes(
-  #     x = as.numeric(factor(group)) + 0.5, ymin = conf.low, ymax = conf.high,
-  #     color = group
-  #   ),
-  #   width = 0.0, linewidth = 0.4
-  # ) +
-  # geom_point(
-  #   data = data_model,
-  #   aes(x = as.numeric(factor(group)) + 0.5, y = predicted, color = group),
-  #   size = 1
-  # ) +
   geom_text(
     data = data_text,
     aes(x = eco.id, y = y, label = label, group = esy4),
@@ -154,8 +141,8 @@ graph <- ggplot() +
 
 #### * Save ####
 ggsave(
-  here("outputs", "figures", "figure_3_ecoregion_sla_300dpi_9x6cm.tiff"),
-  dpi = 300, width = 9, height = 6, units = "cm"
+  here("outputs", "figures", "figure_3_ecoregion_sla_300dpi_11x6cm.tiff"),
+  dpi = 300, width = 11, height = 6, units = "cm"
 )
 
 graph_a <- graph +
