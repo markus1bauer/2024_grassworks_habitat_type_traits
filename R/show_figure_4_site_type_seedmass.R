@@ -57,8 +57,10 @@ sites <- read_csv(
   )
 ) %>%
   mutate(
-    esy4 = fct_recode(esy4, "Unspecified" = "R", "Meadow" = "R22", "Dry grassland" = "R1A"),
-    esy4 = fct_relevel(esy4, "Unspecified", "Meadow", "Dry grassland"),
+    esy4 = fct_recode(esy4, "Unspecified" = "R", "Hay meadow" = "R22",
+                      "Calcareous\ngrassland" = "R1A"),
+    esy4 = fct_relevel(esy4, "Unspecified", "Hay meadow",
+                       "Calcareous\ngrassland"),
     cwm.abu.seedmass = cwm.abu.seedmass * 1000,
     site.type = fct_recode(site.type, "+" = "positive", "−" = "negative")
     ) %>%
@@ -103,18 +105,15 @@ data_text <- tibble(
   y = c(10, 10, 6.2, 5.7),
   site.type = c("−", "restored", "+", "+"),
   label = c("", "", "Site type n.s.", "Interaction n.s."),
-  esy4 = c("Unspecified", "Meadow", "Dry grassland", "Dry grassland")
+  esy4 = c("Unspecified", "Hay meadow",
+           "Calcareous\ngrassland", "Calcareous\ngrassland")
 ) %>%
-  mutate(esy4 = fct_relevel(esy4, "Unspecified", "Meadow", "Dry grassland"))
+  mutate(esy4 = fct_relevel(esy4, "Unspecified", "Hay meadow",
+                            "Calcareous\ngrassland"))
 
 ### * Plot ####
 
 graph <- ggplot() +
-  # geom_hline(
-  #   data = data_line,
-  #   aes(yintercept = predicted),
-  #   linetype = "dashed", color = "grey70", size = .5
-  # ) +
   geom_quasirandom(
     data = sites,
     aes(x = site.type, y = y, color = site.type),
@@ -124,19 +123,6 @@ graph <- ggplot() +
     data = sites, aes(x = site.type, y = y, fill = site.type),
     alpha = .5
   ) +
-  # geom_errorbar(
-  #   data = data_model,
-  #   aes(
-  #     x = as.numeric(factor(group)) + 0.5, ymin = conf.low, ymax = conf.high,
-  #     color = group
-  #   ),
-  #   width = 0.0, linewidth = 0.4
-  # ) +
-  # geom_point(
-  #   data = data_model,
-  #   aes(x = as.numeric(factor(group)) + 0.5, y = predicted, color = group),
-  #   size = 1
-  # ) +
   geom_text(
     data = data_text,
     aes(x = site.type, y = y, label = label, group = esy4),
@@ -157,7 +143,7 @@ graph <- ggplot() +
       "−" = "#440154"
     ), guide = "none"
   ) +
-  scale_y_continuous(limits = c(0, 6.2), breaks = seq(0, 10, .5)) +
+  scale_y_continuous(limits = c(0, 6.2), breaks = seq(0, 10, 1)) +
   labs(
     x = "Restoration compared to references",
     y = expression(CWM ~ seed ~ mass ~ "[" * mg * "]"),
@@ -170,8 +156,8 @@ graph <- ggplot() +
 #### * Save ####
 
 ggsave(
-  here("outputs", "figures", "figure_4_site.type_seedmass_300dpi_9x6cm.tiff"),
-  dpi = 300, width = 9, height = 6, units = "cm"
+  here("outputs", "figures", "figure_4_site.type_seedmass_300dpi_10x6cm.tiff"),
+  dpi = 300, width = 10, height = 6, units = "cm"
 )
 
 graph_c <- graph +

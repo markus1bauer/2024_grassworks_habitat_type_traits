@@ -59,9 +59,9 @@ sites <- read_csv(
 ) %>%
   mutate(
     esy4 = fct_recode(
-      esy4, "Unspecified" = "R", "Meadow" = "R22", "Dry grassland" = "R1A"
+      esy4, "Unspecified" = "R", "Hay meadow" = "R22", "Calcareous\ngrassland" = "R1A"
       ),
-    esy4 = fct_relevel(esy4, "Unspecified", "Meadow", "Dry grassland"),
+    esy4 = fct_relevel(esy4, "Unspecified", "Hay meadow", "Calcareous\ngrassland"),
     site.type = fct_recode(site.type, "+" = "positive", "−" = "negative")
   ) %>%
   rename(y = cwm.abu.sla)
@@ -99,9 +99,11 @@ data_text <- tibble(
   y = c(340, 340, 340, 320),
   site.type = c("−", "restored", "+", "+"),
   label = c("", "", "Site type ***", "Interaction n.s."),
-  esy4 = c("Unspecified", "Meadow", "Dry grassland", "Dry grassland")
+  esy4 = c("Unspecified", "Hay meadow",
+           "Calcareous\ngrassland", "Calcareous\ngrassland")
 ) %>%
-  mutate(esy4 = fct_relevel(esy4, "Unspecified", "Meadow", "Dry grassland"))
+  mutate(esy4 = fct_relevel(esy4, "Unspecified", "Hay meadow",
+                            "Calcareous\ngrassland"))
 
 ### * Plot ####
 
@@ -120,19 +122,6 @@ graph <- ggplot() +
     data = sites, aes(x = site.type, y = y, fill = site.type),
     alpha = .5
   ) +
-  # geom_errorbar(
-  #   data = data_model,
-  #   aes(
-  #     x = as.numeric(factor(group)) + 0.5, ymin = conf.low, ymax = conf.high,
-  #     color = group
-  #   ),
-  #   width = 0.0, linewidth = 0.4
-  # ) +
-  # geom_point(
-  #   data = data_model,
-  #   aes(x = as.numeric(factor(group)) + 0.5, y = predicted, color = group),
-  #   size = 1
-  # ) +
   geom_text(
     data = data_text,
     aes(x = site.type, y = y, label = label, group = esy4),
@@ -165,8 +154,8 @@ graph <- ggplot() +
 #### * Save ####
 
 ggsave(
-  here("outputs", "figures", "figure_4_site.type_sla_300dpi_9x6cm.tiff"),
-  dpi = 300, width = 9, height = 6, units = "cm"
+  here("outputs", "figures", "figure_4_site.type_sla_300dpi_10x6cm.tiff"),
+  dpi = 300, width = 10, height = 6, units = "cm"
 )
 
 graph_a <- graph +
