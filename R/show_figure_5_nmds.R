@@ -57,8 +57,14 @@ sites <- read_csv(
   )
 ) %>%
   mutate(
-    esy4 = fct_recode(esy4, "Unspecified grassland (R)" = "R", "Low altitude hay meadow (R22)" = "R22", "Semi-dry calcareous grassland (R1A)" = "R1A"),
-    esy4 = fct_relevel(esy4, "Unspecified grassland (R)", "Low altitude hay meadow (R22)", "Semi-dry calcareous grassland (R1A)")
+    esy4 = fct_recode(
+      esy4, "Unspecified grassland (R)" = "R",
+      "Hay meadow (R22)" = "R22", "Calcareous grassland (R1A)" = "R1A"
+      ),
+    esy4 = fct_relevel(
+      esy4, "Unspecified grassland (R)", "Hay meadow (R22)",
+      "Calcareous grassland (R1A)"
+      )
     ) %>%
   select(id.plot, id.site, region, eco.id, eco.name, site.type, obs.year, esy4)
 
