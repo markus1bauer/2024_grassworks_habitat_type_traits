@@ -20,7 +20,8 @@ library(tidyverse)
 library(ggbeeswarm)
 
 ### Start ###
-rm(list = setdiff(ls(), c("graph_a", "graph_b", "graph_c", "graph_d", "m")))
+rm(list = setdiff(ls(), c("graph_a", "graph_b", "graph_c", "graph_d", "graph_e",
+                          "graph_f", "graph_g", "graph_h")))
 
 ### Functions ###
 theme_mb <- function() {
@@ -97,7 +98,7 @@ graph <- ggplot() +
   # scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, .1)) +
   labs(
     x = "",
-    y = expression(Sand ~ ratio),
+    y = expression(Sand ~ ratio ~ "[" * "%" * "]"),
     title = "Sand ratio",
     tag = "H"
   ) +
@@ -110,10 +111,7 @@ ggsave(
   dpi = 300, width = 9, height = 6, units = "cm"
 )
 
-graph_a <- graph +
+graph_h <- graph +
   theme(
-    axis.text.x = element_blank(),
-    axis.ticks.x = element_blank(),
-    axis.line.x = element_blank(),
     strip.text = element_blank()
   )

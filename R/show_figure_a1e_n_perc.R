@@ -20,7 +20,8 @@ library(tidyverse)
 library(ggbeeswarm)
 
 ### Start ###
-rm(list = setdiff(ls(), c("graph_a", "graph_b", "graph_c", "graph_d", "m")))
+rm(list = setdiff(ls(), c("graph_a", "graph_b", "graph_c", "graph_d", "graph_e",
+                          "graph_f", "graph_g", "graph_h")))
 
 ### Functions ###
 theme_mb <- function() {
@@ -54,7 +55,9 @@ sites <- read_csv(
   )
 ) %>%
   mutate(
-    esy4 = fct_recode(esy4, "Unspecified" = "R", "Meadow" = "R22", "Dry grassland" = "R1A"),
+    esy4 = fct_recode(
+      esy4, "Unspecified" = "R", "Meadow" = "R22", "Dry grassland" = "R1A"
+      ),
     esy4 = fct_relevel(esy4, "Unspecified", "Meadow", "Dry grassland"),
     site.type = fct_recode(site.type, "+" = "positive", "−" = "negative")
   ) %>%
@@ -95,8 +98,8 @@ graph <- ggplot() +
   scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, .1)) +
   labs(
     x = "",
-    y = expression(Nitrogen ~ "[" * "%" * "]"),
-    title = "N [%]",
+    y = expression(N ~ "[" * "%" * "]"),
+    title = "Nitrogen",
     tag = "E"
   ) +
   theme_mb(); graph
@@ -108,7 +111,7 @@ ggsave(
   dpi = 300, width = 9, height = 6, units = "cm"
 )
 
-graph_a <- graph +
+graph_e <- graph +
   theme(
     axis.text.x = element_blank(),
     axis.ticks.x = element_blank(),
