@@ -31,10 +31,12 @@ Bauer M, Twerski A, Laschke CJ, Schmidt A, Sturm L, Wiesmeier M, Kirmer A, Tempe
     -   The tables generated (.html/.csv)
 
 3.  **R**: the folder `R` contains
+    -   Metadata script for creating EML file ('_metadata.R')
     -   Data preparation script ('_prepare_data.R')
     -   Scripts to calculate all models ('model_calculation_') (.R)
-    -   Scripts to generate all figures and tables ('show_figure_') (.R)
-    -   Metadata script for creating EML file ('_metadata.R')
+    -   Create model checks PDF with R markdown (.Rmd)
+    -   Scripts to generate all figures, tables and appendices ('show_') (.R)
+
 
 #### Package versioning
 
