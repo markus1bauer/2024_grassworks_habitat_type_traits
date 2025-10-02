@@ -58,7 +58,7 @@ When using the **data available** in this repository, please cite the original p
 
 **Dataset**
 
-> Bauer M, Twerski A, Laschke CJ, Schmidt A, Sturm L, Wiesmeier M, Kirmer A, Temperton VM & Kollmann J (2025) Data and code for Bauer et al. (submitted) (v1.0.0) [Data set]. &ndash; *Zenodo*. [<https://doi.org/10.5281/zenodo.XXX>](https://doi.org/10.5281/zenodo.XXX)
+> Bauer M (2025) Data and code for Bauer et al. (submitted) Grassworks habitat type traits (v1.1.0) [Data set]. &ndash; *Zenodo*. [https://doi.org/10.5281/zenodo.XXX](https://doi.org/10.5281/zenodo.17251472))
 
 This dataset is also linked to PANGAEA
 > XXX (XXX) XXX. &ndash; *PANGAEA*. https://doi.org/10.XXX
