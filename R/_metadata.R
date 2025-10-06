@@ -12,8 +12,6 @@ library(here)
 library(tidyverse)
 library(EML)
 library(emld)
-# remotes::install_github("ropenscilabs/emldown", build = FALSE)
-library(emldown)
 # remotes::install_github("EDIorg/EMLassemblyline")
 library(EMLassemblyline)
 
@@ -269,8 +267,3 @@ eml <- list(
 
 write_eml(eml, here("METADATA.xml"))
 eml_validate(here("METADATA.xml"))
-
-render_eml(
- file = here("METADATA.xml"), outfile = "METADATA.html",
- open = TRUE, publish_mode = TRUE
- )
