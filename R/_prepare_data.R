@@ -93,7 +93,7 @@ sites_esy16 <- data %>%
     cwm.pres.height.mean = mean(cwm.pres.height),
     cwm.pres.seedmass.mean = mean(cwm.pres.seedmass),
   ) %>%
-  filter(esy16 %in% c("R", "R22", "R1A"))
+  filter(esy16 %in% c("R22", "R1A"))
   
 sites_esy4 <- data %>%
   select(
@@ -103,7 +103,7 @@ sites_esy4 <- data %>%
     cwm.pres.sla, cwm.pres.height, cwm.pres.seedmass#,
     #c.n, ph.value, c.perc, toc.perc, n.perc, clay.perc, silt.perc, sand.perc
   ) %>%
-  filter(esy4 %in% c("R", "R22", "R1A"))
+  filter(esy4 %in% c("R22", "R1A"))
 
 table(sites_esy16$esy16)
 table(sites_esy4$esy4)
