@@ -36,7 +36,7 @@ rm(list = ls())
 
 
 sites <- read_csv(
-  here("data", "raw", "data_processed_environment_nms_20250603_subset.csv"),
+  here("data", "raw", "data_processed_environment_nms_20260528_subset.csv"),
   col_names = TRUE, na = c("na", "NA", ""), col_types = cols(
     .default = "?",
     eco.id = "f",
@@ -77,13 +77,13 @@ sites_esy16 <- data %>%
     id.plot, id.site, longitude, latitude, region, eco.id, eco.name, obs.year,
     esy16, site.type, hydrology, fertilized, mngm.type,
     cwm.abu.sla, cwm.abu.height, cwm.abu.seedmass,
-    cwm.pres.sla, cwm.pres.height, cwm.pres.seedmass,
-    c.n, ph.value, c.perc, toc.perc, n.perc, clay.perc, silt.perc, sand.perc
+    cwm.pres.sla, cwm.pres.height, cwm.pres.seedmass#,
+    #c.n, ph.value, c.perc, toc.perc, n.perc, clay.perc, silt.perc, sand.perc
   ) %>%
   group_by(
     id.site, region, eco.id, eco.name, obs.year, esy16, site.type,
-    hydrology, fertilized, mngm.type,
-    c.n, ph.value, c.perc, toc.perc, n.perc, clay.perc, silt.perc, sand.perc
+    hydrology, fertilized, mngm.type#,
+    #c.n, ph.value, c.perc, toc.perc, n.perc, clay.perc, silt.perc, sand.perc
     ) %>%
   summarize(
     cwm.abu.sla.mean = mean(cwm.abu.sla),
@@ -100,8 +100,8 @@ sites_esy4 <- data %>%
     id.plot, id.site, longitude, latitude, region, eco.id, eco.name, obs.year,
     esy4, site.type, hydrology, fertilized, mngm.type,
     cwm.abu.sla, cwm.abu.height, cwm.abu.seedmass,
-    cwm.pres.sla, cwm.pres.height, cwm.pres.seedmass,
-    c.n, ph.value, c.perc, toc.perc, n.perc, clay.perc, silt.perc, sand.perc
+    cwm.pres.sla, cwm.pres.height, cwm.pres.seedmass#,
+    #c.n, ph.value, c.perc, toc.perc, n.perc, clay.perc, silt.perc, sand.perc
   ) %>%
   filter(esy4 %in% c("R", "R22", "R1A"))
 
