@@ -4,7 +4,7 @@
 # Prepare data
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Markus Bauer
-# 2025-04-03
+# 2026-05-28
 
 
 
@@ -44,7 +44,6 @@ sites <- read_csv(
     site.type = col_factor(
       levels = c("positive", "restored", "negative"), ordered = TRUE
     ),
-    fertilized = "f",
     obs.year = "f",
     land.use.hist = "f"
   )
@@ -72,41 +71,48 @@ data <- sites %>%
       !(eco.id == 664 & region == "centre")
   )
 
-sites_esy16 <- data %>%
-  select(
-    id.plot, id.site, longitude, latitude, region, eco.id, eco.name, obs.year,
-    esy16, site.type, hydrology, fertilized, mngm.type,
-    cwm.abu.sla, cwm.abu.height, cwm.abu.seedmass,
-    cwm.pres.sla, cwm.pres.height, cwm.pres.seedmass#,
-    #c.n, ph.value, c.perc, toc.perc, n.perc, clay.perc, silt.perc, sand.perc
-  ) %>%
-  group_by(
-    id.site, region, eco.id, eco.name, obs.year, esy16, site.type,
-    hydrology, fertilized, mngm.type#,
-    #c.n, ph.value, c.perc, toc.perc, n.perc, clay.perc, silt.perc, sand.perc
-    ) %>%
-  summarize(
-    cwm.abu.sla.mean = mean(cwm.abu.sla),
-    cwm.abu.height.mean = mean(cwm.abu.height),
-    cwm.abu.seedmass.mean = mean(cwm.abu.seedmass),
-    cwm.pres.sla.mean = mean(cwm.pres.sla),
-    cwm.pres.height.mean = mean(cwm.pres.height),
-    cwm.pres.seedmass.mean = mean(cwm.pres.seedmass),
-  ) %>%
-  filter(esy16 %in% c("R22", "R1A"))
+# sites_esy16 <- data %>%
+#   select(
+#     id.plot, id.site, longitude, latitude, region, eco.id, eco.name, obs.year,
+#     esy16, site.type, hydrology, mngm.type,
+#     cwm.abu.sla, cwm.abu.height, cwm.abu.seedmass,
+#     fric.abu.sla, fric.abu.height, fric.abu.seedmass#,
+#     #c.n, ph.value, c.perc, toc.perc, n.perc, clay.perc, silt.perc, sand.perc
+#   ) %>%
+#   group_by(
+#     id.site, region, eco.id, eco.name, obs.year, esy16, site.type,
+#     hydrology, mngm.type#,
+#     #c.n, ph.value, c.perc, toc.perc, n.perc, clay.perc, silt.perc, sand.perc
+#     ) %>%
+#   summarize(
+#     cwm.abu.sla.mean = mean(cwm.abu.sla),
+#     cwm.abu.height.mean = mean(cwm.abu.height),
+#     cwm.abu.seedmass.mean = mean(cwm.abu.seedmass),
+#     fric.abu.sla.mean = mean(cwm.abu.sla),
+#     fric.abu.height.mean = mean(cwm.abu.height),
+#     fric.abu.seedmass.mean = mean(cwm.abu.seedmass)
+#   ) %>%
+#   filter(esy16 %in% c("R22", "R1A"))
+# table(sites_esy16$esy16)
   
 sites_esy4 <- data %>%
   select(
     id.plot, id.site, longitude, latitude, region, eco.id, eco.name, obs.year,
-    esy4, site.type, hydrology, fertilized, mngm.type,
+    esy4, site.type, hydrology, mngm.type,
     cwm.abu.sla, cwm.abu.height, cwm.abu.seedmass,
-    cwm.pres.sla, cwm.pres.height, cwm.pres.seedmass#,
+    fric.abu.sla, fric.abu.height, fric.abu.seedmass#,
     #c.n, ph.value, c.perc, toc.perc, n.perc, clay.perc, silt.perc, sand.perc
   ) %>%
   filter(esy4 %in% c("R22", "R1A"))
 
-table(sites_esy16$esy16)
 table(sites_esy4$esy4)
+
+sites_site_types <- data %>%
+  select(
+    id.plot, id.site, longitude, latitude, region, eco.id, eco.name, obs.year,
+    esy4, site.type, hydrology, mngm.type,
+    cwm.abu.sla, cwm.abu.height, cwm.abu.seedmass
+  )
 
 
 
@@ -166,7 +172,8 @@ table(sites_esy4$esy4)
 # species_splot <- data_species
 
 rm(list = setdiff(ls(), c(
-  "sites", "sites_splot", "species", "species_splot", "sites_esy4", "sites_esy16"
+  "sites", "sites_splot", "species", "species_splot", "sites_esy4",
+  "sites_esy16", "sites_site_types"
 )))
 
 
@@ -177,10 +184,16 @@ rm(list = setdiff(ls(), c(
 
 
 
+# write_csv(
+#   sites_esy16, here("data", "processed", "data_processed_sites_esy16.csv")
+# )
+
 write_csv(
   sites_esy4, here("data", "processed", "data_processed_sites_esy4.csv")
   )
 
 write_csv(
-  sites_esy16, here("data", "processed", "data_processed_sites_esy16.csv")
+  sites_site_types, here(
+    "data", "processed", "data_processed_sites_site_types.csv"
+    )
 )
