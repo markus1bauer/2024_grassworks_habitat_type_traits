@@ -45,28 +45,25 @@ theme_mb <- function() {
 
 #### Load data ###
 sites <- read_csv(
-  here("data", "processed", "data_processed_sites_esy4.csv"),
+  here("data", "processed", "data_processed_sites_refs.csv"),
   col_names = TRUE, na = c("na", "NA", ""), col_types = cols(
     .default = "?",
     eco.id = col_factor(levels = c("664", "654", "686"), ordered = TRUE),
     site.type = col_factor(
       levels = c("negative", "restored", "positive"), ordered = TRUE
     ),
+    hydrology = col_factor(levels = c("moist", "fresh", "dry"), ordered = TRUE),
     obs.year = "f"
   )
 ) %>%
   mutate(
-    esy4 = fct_recode(
-      esy4, "Hay meadow" = "R22", "Calcareous\ngrassland" = "R1A"
-      ),
-    esy4 = fct_relevel(esy4, "Hay meadow", "Calcareous\ngrassland"),
     cwm.abu.seedmass = cwm.abu.seedmass * 1000,
     site.type = fct_recode(site.type, "+" = "positive", "−" = "negative")
     ) %>%
   rename(y = cwm.abu.seedmass)
 
 ### * Model ####
-load(file = here("outputs", "models", "model_seedmass_esy4_cwm_1.Rdata"))
+load(file = here("outputs", "models", "model_seedmass_refs_1.Rdata"))
 m <- m1
 m@call
 
@@ -81,51 +78,60 @@ m@call
 ### * Preparation ####
 
 data_summary <- sites %>%
-  group_by(esy4, site.type) %>%
+  group_by(hydrology, site.type) %>%
   summarize(median = median(y), sd = sd(y, na.rm = TRUE), mean = mean(y))
 
 data_model <- ggemmeans(
-  m, terms = c("esy4", "site.type"), back.transform = FALSE, ci_level = .95
+  m, terms = c("hydrology", "site.type"), back.transform = TRUE, ci_level = .95
 ) %>%
   as_tibble() %>%
-  rename(esy4 = x) %>%
+  rename(hydrology = x) %>%
   mutate(
     predicted = predicted * 1000,
     conf.low = conf.low * 1000,
     conf.high = conf.high * 1000,
     group = fct_recode(group, "+" = "positive", "−" = "negative"),
-    group = fct_relevel(group, "+", "restored", "−")
+    group = fct_relevel(group, "−", "restored", "+")
   )
 
 data_line <- data_model %>%
   filter(group == "+")
 
 data_text <- tibble(
-  y = c(5.5, 4.9),
-  site.type = c("+", "+"),
-  label = c("Site type n.s.", "Interaction n.s."),
-  esy4 = c("Calcareous\ngrassland", "Calcareous\ngrassland")
-) %>%
-  mutate(esy4 = fct_relevel(esy4, "Hay meadow", "Calcareous\ngrassland"))
+  y = c(2.4, 2.15, 1.9),
+  site.type = c("+", "+", "+"),
+  label = c("Hydrology n.s.", "Site type n.s.", "Interaction n.s."),
+  hydrology = c("moist", "moist", "moist")
+)
 
 ### * Plot ####
 
 graph <- ggplot() +
-  geom_quasirandom(
-    data = sites,
-    aes(x = site.type, y = y, color = site.type),
-    alpha = .2, shape = 16, size = 1
+  geom_errorbar(
+    data = data_model,
+    aes(x = group, ymin = conf.low, ymax = conf.high, color = group),
+    width = 0.0, linewidth = 0.4
   ) +
-  geom_boxplot(
-    data = sites, aes(x = site.type, y = y, fill = site.type),
-    alpha = .5
+  geom_point(
+    data = data_model,
+    aes(x = group, y = predicted, color = group),
+    size = 1.5
   ) +
+  # geom_quasirandom(
+  #   data = sites,
+  #   aes(x = site.type, y = y, color = site.type),
+  #   alpha = .2, shape = 16, size = 1
+  # ) +
+  # geom_boxplot(
+  #   data = sites, aes(x = site.type, y = y, fill = site.type),
+  #   alpha = .5
+  # ) +
   geom_text(
     data = data_text,
-    aes(x = site.type, y = y, label = label, group = esy4),
+    aes(x = site.type, y = y, label = label, group = hydrology),
     hjust = .8, size = 3.1
   ) +
-  facet_grid(~ esy4) +
+  facet_grid(~ fct_relevel(hydrology, "moist", "fresh", "dry")) +
   scale_color_manual(
     values = c(
       "+" = "#7ad151",
@@ -140,7 +146,7 @@ graph <- ggplot() +
       "−" = "#440154"
     ), guide = "none"
   ) +
-  scale_y_continuous(limits = c(0, 5.5), breaks = seq(0, 6, 1)) +
+  scale_y_continuous(limits = c(0.4, 2.4), breaks = seq(0, 6, .5)) +
   labs(
     x = "Restoration compared to references",
     y = expression(CWM ~ seed ~ mass ~ "[" * mg * "]"),
@@ -154,9 +160,9 @@ graph <- ggplot() +
 
 ggsave(
   here(
-    "outputs", "figures", "figure_4_site.type_seedmass_cwm_300dpi_7x6cm.tiff"
+    "outputs", "figures", "figure_4_site.type_seedmass_cwm_300dpi_9x6cm.tiff"
     ),
-  dpi = 300, width = 7, height = 6, units = "cm"
+  dpi = 300, width = 9, height = 6, units = "cm"
 )
 
 graph_c <- graph +
