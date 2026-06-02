@@ -52,23 +52,21 @@ sites <- read_csv(
     site.type = col_factor(
       levels = c("positive", "restored", "negative"), ordered = TRUE
     ),
-    fertilized = "f",
     obs.year = "f"
   )
 ) %>%
   mutate(
-    esy4 = fct_relevel(esy4, "R", "R22", "R1A"),
+    esy4 = fct_relevel(esy4, "R22", "R1A"),
     esy4 = fct_recode(
-      esy4, "Calcareous\ngrassland\nR1A" = "R1A", "Hay meadow\nR22" = "R22",
-      "Unspecified\nR" = "R"
+      esy4, "Calcareous\ngrassland\nR1A" = "R1A", "Hay\nmeadow\nR22" = "R22"
     ),
     cwm.abu.seedmass = cwm.abu.seedmass * 1000
   ) %>%
   rename(y = cwm.abu.seedmass)
 
 ### * Model ####
-load(file = here("outputs", "models", "model_seedmass_esy4_3.Rdata"))
-m <- m3
+load(file = here("outputs", "models", "model_seedmass_esy4_cwm_1.Rdata"))
+m <- m1
 m@call
 
 
@@ -125,8 +123,8 @@ graph <- ggplot() +
   #   aes(x = as.numeric(factor(x)) + 0.45, y = predicted, color = x),
   #   size = 1.5
   # ) +
-    annotate("text", label = "n.s.", y = 6.2, x = 3.4) +
-    scale_y_continuous(limits = c(0, 6.2), breaks = seq(0, 10, .5)) +
+    annotate("text", label = "n.s.", y = 5.2, x = 2.4) +
+    scale_y_continuous(limits = c(0, 5.2), breaks = seq(0, 10, 1)) +
     labs(
       x = "",
       y = expression(CWM ~ seed ~ mass ~ "[" * mg * "]"),
@@ -139,7 +137,7 @@ graph <- ggplot() +
 #### * Save ####
 
 ggsave(
-  here("outputs", "figures", "figure_2_seedmass_300dpi_8x6cm.tiff"),
+  here("outputs", "figures", "figure_2_seedmass_cwm_300dpi_8x6cm.tiff"),
   dpi = 300, width = 8, height = 6, units = "cm"
 )
 

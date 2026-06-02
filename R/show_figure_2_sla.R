@@ -52,22 +52,20 @@ sites <- read_csv(
     site.type = col_factor(
       levels = c("positive", "restored", "negative"), ordered = TRUE
     ),
-    fertilized = "f",
     obs.year = "f"
   )
 ) %>%
   mutate(
-    esy4 = fct_relevel(esy4, "R", "R22", "R1A"),
+    esy4 = fct_relevel(esy4, "R22", "R1A"),
     esy4 = fct_recode(
-      esy4, "Calcareous\ngrassland\nR1A" = "R1A", "Hay meadow\nR22" = "R22",
-      "Unspecified\nR" = "R"
+      esy4, "Calcareous\ngrassland\nR1A" = "R1A", "Hay\nmeadow\nR22" = "R22"
     )
     ) %>%
   rename(y = cwm.abu.sla)
 
 ### * Model ####
-load(file = here("outputs", "models", "model_sla_esy4_3.Rdata"))
-m <- m3
+load(file = here("outputs", "models", "model_sla_esy4_cwm_3.Rdata"))
+m <- m
 m@call
 
 
@@ -120,9 +118,8 @@ graph <- ggplot() +
   #   size = 1.5
   # ) +
   annotate("text", label = "a", y = 345, x = 1) +
-  annotate("text", label = "a", y = 345, x = 2) +
-  annotate("text", label = "b", y = 345, x = 3) +
-  scale_y_continuous(limits = c(140, 346), breaks = seq(0, 400, 20)) +
+  annotate("text", label = "b", y = 345, x = 2) +
+  scale_y_continuous(limits = c(140, 346), breaks = seq(0, 400, 50)) +
   labs(
     x = "",
     y = expression(CWM ~ specific ~ leaf ~ area ~ "[" * cm^2 ~ g^-1 * "]"),
@@ -134,13 +131,8 @@ graph <- ggplot() +
 #### * Save ####
 
 ggsave(
-  here("outputs", "figures", "figure_2_sla_300dpi_8x6cm.tiff"),
+  here("outputs", "figures", "figure_2_sla_cwm_300dpi_8x6cm.tiff"),
   dpi = 300, width = 8, height = 6, units = "cm"
 )
 
-graph_a <- graph +
-  theme(
-    axis.text.x = element_blank(),
-    axis.ticks.x = element_blank(),
-    axis.line.x = element_blank()
-  )
+graph_a <- graph

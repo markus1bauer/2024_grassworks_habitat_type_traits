@@ -50,23 +50,21 @@ sites <- read_csv(
     .default = "?",
     eco.id = "f",
     eco.id = col_factor(levels = c("664", "654", "686"), ordered = TRUE),
-    fertilized = "f",
     obs.year = "f"
   )
 ) %>%
   mutate(
-    esy4 = fct_relevel(esy4, "R", "R22", "R1A"),
+    esy4 = fct_relevel(esy4, "R22", "R1A"),
     esy4 = fct_recode(
-      esy4, "Calcareous\ngrassland\nR1A" = "R1A", "Hay meadow\nR22" = "R22",
-      "Unspecified\nR" = "R"
+      esy4, "Calcareous\ngrassland\nR1A" = "R1A", "Hay\nmeadow\nR22" = "R22"
     )
     ) %>%
   rename(y = cwm.abu.height) %>%
   filter(y < 1)
 
 ### * Model ####
-load(file = here("outputs", "models", "model_height_esy4_3.Rdata"))
-m <- m3
+load(file = here("outputs", "models", "model_height_esy4_cwm_1.Rdata"))
+m <- m1
 m@call
 
 
@@ -117,10 +115,9 @@ graph <- ggplot() +
   #   aes(x = as.numeric(factor(x)) + 0.45, y = predicted, color = x),
   #   size = 1.5
   # ) +
-  annotate("text", label = "a", y = 1.08, x = 1) +
-  annotate("text", label = "a", y = 1.08, x = 2) +
-  annotate("text", label = "b", y = 1.08, x = 3) +
-  scale_y_continuous(limits = c(0, 1.08), breaks = seq(0, 1.08, .1)) +
+  annotate("text", label = "a", y = 1.0, x = 1) +
+  annotate("text", label = "b", y = 1.0, x = 2) +
+  scale_y_continuous(limits = c(0, 1.0), breaks = seq(0, 1.08, .2)) +
   labs(
     x = "",
     y = expression(CWM ~ canopy ~ height ~ "[" * m * "]"),
@@ -132,13 +129,8 @@ graph <- ggplot() +
 #### * Save ####
 
 ggsave(
-  here("outputs", "figures", "figure_2_height_300dpi_8x6cm.tiff"),
+  here("outputs", "figures", "figure_2_height_cwm_300dpi_8x6cm.tiff"),
   dpi = 300, width = 8, height = 6, units = "cm"
 )
 
-graph_b <- graph +
-  theme(
-    axis.text.x = element_blank(),
-    axis.ticks.x = element_blank(),
-    axis.line.x = element_blank()
-  )
+graph_b <- graph

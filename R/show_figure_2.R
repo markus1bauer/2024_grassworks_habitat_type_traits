@@ -30,13 +30,13 @@ rm(list = setdiff(ls(), c("graph_a", "graph_b", "graph_c", "graph_d")))
 
 
 
-p <- graph_a / graph_b / graph_c +
+graph_a + graph_b + graph_c +
   plot_annotation(tag_levels = "A") &
   theme(plot.tag = element_text(face = "bold"))
 
 ### Save ###
 
 ggsave(
-  here("outputs", "figures", "figure_2_300dpi_8x18cm.tiff"),
-  dpi = 300, width = 8, height = 18, units = "cm"
+  here("outputs", "figures", "figure_2_300dpi_14x6cm.tiff"),
+  dpi = 300, width = 14, height = 6, units = "cm"
 )
