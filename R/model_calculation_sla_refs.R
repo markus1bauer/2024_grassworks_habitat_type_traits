@@ -1,7 +1,7 @@
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # GRASSWORKS Project
 # CWMs of EUNIS habitat types ####
-# Canopy height and reference sites
+# Specific leaf area and reference sites
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Markus Bauer
 # 2026-06-02
@@ -39,7 +39,7 @@ sites <- read_csv(
     obs.year = "f"
   )
 ) %>%
-  rename(y = cwm.abu.height)
+  rename(y = cwm.abu.sla)
 
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -55,19 +55,19 @@ sites <- read_csv(
 
 ggplot(sites, aes(y = y, x = hydrology)) +
   geom_quasirandom(color = "grey") + geom_boxplot(fill = "transparent") +
-  labs(y = "CWM Canopy height (abu) [m]", x = "Hydrology")
+  labs(y = "CWM SLA (abu) [cm²/g]", x = "Hydrology")
 
-ggplot(sites, aes(y = y, x = site.type)) +
+ggplot(sites, aes(y = log(y), x = site.type)) +
   geom_quasirandom(color = "grey") +
   geom_boxplot(fill = "transparent") +
   facet_grid(~ hydrology) +
-  labs(y = "CWM Canopy height (abu) [m]", x = "Site type")
+  labs(y = "CWM SLA (abu) [cm²/g]", x = "Site type")
 
 ggplot(sites, aes(y = y, x = obs.year)) +
   geom_quasirandom(color = "grey") +
   geom_boxplot(fill = "transparent") +
   facet_grid(~ hydrology) +
-  labs(y = "CWM Canopy height (abu) [m]", x = "Survey year")
+  labs(y = "CWM SLA (abu) [cm²/g]", x = "Survey year")
 
 
 ### b Outliers, zero-inflation, transformations? ------------------------------
@@ -77,7 +77,7 @@ sites %>% count(site.type)
 sites %>% count(hydrology, site.type)
 sites %>% select(id.site, site.type) %>% unique() %>% count(site.type)
 plot1 <- ggplot(sites, aes(x = region, y = y)) + geom_quasirandom()
-plot2 <- ggplot(sites, aes(x = y)) + geom_histogram(binwidth = 0.01)
+plot2 <- ggplot(sites, aes(x = y)) + geom_histogram(binwidth = 10)
 plot3 <- ggplot(sites, aes(x = y)) + geom_density()
 plot4 <- ggplot(sites, aes(x = log(y))) + geom_density()
 (plot1 + plot2) / (plot3 + plot4)
@@ -118,5 +118,5 @@ simulateResiduals(m2, plot = TRUE)
 
 ### b Save ---------------------------------------------------------------------
 
-save(m1, file = here("outputs", "models", "model_height_refs_1.Rdata"))
-save(m2, file = here("outputs", "models", "model_height_refs_2.Rdata"))
+save(m1, file = here("outputs", "models", "model_sla_refs_1.Rdata"))
+save(m2, file = here("outputs", "models", "model_sla_refs_2.Rdata"))

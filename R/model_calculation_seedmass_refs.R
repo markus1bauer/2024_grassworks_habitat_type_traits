@@ -1,7 +1,7 @@
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # GRASSWORKS Project
 # CWMs of EUNIS habitat types ####
-# Canopy height and reference sites
+# Seed mass and reference sites
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Markus Bauer
 # 2026-06-02
@@ -39,7 +39,7 @@ sites <- read_csv(
     obs.year = "f"
   )
 ) %>%
-  rename(y = cwm.abu.height)
+  rename(y = cwm.abu.seedmass)
 
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -55,19 +55,19 @@ sites <- read_csv(
 
 ggplot(sites, aes(y = y, x = hydrology)) +
   geom_quasirandom(color = "grey") + geom_boxplot(fill = "transparent") +
-  labs(y = "CWM Canopy height (abu) [m]", x = "Hydrology")
+  labs(y = "CWM seed mass (abu) [g]", x = "Hydrology")
 
-ggplot(sites, aes(y = y, x = site.type)) +
+ggplot(sites, aes(y = log(y), x = site.type)) +
   geom_quasirandom(color = "grey") +
   geom_boxplot(fill = "transparent") +
   facet_grid(~ hydrology) +
-  labs(y = "CWM Canopy height (abu) [m]", x = "Site type")
+  labs(y = "CWM seed mass (abu) [g]", x = "Site type")
 
 ggplot(sites, aes(y = y, x = obs.year)) +
   geom_quasirandom(color = "grey") +
   geom_boxplot(fill = "transparent") +
   facet_grid(~ hydrology) +
-  labs(y = "CWM Canopy height (abu) [m]", x = "Survey year")
+  labs(y = "CWM seed mass (abu) [g]", x = "Survey year")
 
 
 ### b Outliers, zero-inflation, transformations? ------------------------------
@@ -103,13 +103,13 @@ plot4 <- ggplot(sites, aes(x = log(y))) + geom_density()
 ### a Candidate models ---------------------------------------------------------
 
 m1 <- lmer(
-  y ~ hydrology * site.type + eco.id + obs.year + (1|id.site),
+  log(y) ~ hydrology * site.type + eco.id + obs.year + (1|id.site),
   REML = FALSE,
   data = sites
 )
 simulateResiduals(m1, plot = TRUE)
 m2 <- lmer(
-  y ~ (hydrology + site.type + eco.id + obs.year)^2 + (1|id.site),
+  log(y) ~ (hydrology + site.type + eco.id + obs.year)^2 + (1|id.site),
   REML = FALSE,
   data = sites
 )
@@ -118,5 +118,5 @@ simulateResiduals(m2, plot = TRUE)
 
 ### b Save ---------------------------------------------------------------------
 
-save(m1, file = here("outputs", "models", "model_height_refs_1.Rdata"))
-save(m2, file = here("outputs", "models", "model_height_refs_2.Rdata"))
+save(m1, file = here("outputs", "models", "model_seedmass_refs_1.Rdata"))
+save(m2, file = here("outputs", "models", "model_seedmass_refs_2.Rdata"))
