@@ -142,7 +142,7 @@ sites_refs %>%
 # )
 
 write_csv(
-  sites_esy4, here("data", "processed", "data_processed_sites_esy4.csv")
+  sites_esy4, here("data", "processed", "data_processed_sites.csv")
   )
 
 write_csv(
