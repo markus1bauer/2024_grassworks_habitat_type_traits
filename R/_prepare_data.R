@@ -50,8 +50,7 @@ sites <- read_csv(
 )
 
 
-rm(list = setdiff(ls(), c(
-  "sites", "sites_splot", "species", "species_splot")))
+rm(list = setdiff(ls(), c("sites")))
 
 
 
@@ -59,9 +58,6 @@ rm(list = setdiff(ls(), c(
 # B Create variables ###########################################################
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-
-
-## 1 Calculate variables #######################################################
 
 
 data <- sites %>%
@@ -104,77 +100,34 @@ sites_esy4 <- data %>%
     #c.n, ph.value, c.perc, toc.perc, n.perc, clay.perc, silt.perc, sand.perc
   ) %>%
   filter(esy4 %in% c("R22", "R1A"))
-
 table(sites_esy4$esy4)
 
-sites_site_types <- data %>%
+sites_refs <- data %>%
   select(
     id.plot, id.site, longitude, latitude, region, eco.id, eco.name, obs.year,
     esy4, site.type, hydrology, mngm.type,
     cwm.abu.sla, cwm.abu.height, cwm.abu.seedmass
+  ) %>%
+  filter(
+    ((hydrology == "dry" & site.type == "positive" &
+       (esy4 == "R1A" | esy4 == "R21" | esy4 == "R22")) |
+      (hydrology == "fresh" & site.type == "positive" &
+         (esy4 == "R1A" | esy4 == "R21" | esy4 == "R22")) |
+      (hydrology == "moist" & site.type == "positive" &
+         (esy4 == "R21" | esy4 == "R22" | esy4 == "R35" | esy4 == "R37"))) |
+      site.type == "restored" |
+      site.type == "negative",
+    !(hydrology == "dry" & site.type == "negative" &
+        esy4 == "R1A"),
+    !(hydrology == "fresh" & site.type == "negative" &
+        (esy4 == "R21" | esy4 == "R22")),
+    !(hydrology == "moist" & site.type == "negative" &
+        (esy4 == "R21" | esy4 == "R22" | esy4 == "R36"))
   )
-
-
-
-## 2 Surveys from sPlotOpen ####################################################
-
-
-### Sabatini et al. (2021) Global Ecol Biogeogr
-### https://doi.org/10.1111/geb.13346
-
-# data_sites <- sites_splot %>%
-#   filter(
-#     # Chytry et al. 2020 Appl Veg Sci
-#     # https://doi.org/10.1111/avsc.12519
-#     # Hay meadow: EUNIS2007 code E2.2; Dry grassland: EUNIS2007 code E1.2a:
-#     (ESY == "E22" | ESY == "E12a") &
-#       Releve_area >= 2 &
-#       Releve_area <= 16 &
-#       #Country == "Germany" &
-#       Elevation < 700
-#   ) %>%
-#   rename_with(tolower) %>%
-#   rename(
-#     id = plotobservationid, survey_year = date_of_recording,
-#     plot_size = releve_area, reference = country
-#   ) %>%
-#   mutate(
-#     id = paste0("splot", id),
-#     survey_year = year(survey_year),
-#     longitude = longitude * 10^5,
-#     latitude = latitude * 10^5
-#   ) %>%
-#   select(
-#     id, givd_id, longitude, latitude, elevation, plot_size, survey_year,
-#     reference, esy
-#   ) %>%
-#   mutate(
-#     survey_year = as.character(survey_year),
-#     source = "Sabatini et al. (2021) Global Ecol Biogeogr https://doi.org/10.1111/geb.13346"
-#   )
-# sites_splot <- data_sites
-# 
-# data_species <- species_splot %>%
-#   rename(
-#     id = PlotObservationID, name = Species, abundance = Original_abundance
-#   ) %>%
-#   mutate(id = paste0("splot", id)) %>%
-#   semi_join(data_sites, by = "id") %>%
-#   select(id, name, abundance) %>%
-#   pivot_wider(
-#     names_from = "id", values_from = "abundance", values_fn = sum
-#   ) %>%
-#   mutate(
-#     name = factor(name)
-#   ) %>%
-#   group_by(name) %>%
-#   summarise(across(everything(), ~ sum(.x, na.rm = TRUE)))
-# species_splot <- data_species
-
-rm(list = setdiff(ls(), c(
-  "sites", "sites_splot", "species", "species_splot", "sites_esy4",
-  "sites_esy16", "sites_site_types"
-)))
+sites_refs %>%
+  group_by(hydrology, site.type, esy4) %>%
+  count() %>%
+  print(n = 70)
 
 
 
@@ -193,7 +146,7 @@ write_csv(
   )
 
 write_csv(
-  sites_site_types, here(
-    "data", "processed", "data_processed_sites_site_types.csv"
+  sites_refs, here(
+    "data", "processed", "data_processed_sites_refs.csv"
     )
 )
