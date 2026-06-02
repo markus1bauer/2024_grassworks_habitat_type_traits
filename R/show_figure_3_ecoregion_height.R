@@ -45,7 +45,7 @@ theme_mb <- function() {
 
 #### Load data ###
 sites <- read_csv(
-  here("data", "processed", "data_processed_sites_esy4.csv"),
+  here("data", "processed", "data_processed_sites.csv"),
   col_names = TRUE, na = c("na", "NA", ""), col_types = cols(
     .default = "?",
     eco.id = col_factor(levels = c("664", "654", "686"), ordered = TRUE),
@@ -65,7 +65,7 @@ sites <- read_csv(
   filter(y < 1)
 
 ### * Model ####
-load(file = here("outputs", "models", "model_height_esy4_cwm_1.Rdata"))
+load(file = here("outputs", "models", "model_height_cwm_1.Rdata"))
 m <- m1
 m@call
 
