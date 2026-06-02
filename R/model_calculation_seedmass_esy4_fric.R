@@ -1,10 +1,10 @@
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # GRASSWORKS Project
-# CWMs of EUNIS habitat types ####
-# Specific leaf area (SLA) for ESY16
+# Functional richness of EUNIS habitat types ####
+# Seed mass for ESY4 (habitat type classified for 4qm plot)
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Markus Bauer
-# 2025-04-29
+# 2026-05-28
 
 
 
@@ -26,23 +26,20 @@ library(DHARMa)
 rm(list = ls())
 
 ### Load data ###
-
 sites <- read_csv(
-  here("data", "processed", "data_processed_sites_esy16.csv"),
+  here("data", "processed", "data_processed_sites_esy4.csv"),
   col_names = TRUE, na = c("na", "NA", ""), col_types = cols(
     .default = "?",
     eco.id = "f",
     region = col_factor(levels = c("north", "centre", "south"), ordered = TRUE),
     site.type = col_factor(
       levels = c("positive", "restored", "negative"), ordered = TRUE
-      ),
-    fertilized = "f",
-    freq.mow = "f",
+    ),
     obs.year = "f"
   )
 ) %>%
-  mutate(esy16 = fct_relevel(esy16, "R", "R22", "R1A")) %>%
-  rename(y = cwm.abu.sla.mean)
+  mutate(esy4 = fct_relevel(esy4, "R22", "R1A")) %>%
+  rename(y = fric.abu.seedmass)
 
 
 
@@ -57,50 +54,39 @@ sites <- read_csv(
 
 ### a Graphs of raw data -------------------------------------------------------
 
-ggplot(sites, aes(y = y, x = esy16)) +
+ggplot(sites, aes(y = y, x = esy4)) +
   geom_quasirandom(color = "grey") + geom_boxplot(fill = "transparent") +
-  labs(
-    y = "CWM SLA (abu) [cm²/g]",
-    x = "Habitat type per block calculated from 4 plots per block"
-    )
+  labs(y = "FRic seed mass (abu) [-]", x = "Habitat type")
 
 ggplot(sites, aes(y = y, x = eco.id)) +
   geom_quasirandom(color = "grey") +
   geom_boxplot(fill = "transparent") +
-  facet_grid(~ esy16) +
-  labs(y = "CWM SLA (abu) [cm²/g]", x = "Ecoregion")
+  facet_grid(~ esy4) +
+  labs(y = "FRic seed mass (abu) [-]", x = "Ecoregion")
 
 ggplot(sites, aes(y = y, x = site.type)) +
   geom_quasirandom(color = "grey") +
   geom_boxplot(fill = "transparent") +
-  facet_grid(~ esy16) +
-  labs(y = "CWM SLA (abu) [cm²/g]", x = "Site type")
+  facet_grid(~ esy4) +
+  labs(y = "FRic seed mass (abu) [-]", x = "Site type")
 
 ggplot(sites, aes(y = y, x = obs.year)) +
   geom_quasirandom(color = "grey") +
   geom_boxplot(fill = "transparent") +
-  facet_grid(~ esy16) +
-  labs(y = "CWM SLA (abu) [cm²/g]", x = "Survey year")
-
-sites %>%
-  filter(site.type == "restored") %>%
-  mutate(history = as.numeric(history)) %>%
-  ggplot(aes(y = y, x = history)) +
-  geom_quasirandom(color = "grey") +
-  geom_smooth() +
-  facet_grid(~ esy16) +
-  labs(y = "CWM SLA (abu) [cm²/g]")
+  facet_grid(~ esy4) +
+  labs(y = "FRic seed mass (abu) [-]", x = "Survey year")
 
 
 ### b Outliers, zero-inflation, transformations? ------------------------------
 
 sites %>% count(eco.id)
 sites %>% count(site.type)
-sites %>% count(esy16)
-sites %>% count(esy16, eco.id)
-sites %>% count(esy16, site.type)
+sites %>% count(esy4)
+sites %>% count(esy4, eco.id)
+sites %>% count(esy4, site.type)
+sites %>% select(id.site, site.type) %>% unique() %>% count(site.type)
 plot1 <- ggplot(sites, aes(x = region, y = y)) + geom_quasirandom()
-plot2 <- ggplot(sites, aes(x = y)) + geom_histogram(binwidth = 0.7)
+plot2 <- ggplot(sites, aes(x = y)) + geom_histogram(binwidth = 0.0001)
 plot3 <- ggplot(sites, aes(x = y)) + geom_density()
 plot4 <- ggplot(sites, aes(x = log(y))) + geom_density()
 (plot1 + plot2) / (plot3 + plot4)
@@ -125,13 +111,27 @@ plot4 <- ggplot(sites, aes(x = log(y))) + geom_density()
 
 ### a Candidate models ---------------------------------------------------------
 
-m1 <- lm(y ~ esy16 * (site.type + eco.id) + obs.year, data = sites)
+m1 <- lmer(
+  log(y) ~ esy4 * (site.type + eco.id) + obs.year + hydrology + (1|id.site),
+  REML = FALSE,
+  data = sites
+)
 simulateResiduals(m1, plot = TRUE)
-m2 <- lm(y ~ esy16 * site.type + eco.id + obs.year, data = sites)
+m2 <- lmer(
+  log(y) ~ (esy4 + site.type + eco.id + obs.year)^2 + hydrology + (1|id.site),
+  REML = FALSE,
+  data = sites
+)
 simulateResiduals(m2, plot = TRUE)
+m3 <- lmer(
+  log(y) ~ (esy4 + site.type + eco.id + obs.year + hydrology)^2 + (1|id.site),
+  REML = FALSE,
+  data = sites
+)
+simulateResiduals(m3, plot = TRUE)
 
 
 ### b Save ---------------------------------------------------------------------
 
-save(m1, file = here("outputs", "models", "model_sla_esy16_1.Rdata"))
-save(m2, file = here("outputs", "models", "model_sla_esy16_2.Rdata"))
+save(m1, file = here("outputs", "models", "model_seedmass_esy4_fric_1.Rdata"))
+save(m2, file = here("outputs", "models", "model_seedmass_esy4_fric_2.Rdata"))

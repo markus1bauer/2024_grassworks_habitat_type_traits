@@ -1,10 +1,10 @@
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # GRASSWORKS Project
 # CWMs of EUNIS habitat types ####
-# Canopy height for ESY4
+# Seed mass for ESY4 (habitat type classified for 4qm plot)
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Markus Bauer
-# 2025-06-03
+# 2026-05-28
 
 
 
@@ -34,14 +34,13 @@ sites <- read_csv(
     region = col_factor(levels = c("north", "centre", "south"), ordered = TRUE),
     site.type = col_factor(
       levels = c("positive", "restored", "negative"), ordered = TRUE
-      ),
-    fertilized = "f",
+    ),
     obs.year = "f"
   )
 ) %>%
-  mutate(esy4 = fct_relevel(esy4, "R", "R22", "R1A")) %>%
-  rename(y = cwm.abu.height) %>%
-  filter(y < 1) # see section Outliers: Exclude site N_DAM (more or less only the tall grass Arrhenatherum elatius germinated at this young restoration site)
+  mutate(esy4 = fct_relevel(esy4, "R22", "R1A")) %>%
+  rename(y = cwm.abu.seedmass) #%>%
+  # filter(y < 1.11) # see section Outliers: Exclude site M_KAP_A1 (20% of Vicium cracca with extremely heavy seeds)
 
 
 
@@ -58,25 +57,25 @@ sites <- read_csv(
 
 ggplot(sites, aes(y = y, x = esy4)) +
   geom_quasirandom(color = "grey") + geom_boxplot(fill = "transparent") +
-  labs(y = "CWM Canopy height (abu) [m]", x = "Habitat type")
+  labs(y = "CWM seed mass (abu) [g]", x = "Habitat type")
 
 ggplot(sites, aes(y = y, x = eco.id)) +
   geom_quasirandom(color = "grey") +
   geom_boxplot(fill = "transparent") +
   facet_grid(~ esy4) +
-  labs(y = "CWM Canopy height (abu) [m]", x = "Ecoregion")
+  labs(y = "CWM seed mass (abu) [g]", x = "Ecoregion")
 
 ggplot(sites, aes(y = y, x = site.type)) +
   geom_quasirandom(color = "grey") +
   geom_boxplot(fill = "transparent") +
   facet_grid(~ esy4) +
-  labs(y = "CWM Canopy height (abu) [m]", x = "Site type")
+  labs(y = "CWM seed mass (abu) [g]", x = "Site type")
 
 ggplot(sites, aes(y = y, x = obs.year)) +
   geom_quasirandom(color = "grey") +
   geom_boxplot(fill = "transparent") +
   facet_grid(~ esy4) +
-  labs(y = "CWM Canopy height (abu) [m]", x = "Survey year")
+  labs(y = "CWM seed mass (abu) [g]", x = "Survey year")
 
 
 ### b Outliers, zero-inflation, transformations? ------------------------------
@@ -88,7 +87,7 @@ sites %>% count(esy4, eco.id)
 sites %>% count(esy4, site.type)
 sites %>% select(id.site, site.type) %>% unique() %>% count(site.type)
 plot1 <- ggplot(sites, aes(x = region, y = y)) + geom_quasirandom()
-plot2 <- ggplot(sites, aes(x = y)) + geom_histogram(binwidth = 0.01)
+plot2 <- ggplot(sites, aes(x = y)) + geom_histogram(binwidth = 0.0001)
 plot3 <- ggplot(sites, aes(x = y)) + geom_density()
 plot4 <- ggplot(sites, aes(x = log(y))) + geom_density()
 (plot1 + plot2) / (plot3 + plot4)
@@ -114,19 +113,19 @@ plot4 <- ggplot(sites, aes(x = log(y))) + geom_density()
 ### a Candidate models ---------------------------------------------------------
 
 m1 <- lmer(
-  y ~ esy4 * (site.type + eco.id) + obs.year + (1|id.site),
+  log(y) ~ esy4 * (site.type + eco.id) + obs.year + (1|id.site),
   REML = FALSE,
   data = sites
-  )
+)
 simulateResiduals(m1, plot = TRUE)
 m2 <- lmer(
-  y ~ esy4 * site.type + eco.id + obs.year + (1|id.site),
+  log(y) ~ (esy4 + site.type + eco.id + obs.year)^2 + (1|id.site),
   REML = FALSE,
   data = sites
-  )
+)
 simulateResiduals(m2, plot = TRUE)
 m3 <- lmer(
-  y ~ esy4 * (site.type + eco.id) + obs.year + hydrology +  (1|id.site),
+  log(y) ~ (esy4 + site.type + eco.id + obs.year + hydrology)^2 + (1|id.site),
   REML = FALSE,
   data = sites
 )
@@ -135,5 +134,6 @@ simulateResiduals(m3, plot = TRUE)
 
 ### b Save ---------------------------------------------------------------------
 
-save(m2, file = here("outputs", "models", "model_height_esy4_2.Rdata"))
-save(m3, file = here("outputs", "models", "model_height_esy4_3.Rdata"))
+save(m1, file = here("outputs", "models", "model_seedmass_esy4_cwm_1.Rdata"))
+save(m2, file = here("outputs", "models", "model_seedmass_esy4_cwm_2.Rdata"))
+save(m3, file = here("outputs", "models", "model_seedmass_esy4_cwm_3.Rdata"))
