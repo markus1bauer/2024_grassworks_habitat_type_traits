@@ -27,7 +27,7 @@ rm(list = ls())
 
 ### Load data ###
 sites <- read_csv(
-  here("data", "processed", "data_processed_sites_esy4.csv"),
+  here("data", "processed", "data_processed_sites.csv"),
   col_names = TRUE, na = c("na", "NA", ""), col_types = cols(
     .default = "?",
     eco.id = "f",
@@ -133,5 +133,5 @@ simulateResiduals(m3, plot = TRUE)
 
 ### b Save ---------------------------------------------------------------------
 
-save(m1, file = here("outputs", "models", "model_seedmass_esy4_fric_1.Rdata"))
-save(m2, file = here("outputs", "models", "model_seedmass_esy4_fric_2.Rdata"))
+save(m1, file = here("outputs", "models", "model_seedmass_fric_1.Rdata"))
+save(m2, file = here("outputs", "models", "model_seedmass_fric_2.Rdata"))
