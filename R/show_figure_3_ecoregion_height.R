@@ -52,20 +52,21 @@ sites <- read_csv(
     site.type = col_factor(
       levels = c("positive", "restored", "negative"), ordered = TRUE
     ),
-    fertilized = "f",
     obs.year = "f"
   )
 ) %>%
   mutate(
-    esy4 = fct_recode(esy4, "Unspecified" = "R", "Hay meadow" = "R22", "Calcareous\ngrassland" = "R1A"),
-    esy4 = fct_relevel(esy4, "Unspecified", "Hay meadow", "Calcareous\ngrassland"),
+    esy4 = fct_recode(
+      esy4, "Hay meadow" = "R22", "Calcareous\ngrassland" = "R1A"
+      ),
+    esy4 = fct_relevel(esy4, "Hay meadow", "Calcareous\ngrassland"),
   ) %>%
   rename(y = cwm.abu.height) %>%
   filter(y < 1)
 
 ### * Model ####
-load(file = here("outputs", "models", "model_height_esy4_3.Rdata"))
-m <- m3
+load(file = here("outputs", "models", "model_height_esy4_cwm_1.Rdata"))
+m <- m1
 m@call
 
 
@@ -90,14 +91,12 @@ data_model <- ggemmeans(
   mutate(group = fct_relevel(group, "664", "654", "686"))
 
 data_text <- tibble(
-  y = c(1, 1, 0.9, 0.8),
-  eco.id = c("664", "686", "686", "686"),
-  label = c("", "", "Ecoregion n.s.", "Interaction n.s."),
-  esy4 = c("Unspecified", "Hay meadow", "Calcareous\ngrassland",
-           "Calcareous\ngrassland")
+  y = c(0.85, 0.74),
+  eco.id = c("686", "686"),
+  label = c("Ecoregion ***", "Interaction ***"),
+  esy4 = c("Calcareous\ngrassland", "Calcareous\ngrassland")
 ) %>%
-  mutate(esy4 = fct_relevel(esy4, "Unspecified", "Hay meadow",
-                            "Calcareous\ngrassland"))
+  mutate(esy4 = fct_relevel(esy4, "Hay meadow", "Calcareous\ngrassland"))
 
 ### * Plot ####
 
@@ -130,7 +129,7 @@ graph <- ggplot() +
     hjust = .8, size = 3.1
   ) +
   facet_grid(~ esy4) +
-  scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, .1)) +
+  scale_y_continuous(limits = c(0, 0.85), breaks = seq(0, 1, .2)) +
   scale_color_manual(
     values = c(
       "664" = "#414487",
@@ -158,8 +157,8 @@ graph <- ggplot() +
 #### * Save ####
 
 ggsave(
-  here("outputs", "figures", "figure_3_ecoregion_height_300dpi_11x6cm.tiff"),
-  dpi = 300, width = 11, height = 6, units = "cm"
+  here("outputs", "figures", "figure_3_ecoregion_height_cwm_300dpi_7x6cm.tiff"),
+  dpi = 300, width = 7, height = 6, units = "cm"
 )
 
 graph_b <- graph +

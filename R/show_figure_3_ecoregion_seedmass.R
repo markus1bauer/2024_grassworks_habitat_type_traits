@@ -52,15 +52,14 @@ sites <- read_csv(
     site.type = col_factor(
       levels = c("positive", "restored", "negative"), ordered = TRUE
     ),
-    fertilized = "f",
     obs.year = "f"
   )
 ) %>%
   mutate(
     esy4 = fct_recode(
-      esy4, "Unspecified" = "R", "Hay meadow" = "R22", "Calcareous\ngrassland" = "R1A"
+      esy4, "Hay meadow" = "R22", "Calcareous\ngrassland" = "R1A"
       ),
-    esy4 = fct_relevel(esy4, "Unspecified", "Hay meadow", "Calcareous\ngrassland"),
+    esy4 = fct_relevel(esy4, "Hay meadow", "Calcareous\ngrassland"),
     eco.id = fct_recode(
       eco.id, "North" = "664", "Centre" = "654", "South" = "686"
       ),
@@ -70,8 +69,8 @@ sites <- read_csv(
   rename(y = cwm.abu.seedmass)
 
 ### * Model ####
-load(file = here("outputs", "models", "model_seedmass_esy4_3.Rdata"))
-m <- m3
+load(file = here("outputs", "models", "model_seedmass_esy4_cwm_1.Rdata"))
+m <- m1
 m@call
 
 
@@ -102,14 +101,12 @@ data_model <- ggemmeans(
   )
 
 data_text <- tibble(
-  y = c(1, 1, 6.2, 5.6),
-  eco.id = c("North", "Centre", "South", "South"),
-  label = c("", "", "Ecoregion ***", "Interaction n.s."),
-  esy4 = c("Unspecified", "Hay meadow", "Calcareous\ngrassland",
-           "Calcareous\ngrassland")
+  y = c(5.5, 4.9),
+  eco.id = c("South", "South"),
+  label = c("Ecoregion **", "Interaction *"),
+  esy4 = c("Calcareous\ngrassland", "Calcareous\ngrassland")
 ) %>%
-  mutate(esy4 = fct_relevel(esy4, "Unspecified", "Hay meadow",
-                            "Calcareous\ngrassland"))
+  mutate(esy4 = fct_relevel(esy4, "Hay meadow", "Calcareous\ngrassland"))
 
 ### * Plot ####
 
@@ -143,7 +140,7 @@ graph <- ggplot() +
       "South" = "#FFA500"
     ), guide = "none"
   ) +
-  scale_y_continuous(limits = c(0, 6.2), breaks = seq(0, 10, 1)) +
+  scale_y_continuous(limits = c(0, 5.5), breaks = seq(0, 6, 1)) +
   labs(
     x = "Ecoregion",
     y = expression( CWM ~ Seed ~ mass ~ "[" * mg * "]"),
@@ -155,8 +152,10 @@ graph <- ggplot() +
 #### * Save ####
 
 ggsave(
-  here("outputs", "figures", "figure_3_ecoregion_seedmass_300dpi_11x6cm.tiff"),
-  dpi = 300, width = 11, height = 6, units = "cm"
+  here(
+    "outputs", "figures", "figure_3_ecoregion_seedmass_cwm_300dpi_7x6cm.tiff"
+    ),
+  dpi = 300, width = 7, height = 6, units = "cm"
 )
 
 graph_c <- graph +
