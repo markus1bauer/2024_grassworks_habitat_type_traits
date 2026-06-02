@@ -52,23 +52,22 @@ sites <- read_csv(
     site.type = col_factor(
       levels = c("negative", "restored", "positive"), ordered = TRUE
     ),
-    fertilized = "f",
     obs.year = "f"
   )
 ) %>%
   mutate(
-    esy4 = fct_recode(esy4, "Unspecified" = "R", "Hay meadow" = "R22",
-                      "Calcareous\ngrassland" = "R1A"),
-    esy4 = fct_relevel(esy4, "Unspecified", "Hay meadow",
-                       "Calcareous\ngrassland"),
+    esy4 = fct_recode(
+      esy4, "Hay meadow" = "R22", "Calcareous\ngrassland" = "R1A"
+      ),
+    esy4 = fct_relevel(esy4, "Hay meadow", "Calcareous\ngrassland"),
     cwm.abu.seedmass = cwm.abu.seedmass * 1000,
     site.type = fct_recode(site.type, "+" = "positive", "−" = "negative")
     ) %>%
   rename(y = cwm.abu.seedmass)
 
 ### * Model ####
-load(file = here("outputs", "models", "model_seedmass_esy4_3.Rdata"))
-m <- m3
+load(file = here("outputs", "models", "model_seedmass_esy4_cwm_1.Rdata"))
+m <- m1
 m@call
 
 
@@ -102,14 +101,12 @@ data_line <- data_model %>%
   filter(group == "+")
 
 data_text <- tibble(
-  y = c(10, 10, 6.2, 5.7),
-  site.type = c("−", "restored", "+", "+"),
-  label = c("", "", "Site type n.s.", "Interaction n.s."),
-  esy4 = c("Unspecified", "Hay meadow",
-           "Calcareous\ngrassland", "Calcareous\ngrassland")
+  y = c(5.5, 4.9),
+  site.type = c("+", "+"),
+  label = c("Site type n.s.", "Interaction n.s."),
+  esy4 = c("Calcareous\ngrassland", "Calcareous\ngrassland")
 ) %>%
-  mutate(esy4 = fct_relevel(esy4, "Unspecified", "Hay meadow",
-                            "Calcareous\ngrassland"))
+  mutate(esy4 = fct_relevel(esy4, "Hay meadow", "Calcareous\ngrassland"))
 
 ### * Plot ####
 
@@ -143,7 +140,7 @@ graph <- ggplot() +
       "−" = "#440154"
     ), guide = "none"
   ) +
-  scale_y_continuous(limits = c(0, 6.2), breaks = seq(0, 10, 1)) +
+  scale_y_continuous(limits = c(0, 5.5), breaks = seq(0, 6, 1)) +
   labs(
     x = "Restoration compared to references",
     y = expression(CWM ~ seed ~ mass ~ "[" * mg * "]"),
@@ -156,8 +153,10 @@ graph <- ggplot() +
 #### * Save ####
 
 ggsave(
-  here("outputs", "figures", "figure_4_site.type_seedmass_300dpi_10x6cm.tiff"),
-  dpi = 300, width = 10, height = 6, units = "cm"
+  here(
+    "outputs", "figures", "figure_4_site.type_seedmass_cwm_300dpi_7x6cm.tiff"
+    ),
+  dpi = 300, width = 7, height = 6, units = "cm"
 )
 
 graph_c <- graph +

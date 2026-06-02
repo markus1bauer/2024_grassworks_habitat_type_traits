@@ -52,24 +52,23 @@ sites <- read_csv(
     site.type = col_factor(
       levels = c("negative", "restored", "positive"), ordered = TRUE
     ),
-    fertilized = "f",
     freq.mow = "f",
     obs.year = "f"
   )
 ) %>%
   mutate(
-    esy4 = fct_recode(esy4, "Unspecified" = "R", "Hay meadow" = "R22",
-                      "Calcareous\ngrassland" = "R1A"),
-    esy4 = fct_relevel(esy4, "Unspecified", "Hay meadow",
-                       "Calcareous\ngrassland"),
+    esy4 = fct_recode(
+      esy4, "Hay meadow" = "R22", "Calcareous\ngrassland" = "R1A"
+      ),
+    esy4 = fct_relevel(esy4, "Hay meadow", "Calcareous\ngrassland"),
     site.type = fct_recode(site.type, "+" = "positive", "−" = "negative")
   ) %>%
   rename(y = cwm.abu.height) %>%
   filter(y < 1)
 
 ### * Model ####
-load(file = here("outputs", "models", "model_height_esy4_3.Rdata"))
-m <- m3
+load(file = here("outputs", "models", "model_height_esy4_cwm_1.Rdata"))
+m <- m1
 m@call
 
 
@@ -97,14 +96,12 @@ data_line <- data_model %>%
   filter(group == "+")
 
 data_text <- tibble(
-  y = c(1, 1, 1, .93),
-  site.type = c("−", "restored", "+", "+"),
-  label = c("", "", "Site type *", "Interaction n.s."),
-  esy4 = c("Unspecified", "Hay meadow",
-           "Calcareous\ngrassland", "Calcareous\ngrassland")
+  y = c(0.85, 0.74),
+  site.type = c("+", "+"),
+  label = c("Site type n.s.", "Interaction n.s."),
+  esy4 = c("Calcareous\ngrassland", "Calcareous\ngrassland")
 ) %>%
-  mutate(esy4 = fct_relevel(esy4, "Unspecified", "Hay meadow",
-                            "Calcareous\ngrassland"))
+  mutate(esy4 = fct_relevel(esy4, "Hay meadow", "Calcareous\ngrassland"))
 
 ### * Plot ####
 
@@ -143,7 +140,7 @@ graph <- ggplot() +
       "−" = "#440154"
     ), guide = "none"
   ) +
-  scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, .1)) +
+  scale_y_continuous(limits = c(0, 0.85), breaks = seq(0, 1, .2)) +
   labs(
     x = "",
     y = expression(CWM ~ canopy ~ height ~ "[" * m * "]"),
@@ -155,8 +152,8 @@ graph <- ggplot() +
 #### * Save ####
 
 ggsave(
-  here("outputs", "figures", "figure_4_site.type_height_300dpi_10x6cm.tiff"),
-  dpi = 300, width = 10, height = 6, units = "cm"
+  here("outputs", "figures", "figure_4_site.type_height_cwm_300dpi_7x6cm.tiff"),
+  dpi = 300, width = 7, height = 6, units = "cm"
 )
 
 graph_b <- graph +

@@ -52,22 +52,20 @@ sites <- read_csv(
     site.type = col_factor(
       levels = c("negative", "restored", "positive"), ordered = TRUE
     ),
-    fertilized = "f",
-    freq.mow = "f",
     obs.year = "f"
   )
 ) %>%
   mutate(
     esy4 = fct_recode(
-      esy4, "Unspecified" = "R", "Hay meadow" = "R22", "Calcareous\ngrassland" = "R1A"
+      esy4, "Hay meadow" = "R22", "Calcareous\ngrassland" = "R1A"
       ),
-    esy4 = fct_relevel(esy4, "Unspecified", "Hay meadow", "Calcareous\ngrassland"),
+    esy4 = fct_relevel(esy4, "Hay meadow", "Calcareous\ngrassland"),
     site.type = fct_recode(site.type, "+" = "positive", "−" = "negative")
   ) %>%
   rename(y = cwm.abu.sla)
 
 ### * Model ####
-load(file = here("outputs", "models", "model_sla_esy4_3.Rdata"))
+load(file = here("outputs", "models", "model_sla_esy4_cwm_3.Rdata"))
 m <- m3
 m@call
 
@@ -96,14 +94,12 @@ data_line <- data_model %>%
   filter(group == "+")
 
 data_text <- tibble(
-  y = c(340, 340, 340, 320),
-  site.type = c("−", "restored", "+", "+"),
-  label = c("", "", "Site type ***", "Interaction n.s."),
-  esy4 = c("Unspecified", "Hay meadow",
-           "Calcareous\ngrassland", "Calcareous\ngrassland")
+  y = c(320, 298),
+  site.type = c("+", "+"),
+  label = c("Site type *", "Interaction n.s."),
+  esy4 = c("Calcareous\ngrassland", "Calcareous\ngrassland")
 ) %>%
-  mutate(esy4 = fct_relevel(esy4, "Unspecified", "Hay meadow",
-                            "Calcareous\ngrassland"))
+  mutate(esy4 = fct_relevel(esy4, "Hay meadow", "Calcareous\ngrassland"))
 
 ### * Plot ####
 
@@ -142,7 +138,7 @@ graph <- ggplot() +
       "−" = "#440154"
     ), guide = "none"
   ) +
-  scale_y_continuous(limits = c(140, 340), breaks = seq(0, 400, 20)) +
+  scale_y_continuous(limits = c(140, 320), breaks = seq(0, 400, 50)) +
   labs(
     x = "",
     y = expression(CWM ~ specific ~ leaf ~ area ~ "[" * cm^2 ~ g^-1 * "]"),
@@ -154,8 +150,8 @@ graph <- ggplot() +
 #### * Save ####
 
 ggsave(
-  here("outputs", "figures", "figure_4_site.type_sla_300dpi_10x6cm.tiff"),
-  dpi = 300, width = 10, height = 6, units = "cm"
+  here("outputs", "figures", "figure_4_site.type_sla_cwm_300dpi_7x6cm.tiff"),
+  dpi = 300, width = 7, height = 6, units = "cm"
 )
 
 graph_a <- graph +
