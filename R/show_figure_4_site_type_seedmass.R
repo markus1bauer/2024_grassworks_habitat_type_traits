@@ -58,7 +58,8 @@ sites <- read_csv(
 ) %>%
   mutate(
     cwm.abu.seedmass = cwm.abu.seedmass * 1000,
-    site.type = fct_recode(site.type, "+" = "positive", "−" = "negative")
+    site.type = fct_recode(site.type, "+" = "positive", "−" = "negative"),
+    hydrology = fct_recode(hydrology, "mesic" = "fresh")
     ) %>%
   rename(y = cwm.abu.seedmass)
 
@@ -77,10 +78,6 @@ m@call
 
 ### * Preparation ####
 
-data_summary <- sites %>%
-  group_by(hydrology, site.type) %>%
-  summarize(median = median(y), sd = sd(y, na.rm = TRUE), mean = mean(y))
-
 data_model <- ggemmeans(
   m, terms = c("hydrology", "site.type"), back.transform = TRUE, ci_level = .95
 ) %>%
@@ -91,11 +88,8 @@ data_model <- ggemmeans(
     conf.low = conf.low * 1000,
     conf.high = conf.high * 1000,
     group = fct_recode(group, "+" = "positive", "−" = "negative"),
-    group = fct_relevel(group, "−", "restored", "+")
+    hydrology = fct_recode(hydrology, "mesic" = "fresh")
   )
-
-data_line <- data_model %>%
-  filter(group == "+")
 
 data_text <- tibble(
   y = c(2.4, 2.15, 1.9),
@@ -117,21 +111,12 @@ graph <- ggplot() +
     aes(x = group, y = predicted, color = group),
     size = 1.5
   ) +
-  # geom_quasirandom(
-  #   data = sites,
-  #   aes(x = site.type, y = y, color = site.type),
-  #   alpha = .2, shape = 16, size = 1
-  # ) +
-  # geom_boxplot(
-  #   data = sites, aes(x = site.type, y = y, fill = site.type),
-  #   alpha = .5
-  # ) +
   geom_text(
     data = data_text,
     aes(x = site.type, y = y, label = label, group = hydrology),
     hjust = .8, size = 3.1
   ) +
-  facet_grid(~ fct_relevel(hydrology, "moist", "fresh", "dry")) +
+  facet_grid(~ fct_relevel(hydrology, "moist", "mesic", "dry")) +
   scale_color_manual(
     values = c(
       "+" = "#7ad151",
