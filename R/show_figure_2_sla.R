@@ -4,7 +4,7 @@
 # Show figure of specific leaf area
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Markus Bauer
-# 2025-05-14
+# 2026-06-03
 
 
 
@@ -65,7 +65,7 @@ sites <- read_csv(
 
 ### * Model ####
 load(file = here("outputs", "models", "model_sla_cwm_2.Rdata"))
-m <- m
+m <- m2
 m@call
 
 
@@ -80,21 +80,15 @@ m@call
 
 data_summary <- sites %>%
   group_by(esy4) %>%
-  summarize(mean = mean(y), sd = sd(y, na.rm = TRUE))
-
-data_model <- ggemmeans(
-  m, terms = c("esy4"), back.transform = FALSE, ci_level = .95
-) %>%
-  as_tibble()
+  summarize(
+    mean = mean(y, na.rm = TRUE),
+    median = median(y, na.rm = TRUE),
+    sd = sd(y, na.rm = TRUE)
+    )
 
 ### * Plot ####
 
 graph <- ggplot() +
-  # geom_hline(
-  #   yintercept = data_model %>%
-  #     filter(x == "R") %>% select(predicted) %>% pull(),
-  #   linetype = "dashed", color = "grey70", linewidth = .2
-  # ) +
   geom_quasirandom(
     data = sites,
     aes(x = esy4, y = y),
@@ -104,19 +98,6 @@ graph <- ggplot() +
     data = sites, aes(x = esy4, y = y),
     fill = "transparent"
   ) +
-  # geom_errorbar(
-  #   data = data_model,
-  #   aes(
-  #     x = as.numeric(factor(x)) + 0.45, ymin = conf.low, ymax = conf.high,
-  #     color = x
-  #   ),
-  #   width = 0.0, linewidth = 0.4
-  # ) +
-  # geom_point(
-  #   data = data_model,
-  #   aes(x = as.numeric(factor(x)) + 0.45, y = predicted, color = x),
-  #   size = 1.5
-  # ) +
   annotate("text", label = "a", y = 345, x = 1) +
   annotate("text", label = "b", y = 345, x = 2) +
   scale_y_continuous(limits = c(140, 346), breaks = seq(0, 400, 50)) +

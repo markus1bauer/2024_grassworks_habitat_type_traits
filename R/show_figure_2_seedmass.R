@@ -60,7 +60,7 @@ sites <- read_csv(
     esy4 = fct_recode(
       esy4, "Calcareous\ngrassland\nR1A" = "R1A", "Hay\nmeadow\nR22" = "R22"
     ),
-    cwm.abu.seedmass = cwm.abu.seedmass * 1000
+    cwm.abu.seedmass = cwm.abu.seedmass * 1000 # to get miligram
   ) %>%
   rename(y = cwm.abu.seedmass)
 
@@ -81,26 +81,15 @@ m@call
 
 data_summary <- sites %>%
   group_by(esy4) %>%
-  summarize(median = median(y), sd = sd(y, na.rm = TRUE))
-
-data_model <- ggpredict(
-  m, terms = c("esy4"), back.transform = TRUE, ci_level = .95
-) %>%
-  as_tibble() %>%
-  mutate(
-    predicted = predicted * 1000,
-    conf.low = conf.low * 1000,
-    conf.high = conf.high * 1000
-    )
+  summarize(
+    mean = mean(y, na.rm = TRUE),
+    median = median(y, na.rm = TRUE),
+    sd = sd(y, na.rm = TRUE)
+  )
 
 ### * Plot ####
 
 graph <- ggplot() +
-  # geom_hline(
-  #   yintercept = data_model %>%
-  #     filter(x == "R") %>% select(predicted) %>% pull(),
-  #   linetype = "dashed", color = "grey70", linewidth = .2
-  # ) +
   geom_quasirandom(
     data = sites,
     aes(x = esy4, y = y),
@@ -110,19 +99,6 @@ graph <- ggplot() +
     data = sites, aes(x = esy4, y = y),
     fill = "transparent"
   ) +
-  # geom_errorbar(
-  #   data = data_model,
-  #   aes(
-  #     x = as.numeric(factor(x)) + 0.45, ymin = conf.low, ymax = conf.high,
-  #     color = x
-  #   ),
-  #   width = 0.0, linewidth = 0.4
-  # ) +
-  # geom_point(
-  #   data = data_model,
-  #   aes(x = as.numeric(factor(x)) + 0.45, y = predicted, color = x),
-  #   size = 1.5
-  # ) +
     annotate("text", label = "n.s.", y = 5.2, x = 2.4) +
     scale_y_continuous(limits = c(0, 5.2), breaks = seq(0, 10, 1)) +
     labs(
