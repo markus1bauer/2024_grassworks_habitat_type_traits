@@ -67,6 +67,28 @@ data <- sites %>%
       !(eco.id == 664 & region == "centre")
   )
 
+sites_esy4 <- data %>%
+  select(
+    id.plot, id.site, longitude, latitude, region, eco.id, eco.name, obs.year,
+    esy4, site.type, hydrology, mngm.type,
+    starts_with("cwm.abu"), starts_with("fric.abu")#,
+    #c.n, ph.value, c.perc, toc.perc, n.perc, clay.perc, silt.perc, sand.perc
+  ) %>%
+  filter(esy4 %in% c("R22", "R1A"))
+sites_esy4 %>%
+  group_by(esy4) %>%
+  count()
+sites_esy4 %>%
+  group_by(esy4, site.type) %>%
+  count()
+sites_esy4 %>%
+  group_by(esy4, eco.id) %>%
+  count()
+sites_esy4 %>%
+  select(id.site) %>%
+  unique() %>%
+  count()
+
 # sites_esy16 <- data %>%
 #   select(
 #     id.plot, id.site, longitude, latitude, region, eco.id, eco.name, obs.year,
@@ -90,32 +112,25 @@ data <- sites %>%
 #   ) %>%
 #   filter(esy16 %in% c("R22", "R1A"))
 # table(sites_esy16$esy16)
-  
-sites_esy4 <- data %>%
-  select(
-    id.plot, id.site, longitude, latitude, region, eco.id, eco.name, obs.year,
-    esy4, site.type, hydrology, mngm.type,
-    cwm.abu.sla, cwm.abu.height, cwm.abu.seedmass,
-    fric.abu.sla, fric.abu.height, fric.abu.seedmass#,
-    #c.n, ph.value, c.perc, toc.perc, n.perc, clay.perc, silt.perc, sand.perc
-  ) %>%
-  filter(esy4 %in% c("R22", "R1A"))
-table(sites_esy4$esy4)
 
 sites_refs <- data %>%
   select(
     id.plot, id.site, longitude, latitude, region, eco.id, eco.name, obs.year,
     esy4, site.type, hydrology, mngm.type,
-    cwm.abu.sla, cwm.abu.height, cwm.abu.seedmass
+    starts_with("cwm.abu"), starts_with("fric.abu"), starts_with("fdis.abu"),
+    starts_with("feve.abu")
   ) %>%
   filter(
+    # Include only 'positive' plots which reached a target EUNIS habitat types
     ((hydrology == "dry" & site.type == "positive" &
        (esy4 == "R1A" | esy4 == "R21" | esy4 == "R22")) |
       (hydrology == "fresh" & site.type == "positive" &
          (esy4 == "R1A" | esy4 == "R21" | esy4 == "R22")) |
       (hydrology == "moist" & site.type == "positive" &
          (esy4 == "R21" | esy4 == "R22" | esy4 == "R35" | esy4 == "R37"))) |
+      # Include all restored plots
       site.type == "restored" |
+      # Exclude all 'negative' plots which reached a target EUNIS habitat type
       site.type == "negative",
     !(hydrology == "dry" & site.type == "negative" &
         esy4 == "R1A"),
@@ -128,6 +143,16 @@ sites_refs %>%
   group_by(hydrology, site.type, esy4) %>%
   count() %>%
   print(n = 70)
+sites_refs %>%
+  group_by(site.type, eco.id) %>%
+  count()
+sites_refs %>%
+  group_by(site.type, eco.id) %>%
+  count()
+sites_refs %>%
+  select(id.site) %>%
+  unique() %>%
+  count()
 
 
 
@@ -137,13 +162,13 @@ sites_refs %>%
 
 
 
-# write_csv(
-#   sites_esy16, here("data", "processed", "data_processed_sites_esy16.csv")
-# )
-
 write_csv(
   sites_esy4, here("data", "processed", "data_processed_sites.csv")
   )
+
+# write_csv(
+#   sites_esy16, here("data", "processed", "data_processed_sites_esy16.csv")
+# )
 
 write_csv(
   sites_refs, here(
