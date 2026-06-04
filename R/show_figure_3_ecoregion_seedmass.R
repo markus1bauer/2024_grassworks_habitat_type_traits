@@ -83,49 +83,50 @@ m@call
 
 ### * Preparation ####
 
-data_summary <- sites %>%
-  group_by(esy4) %>%
-  summarize(median = median(y), sd = sd(y, na.rm = TRUE))
-
 data_model <- ggemmeans(
-  m, terms = c("esy4", "eco.id"), back.transform = TRUE, ci_level = .95
+  m, terms = c("eco.id", "esy4"), back.transform = TRUE, ci_level = .95
 ) %>%
   as_tibble() %>%
-  rename(esy4 = x) %>%
   mutate(
     predicted = predicted * 1000,
     conf.low = conf.low * 1000,
     conf.high = conf.high * 1000,
-    group = fct_recode(group, "North" = "664", "Centre" = "654", "South" = "686"),
-    group = fct_relevel(group, "North", "Centre", "South")
+    x = fct_recode(
+      x, "North" = "664", "Centre" = "654", "South" = "686"
+      ),
+    x = fct_relevel(x, "North", "Centre", "South"),
+    group = fct_recode(
+      group, "Hay\nmeadow" = "R22", "Calcareous\ngrassland" = "R1A"
+    )
   )
 
 data_text <- tibble(
-  y = c(5.5, 4.9),
-  eco.id = c("South", "South"),
+  y = c(1.07, .8),
+  x = c("South", "South"),
   label = c("Ecoregion **", "Interaction *"),
-  esy4 = c("Calcareous\ngrassland", "Calcareous\ngrassland")
+  group = c("Calcareous\ngrassland", "Calcareous\ngrassland")
 ) %>%
-  mutate(esy4 = fct_relevel(esy4, "Hay meadow", "Calcareous\ngrassland"))
+  mutate(group = fct_relevel(group, "Hay\nmeadow", "Calcareous\ngrassland"))
 
 ### * Plot ####
 
 graph <- ggplot() +
-  geom_quasirandom(
-    data = sites,
-    aes(x = eco.id, y = y, color = eco.id),
-    alpha = .2, shape = 16, size = 1
+  geom_errorbar(
+    data = data_model,
+    aes(x = x, ymin = conf.low, ymax = conf.high, color = x),
+    width = 0.0, linewidth = 0.4
   ) +
-  geom_boxplot(
-    data = sites, aes(x = eco.id, y = y, fill = eco.id),
-    alpha = .5
+  geom_point(
+    data = data_model,
+    aes(x = x, y = predicted, color = x),
+    size = 1.5
   ) +
   geom_text(
     data = data_text,
-    aes(x = eco.id, y = y, label = label, group = esy4),
+    aes(x = x, y = y, label = label, group = group),
     hjust = .8, size = 3.1
   ) +
-  facet_grid(~ esy4) +
+  facet_grid(~ group) +
   scale_color_manual(
     values = c(
       "North" = "#414487",
@@ -140,7 +141,7 @@ graph <- ggplot() +
       "South" = "#FFA500"
     ), guide = "none"
   ) +
-  scale_y_continuous(limits = c(0, 5.5), breaks = seq(0, 6, 1)) +
+  scale_y_continuous(limits = c(0.7, 2.8), breaks = seq(0, 6, .5)) +
   labs(
     x = "Ecoregion",
     y = expression( CWM ~ Seed ~ mass ~ "[" * mg * "]"),
@@ -153,9 +154,9 @@ graph <- ggplot() +
 
 ggsave(
   here(
-    "outputs", "figures", "figure_3_ecoregion_seedmass_cwm_300dpi_7x6cm.tiff"
+    "outputs", "figures", "figure_3_ecoregion_seedmass_cwm_300dpi_8x6cm.tiff"
     ),
-  dpi = 300, width = 7, height = 6, units = "cm"
+  dpi = 300, width = 8, height = 6, units = "cm"
 )
 
 graph_c <- graph +

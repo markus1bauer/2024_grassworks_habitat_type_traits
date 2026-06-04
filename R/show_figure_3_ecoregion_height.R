@@ -79,69 +79,60 @@ m@call
 
 ### * Preparation ####
 
-data_summary <- sites %>%
-  group_by(esy4, eco.id) %>%
-  summarize(mean = mean(y), sd = sd(y, na.rm = TRUE))
-
 data_model <- ggemmeans(
-  m, terms = c("esy4", "eco.id"), back.transform = FALSE, ci_level = .95
+  m, terms = c("eco.id", "esy4"), back.transform = TRUE, ci_level = .95
 ) %>%
   as_tibble() %>%
-  rename(esy4 = x) %>%
-  mutate(group = fct_relevel(group, "664", "654", "686"))
+  mutate(
+    x = fct_relevel(x, "664", "654", "686"),
+    x = fct_recode(
+      x, "North" = "664", "Centre" = "654", "South" = "686"
+    ),
+    group = fct_recode(
+      group, "Hay\nmeadow" = "R22", "Calcareous\ngrassland" = "R1A"
+    )
+    )
 
 data_text <- tibble(
-  y = c(0.85, 0.74),
-  eco.id = c("686", "686"),
+  y = c(0.63, 0.58),
+  x = c("South", "South"),
   label = c("Ecoregion ***", "Interaction ***"),
-  esy4 = c("Calcareous\ngrassland", "Calcareous\ngrassland")
+  group = c("Calcareous\ngrassland", "Calcareous\ngrassland")
 ) %>%
-  mutate(esy4 = fct_relevel(esy4, "Hay meadow", "Calcareous\ngrassland"))
+  mutate(group = fct_relevel(group, "Hay meadow", "Calcareous\ngrassland"))
 
 ### * Plot ####
 
 graph <- ggplot() +
-  geom_quasirandom(
-    data = sites,
-    aes(x = eco.id, y = y, color = eco.id),
-    alpha = .2, shape = 16, size = 1
+  geom_errorbar(
+    data = data_model,
+    aes(x = x, ymin = conf.low, ymax = conf.high, color = x),
+    width = 0.0, linewidth = 0.4
   ) +
-  geom_boxplot(
-    data = sites, aes(x = eco.id, y = y, fill = eco.id),
-    alpha = .5
+  geom_point(
+    data = data_model,
+    aes(x = x, y = predicted, color = x),
+    size = 1.5
   ) +
-  # geom_errorbar(
-  #   data = data_model,
-  #   aes(
-  #     x = as.numeric(factor(group)) + 0.5, ymin = conf.low, ymax = conf.high,
-  #     color = group
-  #   ),
-  #   width = 0.0, linewidth = 0.4
-  # ) +
-  # geom_point(
-  #   data = data_model,
-  #   aes(x = as.numeric(factor(group)) + 0.5, y = predicted, color = group),
-  #   size = 1
-  # ) +
   geom_text(
     data = data_text,
-    aes(x = eco.id, y = y, label = label, group = esy4),
+    aes(x = x, y = y, label = label, group = group),
     hjust = .8, size = 3.1
   ) +
-  facet_grid(~ esy4) +
-  scale_y_continuous(limits = c(0, 0.85), breaks = seq(0, 1, .2)) +
+  facet_grid(~ group) +
+  scale_y_continuous(limits = c(0.25, 0.63), breaks = seq(0, 1, .1)) +
   scale_color_manual(
     values = c(
-      "664" = "#414487",
-      "654" = "#22a884",
-      "686" = "#FFA500"
+      "North" = "#414487",
+      "Centre" = "#22a884",
+      "South" = "#FFA500"
     ), guide = "none"
   ) +
   scale_fill_manual(
     values = c(
-      "664" = "#414487",
-      "654" = "#22a884",
-      "686" = "#FFA500"
+      "North" = "#414487",
+      "Centre" = "#22a884",
+      "South" = "#FFA500"
     ), guide = "none"
   ) +
   labs(
@@ -157,8 +148,8 @@ graph <- ggplot() +
 #### * Save ####
 
 ggsave(
-  here("outputs", "figures", "figure_3_ecoregion_height_cwm_300dpi_7x6cm.tiff"),
-  dpi = 300, width = 7, height = 6, units = "cm"
+  here("outputs", "figures", "figure_3_ecoregion_height_cwm_300dpi_8x6cm.tiff"),
+  dpi = 300, width = 8, height = 6, units = "cm"
 )
 
 graph_b <- graph +
