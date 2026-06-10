@@ -104,12 +104,12 @@ graph <- ggplot() +
   geom_errorbar(
     data = data_model,
     aes(x = group, ymin = conf.low, ymax = conf.high, color = group),
-    width = 0.0, linewidth = 0.4
+    width = 0.0, linewidth = 0.8
   ) +
   geom_point(
     data = data_model,
     aes(x = group, y = predicted, color = group),
-    size = 1.5
+    size = 2.5
   ) +
   geom_text(
     data = data_text,
