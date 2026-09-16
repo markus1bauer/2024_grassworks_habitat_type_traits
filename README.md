@@ -58,7 +58,7 @@ When using the **data available** in this repository, please cite the original p
 
 **Dataset**
 
-> Bauer M (2026) Data and code for Bauer et al. (under review) Grassworks habitat type traits (v2.0.0) [Data set]. &ndash; *Zenodo*. [https://doi.org/10.5281/zenodo.17251472](https://doi.org/10.5281/zenodo.17251472))
+> Bauer M (2026) Data and code for Bauer et al. (under review) Grassworks habitat type traits (v2.0.0) [Data set]. &ndash; *Zenodo*. [https://doi.org/10.5281/zenodo.15673736](https://doi.org/10.5281/zenodo.15673736))
 
 This dataset is also linked to PANGAEA
 > Twerski A, Bauer M, Laschke CJ, Wiesmeier M, Sturm L, Schmidt A, Kollmann J, Temperton VM, Kirmer A, Tischew S(2026) Vascular plant species occurrence and cover estimates of restored grasslands and reference sites in Germany [dataset]. &ndash; *PANGAEA*. [https://doi.org/10.1594/PANGAEA.993406](https://doi.pangaea.de/10.1594/PANGAEA.993406)
