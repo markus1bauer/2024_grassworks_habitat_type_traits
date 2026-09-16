@@ -1,4 +1,4 @@
-# Data and code for Bauer et al. (submitted)
+# Data and code for Bauer et al. (under review)
 
 Markus Bauer <a href="https://orcid.org/0000-0001-5372-4174"><img src="https://info.orcid.org/wp-content/uploads/2019/11/orcid_16x16.png" width="16" height="16"/></a>
 Alina Twerski <a href="https://orcid.org/0000-0001-7966-1335"><img src="https://info.orcid.org/wp-content/uploads/2019/11/orcid_16x16.png" width="16" height="16"/></a>
@@ -13,7 +13,7 @@ Johannes Kollmann <a href="https://orcid.org/0000-0002-4990-3636"><img src="http
 
 Data and code for:
 
-Bauer M, Twerski A, Laschke CJ, Schmidt A, Sturm L, Wiesmeier M, Kirmer A, Temperton VM & Kollmann J (submitted) __Functional traits of restored grasslands align with positive reference sites but differ from degraded grassland__ &ndash; *XXX* XX, XXX&ndash;XXX.
+Bauer M, Twerski A, Laschke CJ, Schmidt A, Sturm L, Wiesmeier M, Kirmer A, Temperton VM & Kollmann J (under review) __Functional traits of restored grasslands align with positive reference sites but differ from degraded grassland__ &ndash; *XXX* XX, XXX&ndash;XXX.
 
 [![DOI:10.XXX](http://img.shields.io/badge/DOI-10.XXX-informational.svg)](https://doi.org/10.XXX)
 
@@ -54,7 +54,7 @@ When using the **data available** in this repository, please cite the original p
 
 **Publication**
 
-> Bauer M, Twerski A, Laschke CJ, Schmidt A, Sturm L, Wiesmeier M, Kirmer A, Temperton VM & Kollmann J (submitted) Little sign of recovery debt for functional traits when comparing restorations with positive references, but clear delineation of negative references. &ndash; *XXX* XX, XXX&ndash;XXX. <https://doi.org/10.XXX>
+> Bauer M, Twerski A, Laschke CJ, Schmidt A, Sturm L, Wiesmeier M, Kirmer A, Temperton VM & Kollmann J (under review) Functional traits of restored grasslands align with positive reference sites but differ from degraded grassland. &ndash; *XXX* XX, XXX&ndash;XXX. <https://doi.org/10.XXX>
 
 **Dataset**
 
