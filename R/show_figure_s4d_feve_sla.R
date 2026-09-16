@@ -1,7 +1,7 @@
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # GRASSWORKS Project
 # Functional diversity of habitats ####
-# Show figure A2 functional dispersion Canopy height
+# Show figure A2 functional eveness SLA
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Markus Bauer
 # 2026-06-04
@@ -21,7 +21,7 @@ library(ggbeeswarm)
 
 ### Start ###
 rm(list = setdiff(ls(), c("graph_a", "graph_b", "graph_c", "graph_d", "graph_e",
-                          "graph_f", "graph_g", "graph_h", "graph_i")))
+                          "graph_f", "graph_g", "graph_h")))
 
 ### Functions ###
 theme_mb <- function() {
@@ -59,7 +59,7 @@ sites <- read_csv(
     site.type = fct_recode(site.type, "+" = "positive", "−" = "negative"),
     hydrology = fct_recode(hydrology, "mesic" = "fresh")
   ) %>%
-  rename(y = fdis.abu.height)
+  rename(y = feve.abu.sla)
 
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -93,22 +93,25 @@ graph <- ggplot() +
       "+" = "#7ad151"
     ), guide = "none"
   ) +
-  scale_y_continuous(limits = c(1, 3.5), breaks = seq(0, 5, .5)) +
+  scale_y_continuous(limits = c(.9, 2.1), breaks = seq(0, 3, .2)) +
   labs(
     x = "",
-    y = expression("FDis Canopy height"),
-    tag = "H"
+    y = expression("FEve SLA"),
+    tag = "D"
   ) +
   theme_mb(); graph
 
 #### * Save ####
 
 ggsave(
-  here("outputs", "figures", "figure_a2h_fdis_height_300dpi_9x6cm.tiff"),
+  here("outputs", "figures", "figure_s4d_feve_sla_300dpi_9x6cm.tiff"),
   dpi = 300, width = 9, height = 6, units = "cm"
 )
 
-graph_h <- graph +
+graph_d <- graph +
   theme(
+    axis.text.x = element_blank(),
+    axis.ticks.x = element_blank(),
+    axis.line.x = element_blank(),
     strip.text = element_blank()
   )

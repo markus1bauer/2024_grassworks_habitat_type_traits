@@ -1,10 +1,10 @@
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # GRASSWORKS Project
-# CWMs of EUNIS habitat types ####
-# Show figure A1 C percentage
+# Functional diversity of habitats ####
+# Show figure A2 functional dispersion Canopy height
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Markus Bauer
-# 2025-09-08
+# 2026-06-04
 
 
 
@@ -21,7 +21,7 @@ library(ggbeeswarm)
 
 ### Start ###
 rm(list = setdiff(ls(), c("graph_a", "graph_b", "graph_c", "graph_d", "graph_e",
-                          "graph_f", "graph_g", "graph_h")))
+                          "graph_f", "graph_g", "graph_h", "graph_i")))
 
 ### Functions ###
 theme_mb <- function() {
@@ -45,23 +45,21 @@ theme_mb <- function() {
 
 #### Load data ###
 sites <- read_csv(
-  here("data", "processed", "data_processed_sites_esy4.csv"),
+  here("data", "processed", "data_processed_sites_refs.csv"),
   col_names = TRUE, na = c("na", "NA", ""), col_types = cols(
     .default = "?",
     site.type = col_factor(
       levels = c("negative", "restored", "positive"), ordered = TRUE
     ),
+    hydrology = col_factor(levels = c("moist", "fresh", "dry"), ordered = TRUE),
     obs.year = "f"
   )
 ) %>%
   mutate(
-    esy4 = fct_recode(
-      esy4, "Unspecified" = "R", "Meadow" = "R22", "Dry grassland" = "R1A"
-      ),
-    esy4 = fct_relevel(esy4, "Unspecified", "Meadow", "Dry grassland"),
-    site.type = fct_recode(site.type, "+" = "positive", "−" = "negative")
+    site.type = fct_recode(site.type, "+" = "positive", "−" = "negative"),
+    hydrology = fct_recode(hydrology, "mesic" = "fresh")
   ) %>%
-  rename(y = c.perc)
+  rename(y = fdis.abu.height)
 
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -80,7 +78,7 @@ graph <- ggplot() +
     data = sites, aes(x = site.type, y = y, fill = site.type),
     alpha = .5
   ) +
-  facet_grid(~ esy4) +
+  facet_grid(~ hydrology) +
   scale_color_manual(
     values = c(
       "−" = "#440154",
@@ -95,26 +93,22 @@ graph <- ggplot() +
       "+" = "#7ad151"
     ), guide = "none"
   ) +
-  scale_y_continuous(limits = c(0, 17), breaks = seq(0, 20, 5)) +
+  scale_y_continuous(limits = c(1, 3.5), breaks = seq(0, 5, .5)) +
   labs(
     x = "",
-    y = expression(C ~ "[" * "%" * "]"),
-    title = "Carbon",
-    tag = "C"
+    y = expression("FDis Canopy height"),
+    tag = "H"
   ) +
   theme_mb(); graph
 
 #### * Save ####
 
 ggsave(
-  here("outputs", "figures", "figure_a1c_c_perc_300dpi_9x6cm.tiff"),
+  here("outputs", "figures", "figure_s4h_fdis_height_300dpi_9x6cm.tiff"),
   dpi = 300, width = 9, height = 6, units = "cm"
 )
 
-graph_c <- graph +
+graph_h <- graph +
   theme(
-    axis.text.x = element_blank(),
-    axis.ticks.x = element_blank(),
-    axis.line.x = element_blank(),
     strip.text = element_blank()
   )

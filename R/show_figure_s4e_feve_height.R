@@ -1,10 +1,10 @@
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # GRASSWORKS Project
-# CWMs of EUNIS habitat types ####
-# Show figure A1 N percentage
+# Functional diversity of habitats ####
+# Show figure A2 functional eveness Canopy height
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Markus Bauer
-# 2025-09-08
+# 2026-06-03
 
 
 
@@ -21,7 +21,7 @@ library(ggbeeswarm)
 
 ### Start ###
 rm(list = setdiff(ls(), c("graph_a", "graph_b", "graph_c", "graph_d", "graph_e",
-                          "graph_f", "graph_g", "graph_h")))
+                          "graph_f", "graph_g", "graph_h", "graph_i")))
 
 ### Functions ###
 theme_mb <- function() {
@@ -45,23 +45,21 @@ theme_mb <- function() {
 
 #### Load data ###
 sites <- read_csv(
-  here("data", "processed", "data_processed_sites_esy4.csv"),
+  here("data", "processed", "data_processed_sites_refs.csv"),
   col_names = TRUE, na = c("na", "NA", ""), col_types = cols(
     .default = "?",
     site.type = col_factor(
       levels = c("negative", "restored", "positive"), ordered = TRUE
     ),
+    hydrology = col_factor(levels = c("moist", "fresh", "dry"), ordered = TRUE),
     obs.year = "f"
   )
 ) %>%
   mutate(
-    esy4 = fct_recode(
-      esy4, "Unspecified" = "R", "Meadow" = "R22", "Dry grassland" = "R1A"
-      ),
-    esy4 = fct_relevel(esy4, "Unspecified", "Meadow", "Dry grassland"),
-    site.type = fct_recode(site.type, "+" = "positive", "−" = "negative")
+    site.type = fct_recode(site.type, "+" = "positive", "−" = "negative"),
+    hydrology = fct_recode(hydrology, "mesic" = "fresh")
   ) %>%
-  rename(y = n.perc)
+  rename(y = feve.abu.height)
 
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -80,7 +78,7 @@ graph <- ggplot() +
     data = sites, aes(x = site.type, y = y, fill = site.type),
     alpha = .5
   ) +
-  facet_grid(~ esy4) +
+  facet_grid(~ hydrology) +
   scale_color_manual(
     values = c(
       "−" = "#440154",
@@ -95,11 +93,10 @@ graph <- ggplot() +
       "+" = "#7ad151"
     ), guide = "none"
   ) +
-  scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, .1)) +
+  scale_y_continuous(limits = c(1, 2.1), breaks = seq(0, 3, .2)) +
   labs(
     x = "",
-    y = expression(N ~ "[" * "%" * "]"),
-    title = "Nitrogen",
+    y = expression("FEve Canopy height"),
     tag = "E"
   ) +
   theme_mb(); graph
@@ -107,7 +104,7 @@ graph <- ggplot() +
 #### * Save ####
 
 ggsave(
-  here("outputs", "figures", "figure_a1e_n_perc_300dpi_9x6cm.tiff"),
+  here("outputs", "figures", "figure_s4e_feve_height_300dpi_9x6cm.tiff"),
   dpi = 300, width = 9, height = 6, units = "cm"
 )
 

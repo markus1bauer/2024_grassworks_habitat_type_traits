@@ -50,7 +50,7 @@ vegan_cov_ellipse <- function(cov, center = c(0, 0), scale = 1, npoints = 100) {
 #### Load sites data and model ###
 
 sites <- read_csv(
-  here("data", "processed", "data_processed_sites_esy4.csv"),
+  here("data", "processed", "data_processed_sites.csv"),
   col_names = TRUE, na = c("na", "NA", ""), col_types = cols(
     .default = "?",
     obs.year = "f"
@@ -193,6 +193,6 @@ graph_a <- ggplot() +
 #### * Save ####
 
 ggsave(
-  here("outputs", "figures", "figure_5_300dpi_10x18cm.tiff"),
+  here("outputs", "figures", "figure_s3_300dpi_10x18cm.tiff"),
   dpi = 300, width = 10, height = 18, units = "cm"
 )

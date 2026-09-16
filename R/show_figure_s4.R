@@ -40,6 +40,6 @@ rm(list = setdiff(ls(), c("graph_a", "graph_b", "graph_c", "graph_d", "graph_e",
 ### Save ###
 
 ggsave(
-  here("outputs", "figures", "figure_a2_300dpi_25x15cm.tiff"),
+  here("outputs", "figures", "figure_s4_300dpi_25x15cm.tiff"),
   dpi = 300, width = 25, height = 15, units = "cm"
 )

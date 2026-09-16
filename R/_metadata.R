@@ -4,7 +4,7 @@
 # Metadata
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Markus Bauer
-# 2025-10-02
+# 2026-09-16
 
 
 ### Packages ###
@@ -12,7 +12,7 @@ library(here)
 library(tidyverse)
 library(EML)
 library(emld)
-# remotes::install_github("EDIorg/EMLassemblyline")
+#remotes::install_github("EDIorg/EMLassemblyline")
 library(EMLassemblyline)
 
 ### Start ###
@@ -61,10 +61,10 @@ creator <- eml$creator(
     givenName = "Markus",
     surName = "Bauer"
   ),
-  positionName = "PhD student",
+  positionName = "Postdoc",
   organizationName = "Technical University of Munich",
   address = address,
-  electronicMailAddress = "markusbauer@mailbox.org",
+  electronicMailAddress = "markus1.bauer@tum.de",
   phone = "0049-152-56391781",
   id = "https://orcid.org/0000-0001-5372-4174"
 )
@@ -76,7 +76,7 @@ associatedParty <- list(
       surName = "Twerski"
     ),
     role = "Researcher",
-    organizationName = "Leuphana University Lüneburg",
+    organizationName = "Anhalt University of Applied Sciences",
     electronicMailAddress = "alina.twerski@hs-anhalt.de",
     id = "https://orcid.org/0000-0001-7966-1335"
   ),
@@ -117,7 +117,7 @@ associatedParty <- list(
     ),
     role = "Researcher",
     organizationName = "Technical University of Munich",
-    electronicMailAddress = "jakob.huber@posteo.de"
+    electronicMailAddress = "miriam-wiesmeier@gmx.de"
   ),
   eml$associatedParty(
     individualName = eml$individualName(

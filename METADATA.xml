@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<eml:eml xmlns:eml="https://eml.ecoinformatics.org/eml-2.2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:stmml="http://www.xml-cml.org/schema/stmml-1.2" packageId="9cee1650-530c-4c10-b114-70b34c45276d" system="uuid" xsi:schemaLocation="https://eml.ecoinformatics.org/eml-2.2.0 https://eml.ecoinformatics.org/eml-2.2.0/eml.xsd">
+<eml:eml xmlns:eml="https://eml.ecoinformatics.org/eml-2.2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:stmml="http://www.xml-cml.org/schema/stmml-1.2" packageId="33822065-4fbe-4363-baab-a81f58c582a9" system="uuid" xsi:schemaLocation="https://eml.ecoinformatics.org/eml-2.2.0 https://eml.ecoinformatics.org/eml-2.2.0/eml.xsd">
   <dataset>
     <alternateIdentifier/>
     <shortName>Grassworks: habitat type traits</shortName>
@@ -10,7 +10,7 @@
         <surName>Bauer</surName>
       </individualName>
       <organizationName>Technical University of Munich</organizationName>
-      <positionName>PhD student</positionName>
+      <positionName>Postdoc</positionName>
       <address>
         <deliveryPoint>Emil-Ramann-Strasse 6</deliveryPoint>
         <city>Freising</city>
@@ -19,14 +19,14 @@
         <country>Germany</country>
       </address>
       <phone>0049-152-56391781</phone>
-      <electronicMailAddress>markusbauer@mailbox.org</electronicMailAddress>
+      <electronicMailAddress>markus1.bauer@tum.de</electronicMailAddress>
     </creator>
     <associatedParty id="https://orcid.org/0000-0001-7966-1335">
       <individualName>
         <givenName>Alina</givenName>
         <surName>Twerski</surName>
       </individualName>
-      <organizationName>Leuphana University Lüneburg</organizationName>
+      <organizationName>Anhalt University of Applied Sciences</organizationName>
       <electronicMailAddress>alina.twerski@hs-anhalt.de</electronicMailAddress>
       <role>Researcher</role>
     </associatedParty>
@@ -63,7 +63,7 @@
         <surName>Wiesmeier</surName>
       </individualName>
       <organizationName>Technical University of Munich</organizationName>
-      <electronicMailAddress>jakob.huber@posteo.de</electronicMailAddress>
+      <electronicMailAddress>miriam-wiesmeier@gmx.de</electronicMailAddress>
       <role>Researcher</role>
     </associatedParty>
     <associatedParty id="https://orcid.org/0000-0002-2396-713X">
@@ -174,7 +174,7 @@
         <postalCode>85354</postalCode>
         <country>Germany</country>
       </address>
-      <electronicMailAddress>markusbauer@mailbox.org</electronicMailAddress>
+      <electronicMailAddress>markus1.bauer@tum.de</electronicMailAddress>
       <onlineUrl>https://www.lss.ls.tum.de/en/roek/home/</onlineUrl>
     </contact>
   </dataset>

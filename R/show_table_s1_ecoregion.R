@@ -24,7 +24,7 @@ rm(list = ls())
 
 ### Load data ###
 sites <- read_csv(
-  here("data", "processed", "data_processed_sites_esy4.csv"),
+  here("data", "processed", "data_processed_sites.csv"),
   col_names = TRUE, na = c("na", "NA", ""), col_types = cols(
     .default = "?",
     eco.id = "f",
@@ -37,7 +37,7 @@ sites <- read_csv(
   mutate(esy4 = fct_relevel(esy4, "R", "R22", "R1A"))
 
 (data <- sites %>%
-  count(esy4, site.type))
+  count(esy4, region, eco.id, eco.name))
 
 
 
@@ -87,11 +87,13 @@ sites <- read_csv(
     ) %>%
     cols_label( ### Rename column names ###
       esy4 = md("Habitat type"),
-      site.type = md("Site type")
+      eco.id = md("Ecoregion ID"),
+      eco.name = md("Ecoregion"),
+      region = md("Region")
     )
 
 
 ### Save ###
 
-write_csv(data, here("outputs", "tables", "table_s1_site_type.csv"))
-gtsave(table, here("outputs", "tables", "table_s1_site_type.html"))
+write_csv(data, here("outputs", "tables", "table_s1_ecoregion.csv"))
+gtsave(table, here("outputs", "tables", "table_s1_ecoregion.html"))

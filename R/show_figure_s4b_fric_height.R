@@ -1,10 +1,10 @@
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # GRASSWORKS Project
 # Functional diversity of habitats ####
-# Show figure A2 functional eveness Seed mass
+# Show figure A2 functional richness Canopy height
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Markus Bauer
-# 2026-06-04
+# 2026-06-03
 
 
 
@@ -21,7 +21,7 @@ library(ggbeeswarm)
 
 ### Start ###
 rm(list = setdiff(ls(), c("graph_a", "graph_b", "graph_c", "graph_d", "graph_e",
-                          "graph_f", "graph_g", "graph_h")))
+                          "graph_f", "graph_g", "graph_h", "graph_i")))
 
 ### Functions ###
 theme_mb <- function() {
@@ -59,7 +59,7 @@ sites <- read_csv(
     site.type = fct_recode(site.type, "+" = "positive", "−" = "negative"),
     hydrology = fct_recode(hydrology, "mesic" = "fresh")
   ) %>%
-  rename(y = feve.abu.seedmass)
+  rename(y = fric.abu.height)
 
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -93,25 +93,25 @@ graph <- ggplot() +
       "+" = "#7ad151"
     ), guide = "none"
   ) +
-  scale_y_continuous(limits = c(1, 2.1), breaks = seq(0, 3, .2)) +
+  scale_y_continuous(limits = c(0, 120), breaks = seq(0, 150, 20)) +
   labs(
     x = "",
-    y = expression("FEve Seed mass"),
-    tag = "F"
+    title = "Canopy height",
+    y = expression("FRic Canopy height"),
+    tag = "B"
   ) +
   theme_mb(); graph
 
 #### * Save ####
 
 ggsave(
-  here("outputs", "figures", "figure_a2f_feve_seedmass_300dpi_9x6cm.tiff"),
+  here("outputs", "figures", "figure_s4b_fric_height_300dpi_9x6cm.tiff"),
   dpi = 300, width = 9, height = 6, units = "cm"
 )
 
-graph_f <- graph +
+graph_b <- graph +
   theme(
     axis.text.x = element_blank(),
     axis.ticks.x = element_blank(),
-    axis.line.x = element_blank(),
-    strip.text = element_blank()
+    axis.line.x = element_blank()
   )

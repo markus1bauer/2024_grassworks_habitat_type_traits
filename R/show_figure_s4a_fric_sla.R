@@ -1,10 +1,10 @@
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # GRASSWORKS Project
 # Functional diversity of habitats ####
-# Show figure A2 functional dispersion Seed mass
+# Show figure A2 functional richness SLA
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Markus Bauer
-# 2026-06-04
+# 2026-06-03
 
 
 
@@ -59,7 +59,7 @@ sites <- read_csv(
     site.type = fct_recode(site.type, "+" = "positive", "−" = "negative"),
     hydrology = fct_recode(hydrology, "mesic" = "fresh")
   ) %>%
-  rename(y = fdis.abu.seedmass)
+  rename(y = fric.abu.sla)
 
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -93,22 +93,25 @@ graph <- ggplot() +
       "+" = "#7ad151"
     ), guide = "none"
   ) +
-  scale_y_continuous(limits = c(1, 3.5), breaks = seq(0, 5, .5)) +
+  scale_y_continuous(limits = c(0, 80), breaks = seq(0, 90, 10)) +
   labs(
     x = "",
-    y = expression("FDis Seed mass"),
-    tag = "I"
+    title = "Specific leaf area",
+    y = expression("FRic SLA"),
+    tag = "A"
   ) +
   theme_mb(); graph
 
 #### * Save ####
 
 ggsave(
-  here("outputs", "figures", "figure_a2i_fdis_seedmass_300dpi_9x6cm.tiff"),
+  here("outputs", "figures", "figure_s4a_fric_sla_300dpi_9x6cm.tiff"),
   dpi = 300, width = 9, height = 6, units = "cm"
 )
 
-graph_i <- graph +
+graph_a <- graph +
   theme(
-    strip.text = element_blank()
+    axis.text.x = element_blank(),
+    axis.ticks.x = element_blank(),
+    axis.line.x = element_blank()
   )
